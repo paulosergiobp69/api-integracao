@@ -31,16 +31,21 @@ Route::get('me', 'Auth\AuthenticateController@getAuthenticatedUser');
 Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
     //Rota de Documentos de Clientes
-    Route::get('clientes/{id}/documento', 'Api\ClienteApiController@documento');
-    Route::get('clientes/{id}/telefone', 'Api\ClienteApiController@telefone');
+    Route::get('clientes/{id}/documento', 'ClienteApiController@documento');
+    Route::get('clientes/{id}/telefone', 'ClienteApiController@telefone');
     Route::resource('clientes', 'ClienteApiController');
 
     //Rota de Documentos de Clientes
-    Route::get('documento/{id}/cliente', 'Api\DocumentoApiController@cliente');
-    Route::resource('documento', 'Api\DocumentoApiController');
+    Route::get('documento/{id}/cliente', 'DocumentoApiController@cliente');
+    Route::resource('documento', 'DocumentoApiController');
 
 
     //Rota de Telefone de Clientes
-    Route::get('telefone/{id}/cliente', 'Api\TelefoneApiController@cliente');
-    Route::resource('telefone', 'Api\TelefoneApiController');
+    Route::get('telefone/{id}/cliente', 'TelefoneApiController@cliente');
+    Route::resource('telefone', 'TelefoneApiController');
 });
+
+
+Route::resource('filmes', 'FilmeAPIController');
+
+Route::resource('arnos', 'ArnoAPIController');
