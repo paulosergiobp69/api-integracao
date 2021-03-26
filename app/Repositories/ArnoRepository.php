@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class ArnoRepository
  * @package App\Repositories
- * @version March 26, 2021, 10:32 am -03
+ * @version March 26, 2021, 11:57 am -03
 */
 
 class ArnoRepository extends BaseRepository

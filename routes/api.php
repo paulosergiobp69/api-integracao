@@ -43,9 +43,10 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     //Rota de Telefone de Clientes
     Route::get('telefone/{id}/cliente', 'TelefoneApiController@cliente');
     Route::resource('telefone', 'TelefoneApiController');
+
+    Route::resource('filmes', 'FilmeAPIController');
+
+    Route::resource('arnos', 'ArnoAPIController');    
 });
 
 
-Route::resource('filmes', 'FilmeAPIController');
-
-Route::resource('arnos', 'ArnoAPIController');

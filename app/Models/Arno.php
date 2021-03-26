@@ -6,11 +6,39 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Arno
- * @package App\Models
- * @version March 26, 2021, 10:32 am -03
- *
- * @property string $nome
+ * @SWG\Definition(
+ *      definition="Arno",
+ *      required={"nome"},
+ *      @SWG\Property(
+ *          property="id",
+ *          description="id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="nome",
+ *          description="Titulo do arno",
+ *          type="string"
+ *      ),
+ *      @SWG\Property(
+ *          property="created_at",
+ *          description="created_at",
+ *          type="string",
+ *          format="date-time"
+ *      ),
+ *      @SWG\Property(
+ *          property="updated_at",
+ *          description="updated_at",
+ *          type="string",
+ *          format="date-time"
+ *      ),
+ *      @SWG\Property(
+ *          property="deleted_at",
+ *          description="deleted_at",
+ *          type="string",
+ *          format="date-time"
+ *      )
+ * )
  */
 class Arno extends Model
 {
@@ -48,7 +76,8 @@ class Arno extends Model
     public static $rules = [
         'nome' => 'required|string|max:150',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'updated_at' => 'nullable',
+        'deleted_at' => 'nullable'
     ];
 
     
