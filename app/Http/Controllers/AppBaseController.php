@@ -7,12 +7,19 @@ use Response;
 
 /**
  * @SWG\Swagger(
- *   basePath="/api/v1",
+ *   basePath="/api",
  *   @SWG\Info(
  *     title="Engepeças - Laravel Generator APIs",
  *     version="1.0.0",
  *   )
- * )
+ * ),
+ * @SWG\SecurityScheme(
+ *      securityDefinition="EngepecasAuth",
+ *      type="apiKey",
+ *      in="header",
+ *      name="Authorization",
+ *      )
+ * ) 
  * This class should be parent class for other API controllers
  * Class AppBaseController
  */

@@ -47,6 +47,11 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::resource('filmes', 'FilmeAPIController');
 
     Route::resource('arnos', 'ArnoAPIController');    
+
+    Route::resource('cors', 'CorAPIController');
+    
 });
+
+
 
 

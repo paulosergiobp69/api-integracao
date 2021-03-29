@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateArnoAPIRequest;
-use App\Http\Requests\API\UpdateArnoAPIRequest;
-use App\Models\Arno;
-use App\Repositories\ArnoRepository;
+use App\Http\Requests\API\CreateCorAPIRequest;
+use App\Http\Requests\API\UpdateCorAPIRequest;
+use App\Models\Cor;
+use App\Repositories\CorRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
 
 /**
- * Class ArnoController
+ * Class CorController
  * @package App\Http\Controllers\API
  */
 
-class ArnoAPIController extends AppBaseController
+class CorAPIController extends AppBaseController
 {
-    /** @var  ArnoRepository */
-    private $arnoRepository;
+    /** @var  CorRepository */
+    private $corRepository;
 
-    public function __construct(ArnoRepository $arnoRepo)
+    public function __construct(CorRepository $corRepo)
     {
-        $this->arnoRepository = $arnoRepo;
+        $this->corRepository = $corRepo;
     }
 
     /**
@@ -30,15 +30,14 @@ class ArnoAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/arnos",
-     *      summary="Obtenha uma lista dos Arnos.",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Arno"},
-     *      description="Seleciona Todos Arnos",
+     *      path="/cors",
+     *      summary="Get a listing of the Cors.",
+     *      tags={"Cor"},
+     *      description="Get all Cors",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
-     *          description="Operação realizada com Sucesso",
+     *          description="successful operation",
      *          @SWG\Schema(
      *              type="object",
      *              @SWG\Property(
@@ -48,7 +47,7 @@ class ArnoAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Arno")
+     *                  @SWG\Items(ref="#/definitions/Cor")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -60,32 +59,31 @@ class ArnoAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $arnos = $this->arnoRepository->all(
+        $cors = $this->corRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
-        return $this->sendResponse($arnos->toArray(), 'Arnos retrieved successfully');
+        return $this->sendResponse($cors->toArray(), 'Cors retrieved successfully');
     }
 
     /**
-     * @param CreateArnoAPIRequest $request
+     * @param CreateCorAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/arnos",
-     *      summary="Cadastre um Arno recém-criado no armazenamentoe",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Arno"},
-     *      description="Store Arno",
+     *      path="/cors",
+     *      summary="Store a newly created Cor in storage",
+     *      tags={"Cor"},
+     *      description="Store Cor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Arno that should be stored",
+     *          description="Cor that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Arno")
+     *          @SWG\Schema(ref="#/definitions/Cor")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -98,7 +96,7 @@ class ArnoAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Arno"
+     *                  ref="#/definitions/Cor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -108,13 +106,13 @@ class ArnoAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateArnoAPIRequest $request)
+    public function store(CreateCorAPIRequest $request)
     {
         $input = $request->all();
 
-        $arno = $this->arnoRepository->create($input);
+        $cor = $this->corRepository->create($input);
 
-        return $this->sendResponse($arno->toArray(), 'Arno saved successfully');
+        return $this->sendResponse($cor->toArray(), 'Cor saved successfully');
     }
 
     /**
@@ -122,15 +120,14 @@ class ArnoAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/arnos/{id}",
-     *      summary="Display the specified Arno",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Arno"},
-     *      description="Get Arno",
+     *      path="/cors/{id}",
+     *      summary="Display the specified Cor",
+     *      tags={"Cor"},
+     *      description="Get Cor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Arno",
+     *          description="id of Cor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -146,7 +143,7 @@ class ArnoAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Arno"
+     *                  ref="#/definitions/Cor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -158,31 +155,30 @@ class ArnoAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Arno $arno */
-        $arno = $this->arnoRepository->find($id);
+        /** @var Cor $cor */
+        $cor = $this->corRepository->find($id);
 
-        if (empty($arno)) {
-            return $this->sendError('Arno not found');
+        if (empty($cor)) {
+            return $this->sendError('Cor not found');
         }
 
-        return $this->sendResponse($arno->toArray(), 'Arno retrieved successfully');
+        return $this->sendResponse($cor->toArray(), 'Cor retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateArnoAPIRequest $request
+     * @param UpdateCorAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/arnos/{id}",
-     *      summary="Update the specified Arno in storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Arno"},
-     *      description="Update Arno",
+     *      path="/cors/{id}",
+     *      summary="Update the specified Cor in storage",
+     *      tags={"Cor"},
+     *      description="Update Cor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Arno",
+     *          description="id of Cor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -190,9 +186,9 @@ class ArnoAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Arno that should be updated",
+     *          description="Cor that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Arno")
+     *          @SWG\Schema(ref="#/definitions/Cor")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -205,7 +201,7 @@ class ArnoAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Arno"
+     *                  ref="#/definitions/Cor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -215,20 +211,20 @@ class ArnoAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateArnoAPIRequest $request)
+    public function update($id, UpdateCorAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Arno $arno */
-        $arno = $this->arnoRepository->find($id);
+        /** @var Cor $cor */
+        $cor = $this->corRepository->find($id);
 
-        if (empty($arno)) {
-            return $this->sendError('Arno not found');
+        if (empty($cor)) {
+            return $this->sendError('Cor not found');
         }
 
-        $arno = $this->arnoRepository->update($input, $id);
+        $cor = $this->corRepository->update($input, $id);
 
-        return $this->sendResponse($arno->toArray(), 'Arno updated successfully');
+        return $this->sendResponse($cor->toArray(), 'Cor updated successfully');
     }
 
     /**
@@ -236,15 +232,14 @@ class ArnoAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/arnos/{id}",
-     *      summary="Remove the specified Arno from storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Arno"},
-     *      description="Delete Arno",
+     *      path="/cors/{id}",
+     *      summary="Remove the specified Cor from storage",
+     *      tags={"Cor"},
+     *      description="Delete Cor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Arno",
+     *          description="id of Cor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -272,15 +267,15 @@ class ArnoAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Arno $arno */
-        $arno = $this->arnoRepository->find($id);
+        /** @var Cor $cor */
+        $cor = $this->corRepository->find($id);
 
-        if (empty($arno)) {
-            return $this->sendError('Arno not found');
+        if (empty($cor)) {
+            return $this->sendError('Cor not found');
         }
 
-        $arno->delete();
+        $cor->delete();
 
-        return $this->sendSuccess('Arno deleted successfully');
+        return $this->sendSuccess('Cor deleted successfully');
     }
 }

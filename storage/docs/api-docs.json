@@ -4,7 +4,7 @@
         "title": "Engepe\u00e7as - Laravel Generator APIs",
         "version": "1.0.0"
     },
-    "basePath": "/api/v1",
+    "basePath": "/api",
     "paths": {
         "/arnos": {
             "get": {
@@ -12,13 +12,13 @@
                     "Arno"
                 ],
                 "summary": "Obtenha uma lista dos Arnos.",
-                "description": "Get all Arnos",
+                "description": "Seleciona Todos Arnos",
                 "produces": [
                     "application/json"
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Opera\u00e7\u00e3o realizada com Sucesso",
                         "schema": {
                             "properties": {
                                 "success": {
@@ -37,13 +37,18 @@
                             "type": "object"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
                     "Arno"
                 ],
-                "summary": "Store a newly created Arno in storage",
+                "summary": "Cadastre um Arno rec\u00e9m-criado no armazenamentoe",
                 "description": "Store Arno",
                 "produces": [
                     "application/json"
@@ -77,7 +82,12 @@
                             "type": "object"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
             }
         },
         "/arnos/{id}": {
@@ -117,7 +127,12 @@
                             "type": "object"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -164,7 +179,12 @@
                             "type": "object"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -180,6 +200,210 @@
                         "name": "id",
                         "in": "path",
                         "description": "id of Arno",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/cors": {
+            "get": {
+                "tags": [
+                    "Cor"
+                ],
+                "summary": "Get a listing of the Cors.",
+                "description": "Get all Cors",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Cor"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cor"
+                ],
+                "summary": "Store a newly created Cor in storage",
+                "description": "Store Cor",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Cor that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Cor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Cor"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/cors/{id}": {
+            "get": {
+                "tags": [
+                    "Cor"
+                ],
+                "summary": "Display the specified Cor",
+                "description": "Get Cor",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Cor",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Cor"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Cor"
+                ],
+                "summary": "Update the specified Cor in storage",
+                "description": "Update Cor",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Cor",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Cor that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Cor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Cor"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cor"
+                ],
+                "summary": "Remove the specified Cor from storage",
+                "description": "Delete Cor",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Cor",
                         "required": true,
                         "type": "integer"
                     }
@@ -237,6 +461,44 @@
                     "format": "date-time"
                 }
             }
+        },
+        "Cor": {
+            "required": [
+                "nome"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nome": {
+                    "description": "Descricao de Cor",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "EngepecasAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }
