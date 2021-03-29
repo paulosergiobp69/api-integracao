@@ -18,6 +18,7 @@ class CreateTelefonesTable extends Migration
             $table->unsignedBigInteger('cliente_id')->unsigned();
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('cascade');
             $table->string('numero', 20);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

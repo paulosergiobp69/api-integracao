@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateCorAPIRequest;
-use App\Http\Requests\API\UpdateCorAPIRequest;
-use App\Models\Cor;
-use App\Repositories\CorRepository;
+use App\Http\Requests\API\CreateTestedopauloAPIRequest;
+use App\Http\Requests\API\UpdateTestedopauloAPIRequest;
+use App\Models\Testedopaulo;
+use App\Repositories\TestedopauloRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
 
 /**
- * Class CorController
+ * Class TestedopauloController
  * @package App\Http\Controllers\API
  */
 
-class CorAPIController extends AppBaseController
+class TestedopauloAPIController extends AppBaseController
 {
-    /** @var  CorRepository */
-    private $corRepository;
+    /** @var  TestedopauloRepository */
+    private $testedopauloRepository;
 
-    public function __construct(CorRepository $corRepo)
+    public function __construct(TestedopauloRepository $testedopauloRepo)
     {
-        $this->corRepository = $corRepo;
+        $this->testedopauloRepository = $testedopauloRepo;
     }
 
     /**
@@ -30,11 +30,10 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/cors",
-     *      summary="Get a listing of the Cors.",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Get all Cors",
+     *      path="/testedopaulos",
+     *      summary="Get a listing of the Testedopaulos.",
+     *      tags={"Testedopaulo"},
+     *      description="Get all Testedopaulos",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -48,7 +47,7 @@ class CorAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Cor")
+     *                  @SWG\Items(ref="#/definitions/Testedopaulo")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -60,32 +59,31 @@ class CorAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $cors = $this->corRepository->all(
+        $testedopaulos = $this->testedopauloRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
-        return $this->sendResponse($cors->toArray(), 'Cors retrieved successfully');
+        return $this->sendResponse($testedopaulos->toArray(), 'Testedopaulos retrieved successfully');
     }
 
     /**
-     * @param CreateCorAPIRequest $request
+     * @param CreateTestedopauloAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/cors",
-     *      summary="Store a newly created Cor in storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Store Cor",
+     *      path="/testedopaulos",
+     *      summary="Store a newly created Testedopaulo in storage",
+     *      tags={"Testedopaulo"},
+     *      description="Store Testedopaulo",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Cor that should be stored",
+     *          description="Testedopaulo that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Cor")
+     *          @SWG\Schema(ref="#/definitions/Testedopaulo")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -98,7 +96,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Testedopaulo"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -108,13 +106,13 @@ class CorAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateCorAPIRequest $request)
+    public function store(CreateTestedopauloAPIRequest $request)
     {
         $input = $request->all();
 
-        $cor = $this->corRepository->create($input);
+        $testedopaulo = $this->testedopauloRepository->create($input);
 
-        return $this->sendResponse($cor->toArray(), 'Cor saved successfully');
+        return $this->sendResponse($testedopaulo->toArray(), 'Testedopaulo saved successfully');
     }
 
     /**
@@ -122,15 +120,14 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/cors/{id}",
-     *      summary="Display the specified Cor",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Get Cor",
+     *      path="/testedopaulos/{id}",
+     *      summary="Display the specified Testedopaulo",
+     *      tags={"Testedopaulo"},
+     *      description="Get Testedopaulo",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Testedopaulo",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -146,7 +143,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Testedopaulo"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -158,31 +155,30 @@ class CorAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Testedopaulo $testedopaulo */
+        $testedopaulo = $this->testedopauloRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($testedopaulo)) {
+            return $this->sendError('Testedopaulo not found');
         }
 
-        return $this->sendResponse($cor->toArray(), 'Cor retrieved successfully');
+        return $this->sendResponse($testedopaulo->toArray(), 'Testedopaulo retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateCorAPIRequest $request
+     * @param UpdateTestedopauloAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/cors/{id}",
-     *      summary="Update the specified Cor in storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Update Cor",
+     *      path="/testedopaulos/{id}",
+     *      summary="Update the specified Testedopaulo in storage",
+     *      tags={"Testedopaulo"},
+     *      description="Update Testedopaulo",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Testedopaulo",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -190,9 +186,9 @@ class CorAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Cor that should be updated",
+     *          description="Testedopaulo that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Cor")
+     *          @SWG\Schema(ref="#/definitions/Testedopaulo")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -205,7 +201,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Testedopaulo"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -215,20 +211,20 @@ class CorAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateCorAPIRequest $request)
+    public function update($id, UpdateTestedopauloAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Testedopaulo $testedopaulo */
+        $testedopaulo = $this->testedopauloRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($testedopaulo)) {
+            return $this->sendError('Testedopaulo not found');
         }
 
-        $cor = $this->corRepository->update($input, $id);
+        $testedopaulo = $this->testedopauloRepository->update($input, $id);
 
-        return $this->sendResponse($cor->toArray(), 'Cor updated successfully');
+        return $this->sendResponse($testedopaulo->toArray(), 'Testedopaulo updated successfully');
     }
 
     /**
@@ -236,15 +232,14 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/cors/{id}",
-     *      summary="Remove the specified Cor from storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Delete Cor",
+     *      path="/testedopaulos/{id}",
+     *      summary="Remove the specified Testedopaulo from storage",
+     *      tags={"Testedopaulo"},
+     *      description="Delete Testedopaulo",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Testedopaulo",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -272,15 +267,15 @@ class CorAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Testedopaulo $testedopaulo */
+        $testedopaulo = $this->testedopauloRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($testedopaulo)) {
+            return $this->sendError('Testedopaulo not found');
         }
 
-        $cor->delete();
+        $testedopaulo->delete();
 
-        return $this->sendSuccess('Cor deleted successfully');
+        return $this->sendSuccess('Testedopaulo deleted successfully');
     }
 }

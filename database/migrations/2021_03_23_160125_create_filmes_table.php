@@ -17,6 +17,7 @@ class CreateFilmesTable extends Migration
             $table->id();
             $table->string('titulo', 150)->comment('Titulo do Filme');
             $table->string('capa', 100)->nullable()->comment('Campo de foto, tipo imagem');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

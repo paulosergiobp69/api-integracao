@@ -55,3 +55,10 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
 
 
+
+
+Route::resource('testefors', 'TesteforAPIController');
+
+Route::resource('testedopaulos', 'TestedopauloAPIController');
+
+Route::resource('fornecedors', 'FornecedorAPIController');

@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateCorAPIRequest;
-use App\Http\Requests\API\UpdateCorAPIRequest;
-use App\Models\Cor;
-use App\Repositories\CorRepository;
+use App\Http\Requests\API\CreateTesteforAPIRequest;
+use App\Http\Requests\API\UpdateTesteforAPIRequest;
+use App\Models\Testefor;
+use App\Repositories\TesteforRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
 
 /**
- * Class CorController
+ * Class TesteforController
  * @package App\Http\Controllers\API
  */
 
-class CorAPIController extends AppBaseController
+class TesteforAPIController extends AppBaseController
 {
-    /** @var  CorRepository */
-    private $corRepository;
+    /** @var  TesteforRepository */
+    private $testeforRepository;
 
-    public function __construct(CorRepository $corRepo)
+    public function __construct(TesteforRepository $testeforRepo)
     {
-        $this->corRepository = $corRepo;
+        $this->testeforRepository = $testeforRepo;
     }
 
     /**
@@ -30,11 +30,10 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/cors",
-     *      summary="Get a listing of the Cors.",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Get all Cors",
+     *      path="/testefors",
+     *      summary="Get a listing of the Testefors.",
+     *      tags={"Testefor"},
+     *      description="Get all Testefors",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -48,7 +47,7 @@ class CorAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Cor")
+     *                  @SWG\Items(ref="#/definitions/Testefor")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -60,32 +59,31 @@ class CorAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $cors = $this->corRepository->all(
+        $testefors = $this->testeforRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
-        return $this->sendResponse($cors->toArray(), 'Cors retrieved successfully');
+        return $this->sendResponse($testefors->toArray(), 'Testefors retrieved successfully');
     }
 
     /**
-     * @param CreateCorAPIRequest $request
+     * @param CreateTesteforAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/cors",
-     *      summary="Store a newly created Cor in storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Store Cor",
+     *      path="/testefors",
+     *      summary="Store a newly created Testefor in storage",
+     *      tags={"Testefor"},
+     *      description="Store Testefor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Cor that should be stored",
+     *          description="Testefor that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Cor")
+     *          @SWG\Schema(ref="#/definitions/Testefor")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -98,7 +96,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Testefor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -108,13 +106,13 @@ class CorAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateCorAPIRequest $request)
+    public function store(CreateTesteforAPIRequest $request)
     {
         $input = $request->all();
 
-        $cor = $this->corRepository->create($input);
+        $testefor = $this->testeforRepository->create($input);
 
-        return $this->sendResponse($cor->toArray(), 'Cor saved successfully');
+        return $this->sendResponse($testefor->toArray(), 'Testefor saved successfully');
     }
 
     /**
@@ -122,15 +120,14 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/cors/{id}",
-     *      summary="Display the specified Cor",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Get Cor",
+     *      path="/testefors/{id}",
+     *      summary="Display the specified Testefor",
+     *      tags={"Testefor"},
+     *      description="Get Testefor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Testefor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -146,7 +143,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Testefor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -158,31 +155,30 @@ class CorAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Testefor $testefor */
+        $testefor = $this->testeforRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($testefor)) {
+            return $this->sendError('Testefor not found');
         }
 
-        return $this->sendResponse($cor->toArray(), 'Cor retrieved successfully');
+        return $this->sendResponse($testefor->toArray(), 'Testefor retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateCorAPIRequest $request
+     * @param UpdateTesteforAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/cors/{id}",
-     *      summary="Update the specified Cor in storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Update Cor",
+     *      path="/testefors/{id}",
+     *      summary="Update the specified Testefor in storage",
+     *      tags={"Testefor"},
+     *      description="Update Testefor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Testefor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -190,9 +186,9 @@ class CorAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Cor that should be updated",
+     *          description="Testefor that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Cor")
+     *          @SWG\Schema(ref="#/definitions/Testefor")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -205,7 +201,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Testefor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -215,20 +211,20 @@ class CorAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateCorAPIRequest $request)
+    public function update($id, UpdateTesteforAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Testefor $testefor */
+        $testefor = $this->testeforRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($testefor)) {
+            return $this->sendError('Testefor not found');
         }
 
-        $cor = $this->corRepository->update($input, $id);
+        $testefor = $this->testeforRepository->update($input, $id);
 
-        return $this->sendResponse($cor->toArray(), 'Cor updated successfully');
+        return $this->sendResponse($testefor->toArray(), 'Testefor updated successfully');
     }
 
     /**
@@ -236,15 +232,14 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/cors/{id}",
-     *      summary="Remove the specified Cor from storage",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Delete Cor",
+     *      path="/testefors/{id}",
+     *      summary="Remove the specified Testefor from storage",
+     *      tags={"Testefor"},
+     *      description="Delete Testefor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Testefor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -272,15 +267,15 @@ class CorAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Testefor $testefor */
+        $testefor = $this->testeforRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($testefor)) {
+            return $this->sendError('Testefor not found');
         }
 
-        $cor->delete();
+        $testefor->delete();
 
-        return $this->sendSuccess('Cor deleted successfully');
+        return $this->sendSuccess('Testefor deleted successfully');
     }
 }

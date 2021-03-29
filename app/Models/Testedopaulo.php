@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use App\Traits\CustomSoftDelete;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @SWG\Definition(
- *      definition="Cliente",
+ *      definition="Testedopaulo",
  *      required={"nome"},
  *      @SWG\Property(
  *          property="id",
@@ -27,6 +26,30 @@ use App\Traits\CustomSoftDelete;
  *          type="string"
  *      ),
  *      @SWG\Property(
+ *          property="old_id",
+ *          description="old_id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="created_by",
+ *          description="created_by",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="updated_by",
+ *          description="updated_by",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="deleted_by",
+ *          description="deleted_by",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
  *          property="created_at",
  *          description="created_at",
  *          type="string",
@@ -40,11 +63,11 @@ use App\Traits\CustomSoftDelete;
  *      )
  * )
  */
-class Cliente extends Model
+class Testedopaulo extends Model
 {
-    use CustomSoftDeletes;
+    use SoftDeletes;
 
-    public $table = 'clientes';
+    public $table = 'testedopaulo';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -53,10 +76,15 @@ class Cliente extends Model
     protected $dates = ['deleted_at'];
 
 
+    protected $primaryKey = 'id';
 
     public $fillable = [
         'nome',
-        'image'
+        'image',
+        'old_id',
+        'created_by',
+        'updated_by',
+        'deleted_by'
     ];
 
     /**
@@ -67,7 +95,11 @@ class Cliente extends Model
     protected $casts = [
         'id' => 'integer',
         'nome' => 'string',
-        'image' => 'string'
+        'image' => 'string',
+        'old_id' => 'integer',
+        'created_by' => 'integer',
+        'updated_by' => 'integer',
+        'deleted_by' => 'integer'
     ];
 
     /**
@@ -78,23 +110,13 @@ class Cliente extends Model
     public static $rules = [
         'nome' => 'required|string|max:150',
         'image' => 'nullable|string|max:100',
+        'old_id' => 'nullable|integer',
+        'created_by' => 'nullable|integer',
+        'updated_by' => 'nullable|integer',
+        'deleted_by' => 'nullable|integer',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function documentos()
-    {
-        return $this->hasMany(\App\Models\Documento::class, 'cliente_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function telefones()
-    {
-        return $this->hasMany(\App\Models\Telefone::class, 'cliente_id');
-    }
+    
 }

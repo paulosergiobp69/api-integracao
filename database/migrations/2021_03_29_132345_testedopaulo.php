@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClientesTable extends Migration
+class Testedopaulo extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateClientesTable extends Migration
      */
     public function up()
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        //
+        Schema::create('testedopaulo', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 150)->comment('Nome do cliente');
             $table->string('image', 100)->nullable()->comment('Campo de foto, tipo imagem');  
-            $table->softDeletes();          
+            $table->integer('old_id')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
+            $table->integer('deleted_by')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,6 +34,7 @@ class CreateClientesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clientes');
+        //
+        Schema::dropIfExists('testedopaulo');
     }
 }

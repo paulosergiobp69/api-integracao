@@ -1,151 +1,286 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\MasterApiController;
+use App\Http\Requests\API\CreateClienteAPIRequest;
+use App\Http\Requests\API\UpdateClienteAPIRequest;
 use App\Models\Cliente;
-use App\Models\Telefone;
+use App\Repositories\ClienteRepository;
+use Illuminate\Http\Request;
+use App\Http\Controllers\AppBaseController;
+use Response;
 
-class ClienteApiController extends MasterApiController
+/**
+ * Class ClienteController
+ * @package App\Http\Controllers\API
+ */
+
+class ClienteAPIController extends AppBaseController
 {
-    protected $model;
-    protected $path = 'clientes';
-    protected $upload = 'image';
-    protected $width = 177;
-    protected $height = 236;
-    protected $totalPage = 20;
+    /** @var  ClienteRepository */
+    private $clienteRepository;
 
-    public function __construct(Cliente $clientes, Request $request)
+    public function __construct(ClienteRepository $clienteRepo)
     {
-        $this->model = $clientes;
-        $this->request = $request;
-    }   
-
-    public function documento($id)
-    {
-        if (!$data = $this->model->with('documento')->find($id)) {
-            return response()->json(['error' => 'Nada foi encontrado!'], 404);
-        } else {
-            return response()->json($data);
-        }
-    }    
-
-    public function telefone($id)
-    {
-        if (!$data = $this->model->with('telefone')->find($id)) {
-            return response()->json(['error' => 'Nada foi encontrado!'], 404);
-        } else {
-            return response()->json($data);
-        }
-    }    
-
-    /*
-    public function index()
-    {
-        //
-        $data = $this->cliente->all();
-        //dd($data);
-        return response()->json($data);        
+        $this->clienteRepository = $clienteRepo;
     }
 
-
- 
-    public function store(Request $request)
+    /**
+     * @param Request $request
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/clientes",
+     *      summary="Get a listing of the Clientes.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"Cliente"},
+     *      description="Get all Clientes",
+     *      produces={"application/json"},
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @SWG\Items(ref="#/definitions/Cliente")
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function index(Request $request)
     {
-        //
-        $this->validate($request, $this->cliente->rules());
+        $clientes = $this->clienteRepository->all(
+            $request->except(['skip', 'limit']),
+            $request->get('skip'),
+            $request->get('limit')
+        );
 
-        $dataForm = $request->all();
-
-        /*
-        if ($request->hasFile($this->upload) && $request->file($this->upload)->isValid()) {
-
-            $extension = $request->file($this->upload)->extension();
-
-            $name = uniqid(date('His'));
-
-            $nameFile = "{$name}.{$extension}";
-
-            $upload = Image::make($dataForm[$this->upload])->resize($this->width, $this->height)->save(storage_path("app/public/{$this->path}/$nameFile", 70));
-
-            if (!$upload) {
-                return response()->json(['error' => 'Falha ao fazer upload'], 500);
-            } else {
-                $dataForm[$this->upload] = $nameFile;
-            }
-        }
-*//*
-
-
-
-        $data = $this->cliente->create($dataForm);
-
-        return response()->json($data, 201);
-
+        return $this->sendResponse($clientes->toArray(), 'Clientes retrieved successfully');
     }
 
-   
+    /**
+     * @param CreateClienteAPIRequest $request
+     * @return Response
+     *
+     * @SWG\Post(
+     *      path="/clientes",
+     *      summary="Store a newly created Cliente in storage",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"Cliente"},
+     *      description="Store Cliente",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="body",
+     *          in="body",
+     *          description="Cliente that should be stored",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Cliente")
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/Cliente"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function store(CreateClienteAPIRequest $request)
+    {
+        $input = $request->all();
+
+        $cliente = $this->clienteRepository->create($input);
+
+        return $this->sendResponse($cliente->toArray(), 'Cliente saved successfully');
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/clientes/{id}",
+     *      summary="Display the specified Cliente",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"Cliente"},
+     *      description="Get Cliente",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="id of Cliente",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/Cliente"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
     public function show($id)
     {
-        //
-        if (!$data = $this->cliente->find($id)) {
-            return response()->json(['error' => 'Nada foi encontrado!'], 404);
-        } else {
-            return response()->json($data);
+        /** @var Cliente $cliente */
+        $cliente = $this->clienteRepository->find($id);
+
+        if (empty($cliente)) {
+            return $this->sendError('Cliente not found');
         }
 
+        return $this->sendResponse($cliente->toArray(), 'Cliente retrieved successfully');
     }
 
-
-    
-    public function update(Request $request, $id)
+    /**
+     * @param int $id
+     * @param UpdateClienteAPIRequest $request
+     * @return Response
+     *
+     * @SWG\Put(
+     *      path="/clientes/{id}",
+     *      summary="Update the specified Cliente in storage",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"Cliente"},
+     *      description="Update Cliente",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="id of Cliente",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="body",
+     *          in="body",
+     *          description="Cliente that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Cliente")
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/Cliente"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function update($id, UpdateClienteAPIRequest $request)
     {
-        //
-        if (!$data = $this->cliente->find($id))
-            return response()->json(['error' => 'Nada foi encontrado!'], 404);
+        $input = $request->all();
 
-        $this->validate($request, $this->cliente->rules());
+        /** @var Cliente $cliente */
+        $cliente = $this->clienteRepository->find($id);
 
-        $dataForm = $request->all();
-
-/*
-        if ($request->hasFile($this->upload) && $request->file($this->upload)->isValid()) {
-            $arquivo = $this->model->arquivo($id);
-
-            if ($arquivo) {
-                Storage::disk('public')->delete("/{$this->path}/$arquivo");
-            }
-
-            $extension = $request->file($this->upload)->extension();
-
-            $name = uniqid(date('His'));
-
-            $nameFile = "{$name}.{$extension}";
-
-            $upload = Image::make($dataForm[$this->upload])->resize($this->width, $this->height)->save(storage_path("app/public/{$this->path}/{$nameFile}", 70));
-
-            if (!$upload) {
-                return response()->json(['error' => 'Falha ao fazer upload'], 500);
-            } else {
-                $dataForm[$this->upload] = $nameFile;
-            }
+        if (empty($cliente)) {
+            return $this->sendError('Cliente not found');
         }
-*//*
-        $data->update($dataForm);
 
-        return response()->json($data);
+        $cliente = $this->clienteRepository->update($input, $id);
+
+        return $this->sendResponse($cliente->toArray(), 'Cliente updated successfully');
     }
 
-   
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Delete(
+     *      path="/clientes/{id}",
+     *      summary="Remove the specified Cliente from storage",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"Cliente"},
+     *      description="Delete Cliente",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="id of Cliente",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="string"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
     public function destroy($id)
     {
-        if ($data = $this->cliente->find($id)) {
-            $data->delete();
-            return response()->json(['success' => 'Deletado com sucesso!']);
-        } else {
-            return response()->json(['error' => 'Nada foi encontrado!'], 404);
+        /** @var Cliente $cliente */
+        $cliente = $this->clienteRepository->find($id);
+
+        if (empty($cliente)) {
+            return $this->sendError('Cliente not found');
         }
+
+        $cliente->delete();
+
+        return $this->sendSuccess('Cliente deleted successfully');
     }
-    */
 }

@@ -165,6 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
+        UpInside\LaravelMakeTrait\MakeTraitServiceProvider::class,
+
 
         /*
          * Application Service Providers...

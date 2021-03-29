@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateCorAPIRequest;
-use App\Http\Requests\API\UpdateCorAPIRequest;
-use App\Models\Cor;
-use App\Repositories\CorRepository;
+use App\Http\Requests\API\CreateFornecedorAPIRequest;
+use App\Http\Requests\API\UpdateFornecedorAPIRequest;
+use App\Models\Fornecedor;
+use App\Repositories\FornecedorRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
 
 /**
- * Class CorController
+ * Class FornecedorController
  * @package App\Http\Controllers\API
  */
 
-class CorAPIController extends AppBaseController
+class FornecedorAPIController extends AppBaseController
 {
-    /** @var  CorRepository */
-    private $corRepository;
+    /** @var  FornecedorRepository */
+    private $fornecedorRepository;
 
-    public function __construct(CorRepository $corRepo)
+    public function __construct(FornecedorRepository $fornecedorRepo)
     {
-        $this->corRepository = $corRepo;
+        $this->fornecedorRepository = $fornecedorRepo;
     }
 
     /**
@@ -30,11 +30,11 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/cors",
-     *      summary="Get a listing of the Cors.",
+     *      path="/fornecedors",
+     *      summary="Get a listing of the Fornecedors.",
      *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Get all Cors",
+     *      tags={"Fornecedor"},
+     *      description="Get all Fornecedors",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -48,7 +48,7 @@ class CorAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Cor")
+     *                  @SWG\Items(ref="#/definitions/Fornecedor")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -60,32 +60,32 @@ class CorAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $cors = $this->corRepository->all(
+        $fornecedors = $this->fornecedorRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
-        return $this->sendResponse($cors->toArray(), 'Cors retrieved successfully');
+        return $this->sendResponse($fornecedors->toArray(), 'Fornecedors retrieved successfully');
     }
 
     /**
-     * @param CreateCorAPIRequest $request
+     * @param CreateFornecedorAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/cors",
-     *      summary="Store a newly created Cor in storage",
+     *      path="/fornecedors",
+     *      summary="Store a newly created Fornecedor in storage",
      *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Store Cor",
+     *      tags={"Fornecedor"},
+     *      description="Store Fornecedor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Cor that should be stored",
+     *          description="Fornecedor that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Cor")
+     *          @SWG\Schema(ref="#/definitions/Fornecedor")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -98,7 +98,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Fornecedor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -108,13 +108,13 @@ class CorAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateCorAPIRequest $request)
+    public function store(CreateFornecedorAPIRequest $request)
     {
         $input = $request->all();
 
-        $cor = $this->corRepository->create($input);
+        $fornecedor = $this->fornecedorRepository->create($input);
 
-        return $this->sendResponse($cor->toArray(), 'Cor saved successfully');
+        return $this->sendResponse($fornecedor->toArray(), 'Fornecedor saved successfully');
     }
 
     /**
@@ -122,15 +122,15 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/cors/{id}",
-     *      summary="Display the specified Cor",
+     *      path="/fornecedors/{id}",
+     *      summary="Display the specified Fornecedor",
      *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Get Cor",
+     *      tags={"Fornecedor"},
+     *      description="Get Fornecedor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Fornecedor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -146,7 +146,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Fornecedor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -158,31 +158,31 @@ class CorAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Fornecedor $fornecedor */
+        $fornecedor = $this->fornecedorRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($fornecedor)) {
+            return $this->sendError('Fornecedor not found');
         }
 
-        return $this->sendResponse($cor->toArray(), 'Cor retrieved successfully');
+        return $this->sendResponse($fornecedor->toArray(), 'Fornecedor retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateCorAPIRequest $request
+     * @param UpdateFornecedorAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/cors/{id}",
-     *      summary="Update the specified Cor in storage",
+     *      path="/fornecedors/{id}",
+     *      summary="Update the specified Fornecedor in storage",
      *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Update Cor",
+     *      tags={"Fornecedor"},
+     *      description="Update Fornecedor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Fornecedor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -190,9 +190,9 @@ class CorAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Cor that should be updated",
+     *          description="Fornecedor that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Cor")
+     *          @SWG\Schema(ref="#/definitions/Fornecedor")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -205,7 +205,7 @@ class CorAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Cor"
+     *                  ref="#/definitions/Fornecedor"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -215,20 +215,20 @@ class CorAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateCorAPIRequest $request)
+    public function update($id, UpdateFornecedorAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Fornecedor $fornecedor */
+        $fornecedor = $this->fornecedorRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($fornecedor)) {
+            return $this->sendError('Fornecedor not found');
         }
 
-        $cor = $this->corRepository->update($input, $id);
+        $fornecedor = $this->fornecedorRepository->update($input, $id);
 
-        return $this->sendResponse($cor->toArray(), 'Cor updated successfully');
+        return $this->sendResponse($fornecedor->toArray(), 'Fornecedor updated successfully');
     }
 
     /**
@@ -236,15 +236,15 @@ class CorAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/cors/{id}",
-     *      summary="Remove the specified Cor from storage",
+     *      path="/fornecedors/{id}",
+     *      summary="Remove the specified Fornecedor from storage",
      *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"Cor"},
-     *      description="Delete Cor",
+     *      tags={"Fornecedor"},
+     *      description="Delete Fornecedor",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Cor",
+     *          description="id of Fornecedor",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -272,15 +272,15 @@ class CorAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Cor $cor */
-        $cor = $this->corRepository->find($id);
+        /** @var Fornecedor $fornecedor */
+        $fornecedor = $this->fornecedorRepository->find($id);
 
-        if (empty($cor)) {
-            return $this->sendError('Cor not found');
+        if (empty($fornecedor)) {
+            return $this->sendError('Fornecedor not found');
         }
 
-        $cor->delete();
+        $fornecedor->delete();
 
-        return $this->sendSuccess('Cor deleted successfully');
+        return $this->sendSuccess('Fornecedor deleted successfully');
     }
 }

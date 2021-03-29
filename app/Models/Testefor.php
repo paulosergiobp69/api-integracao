@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use App\Traits\CustomSoftDelete;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @SWG\Definition(
- *      definition="Cliente",
+ *      definition="Testefor",
  *      required={"nome"},
  *      @SWG\Property(
  *          property="id",
@@ -18,7 +17,7 @@ use App\Traits\CustomSoftDelete;
  *      ),
  *      @SWG\Property(
  *          property="nome",
- *          description="Nome do cliente",
+ *          description="Nome do Fornecedor",
  *          type="string"
  *      ),
  *      @SWG\Property(
@@ -37,14 +36,20 @@ use App\Traits\CustomSoftDelete;
  *          description="updated_at",
  *          type="string",
  *          format="date-time"
+ *      ),
+ *      @SWG\Property(
+ *          property="deleted_at",
+ *          description="deleted_at",
+ *          type="string",
+ *          format="date-time"
  *      )
  * )
  */
-class Cliente extends Model
+class Testefor extends Model
 {
-    use CustomSoftDeletes;
+    use SoftDeletes;
 
-    public $table = 'clientes';
+    public $table = 'testefor';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -53,6 +58,7 @@ class Cliente extends Model
     protected $dates = ['deleted_at'];
 
 
+    protected $primaryKey = 'id';
 
     public $fillable = [
         'nome',
@@ -79,22 +85,9 @@ class Cliente extends Model
         'nome' => 'required|string|max:150',
         'image' => 'nullable|string|max:100',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'updated_at' => 'nullable',
+        'deleted_at' => 'nullable'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function documentos()
-    {
-        return $this->hasMany(\App\Models\Documento::class, 'cliente_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function telefones()
-    {
-        return $this->hasMany(\App\Models\Telefone::class, 'cliente_id');
-    }
+    
 }

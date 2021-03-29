@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dcde18dd4a1d67e3178d6db27c1f2b74",
+    "content-hash": "9afb57911a32d095736a98f395703c9e",
     "packages": [
         {
             "name": "appointer/swaggervel",
@@ -5659,6 +5659,46 @@
             "time": "2020-11-27T12:32:42+00:00"
         },
         {
+            "name": "upinside/laravel-make-trait",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UpInside/laravel-make-trait.git",
+                "reference": "81ef6da0bf36399663a684bd90838d6afb28b519"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UpInside/laravel-make-trait/zipball/81ef6da0bf36399663a684bd90838d6afb28b519",
+                "reference": "81ef6da0bf36399663a684bd90838d6afb28b519",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "UpInside\\LaravelMakeTrait\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gustavo Web",
+                    "email": "gustavo@upinside.com.br"
+                }
+            ],
+            "description": "Create trait in Laravel with the artisan command",
+            "support": {
+                "issues": "https://github.com/UpInside/laravel-make-trait/issues",
+                "source": "https://github.com/UpInside/laravel-make-trait/tree/1.1"
+            },
+            "time": "2018-08-22T15:05:51+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v4.2.0",
             "source": {
@@ -8151,8 +8191,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "infyomlabs/laravel-generator": 20,
         "appointer/swaggervel": 20,
+        "infyomlabs/laravel-generator": 20,
         "infyomlabs/swagger-generator": 20
     },
     "prefer-stable": true,
