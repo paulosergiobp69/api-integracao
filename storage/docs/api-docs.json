@@ -6,230 +6,6 @@
     },
     "basePath": "/api",
     "paths": {
-        "/arnos": {
-            "get": {
-                "tags": [
-                    "Arno"
-                ],
-                "summary": "Obtenha uma lista dos Arnos.",
-                "description": "Seleciona Todos Arnos",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Opera\u00e7\u00e3o realizada com Sucesso",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Arno"
-                                    }
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Arno"
-                ],
-                "summary": "Cadastre um Arno rec\u00e9m-criado no armazenamentoe",
-                "description": "Store Arno",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "description": "Arno that should be stored",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Arno"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Arno"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            }
-        },
-        "/arnos/{id}": {
-            "get": {
-                "tags": [
-                    "Arno"
-                ],
-                "summary": "Display the specified Arno",
-                "description": "Get Arno",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Arno",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Arno"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Arno"
-                ],
-                "summary": "Update the specified Arno in storage",
-                "description": "Update Arno",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Arno",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "description": "Arno that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Arno"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Arno"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Arno"
-                ],
-                "summary": "Remove the specified Arno from storage",
-                "description": "Delete Arno",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Arno",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "type": "string"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            }
-        },
         "/clientes": {
             "get": {
                 "tags": [
@@ -424,230 +200,6 @@
                         "name": "id",
                         "in": "path",
                         "description": "id of Cliente",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "type": "string"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            }
-        },
-        "/cors": {
-            "get": {
-                "tags": [
-                    "Cor"
-                ],
-                "summary": "Get a listing of the Cors.",
-                "description": "Get all Cors",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Cor"
-                                    }
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Cor"
-                ],
-                "summary": "Store a newly created Cor in storage",
-                "description": "Store Cor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "description": "Cor that should be stored",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Cor"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Cor"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            }
-        },
-        "/cors/{id}": {
-            "get": {
-                "tags": [
-                    "Cor"
-                ],
-                "summary": "Display the specified Cor",
-                "description": "Get Cor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Cor",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Cor"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Cor"
-                ],
-                "summary": "Update the specified Cor in storage",
-                "description": "Update Cor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Cor",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "description": "Cor that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Cor"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Cor"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Cor"
-                ],
-                "summary": "Remove the specified Cor from storage",
-                "description": "Delete Cor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Cor",
                         "required": true,
                         "type": "integer"
                     }
@@ -902,13 +454,551 @@
                 ]
             }
         },
-        "/testedopaulos": {
+        "/H100": {
             "get": {
                 "tags": [
-                    "Testedopaulo"
+                    "H100"
                 ],
-                "summary": "Get a listing of the Testedopaulos.",
-                "description": "Get all Testedopaulos",
+                "summary": "Obtenha uma lista de Ordem de Compra.",
+                "description": "Selecione todos registros",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/H100"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "H100"
+                ],
+                "summary": "Ordem de Compra criada.",
+                "description": "Ordem de Compra",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Ordem de Compra que deve ser gravada. ",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/H100"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H100"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/H100/{id}": {
+            "get": {
+                "tags": [
+                    "H100"
+                ],
+                "summary": "Exibir a Ordem de Compra especifica. ",
+                "description": "Get H100",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H100"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "H100"
+                ],
+                "summary": "Atualize a Ordem de Compra.",
+                "description": "Atualize Ordem de Compra",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "C\u00f3digo da Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Ordem de Compra que deve ser atualizado ",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/H100"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H100"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "H100"
+                ],
+                "summary": "Exclui Ordem de Compra.",
+                "description": "Delete H100",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo da Ordem de Compra.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/H100/{id}/H101": {
+            "get": {
+                "tags": [
+                    "H100"
+                ],
+                "summary": "Exibir a Ordem de Compra Especificada com Itens. ",
+                "description": "Recupera Ordem de Compra e Itens",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H100"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/H101": {
+            "get": {
+                "tags": [
+                    "H101"
+                ],
+                "summary": "Obtenha uma lista de Registros.",
+                "description": "Obtenha todos os registros",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/H101"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "H101"
+                ],
+                "summary": "Salve um Item de Entrada rec\u00e9m-criado. ",
+                "description": "Registro de Entrada ",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Registro que deve ser armazenado. ",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/H101"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/H101/{id}": {
+            "get": {
+                "tags": [
+                    "H101"
+                ],
+                "summary": "Exibir o registro especificado ",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo da Nota de Entrada",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "H101"
+                ],
+                "summary": "Atualize o registro especificado.",
+                "description": "Atualize do Registro",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo do Registro",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Registro que deve ser atualizado ",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/H101"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "H101"
+                ],
+                "summary": "Remova o registro especificado.",
+                "description": "Registro Excluido",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo do registro",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/H101/{id}/H100": {
+            "get": {
+                "tags": [
+                    "H101"
+                ],
+                "summary": "Listar Itens com a Ordem de Compra Especifica. ",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo da Nota de Entrada",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/telefones": {
+            "get": {
+                "tags": [
+                    "Telefone"
+                ],
+                "summary": "Get a listing of the Telefones.",
+                "description": "Get all Telefones",
                 "produces": [
                     "application/json"
                 ],
@@ -923,7 +1013,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Testedopaulo"
+                                        "$ref": "#/definitions/Telefone"
                                     }
                                 },
                                 "message": {
@@ -937,10 +1027,10 @@
             },
             "post": {
                 "tags": [
-                    "Testedopaulo"
+                    "Telefone"
                 ],
-                "summary": "Store a newly created Testedopaulo in storage",
-                "description": "Store Testedopaulo",
+                "summary": "Store a newly created Telefone in storage",
+                "description": "Store Telefone",
                 "produces": [
                     "application/json"
                 ],
@@ -948,10 +1038,10 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Testedopaulo that should be stored",
+                        "description": "Telefone that should be stored",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Testedopaulo"
+                            "$ref": "#/definitions/Telefone"
                         }
                     }
                 ],
@@ -964,7 +1054,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Testedopaulo"
+                                    "$ref": "#/definitions/Telefone"
                                 },
                                 "message": {
                                     "type": "string"
@@ -976,13 +1066,13 @@
                 }
             }
         },
-        "/testedopaulos/{id}": {
+        "/telefones/{id}": {
             "get": {
                 "tags": [
-                    "Testedopaulo"
+                    "Telefone"
                 ],
-                "summary": "Display the specified Testedopaulo",
-                "description": "Get Testedopaulo",
+                "summary": "Display the specified Telefone",
+                "description": "Get Telefone",
                 "produces": [
                     "application/json"
                 ],
@@ -990,7 +1080,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Testedopaulo",
+                        "description": "id of Telefone",
                         "required": true,
                         "type": "integer"
                     }
@@ -1004,7 +1094,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Testedopaulo"
+                                    "$ref": "#/definitions/Telefone"
                                 },
                                 "message": {
                                     "type": "string"
@@ -1017,10 +1107,10 @@
             },
             "put": {
                 "tags": [
-                    "Testedopaulo"
+                    "Telefone"
                 ],
-                "summary": "Update the specified Testedopaulo in storage",
-                "description": "Update Testedopaulo",
+                "summary": "Update the specified Telefone in storage",
+                "description": "Update Telefone",
                 "produces": [
                     "application/json"
                 ],
@@ -1028,17 +1118,17 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Testedopaulo",
+                        "description": "id of Telefone",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Testedopaulo that should be updated",
+                        "description": "Telefone that should be updated",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Testedopaulo"
+                            "$ref": "#/definitions/Telefone"
                         }
                     }
                 ],
@@ -1051,7 +1141,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Testedopaulo"
+                                    "$ref": "#/definitions/Telefone"
                                 },
                                 "message": {
                                     "type": "string"
@@ -1064,10 +1154,10 @@
             },
             "delete": {
                 "tags": [
-                    "Testedopaulo"
+                    "Telefone"
                 ],
-                "summary": "Remove the specified Testedopaulo from storage",
-                "description": "Delete Testedopaulo",
+                "summary": "Remove the specified Telefone from storage",
+                "description": "Delete Telefone",
                 "produces": [
                     "application/json"
                 ],
@@ -1075,206 +1165,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Testedopaulo",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "type": "string"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            }
-        },
-        "/testefors": {
-            "get": {
-                "tags": [
-                    "Testefor"
-                ],
-                "summary": "Get a listing of the Testefors.",
-                "description": "Get all Testefors",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Testefor"
-                                    }
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Testefor"
-                ],
-                "summary": "Store a newly created Testefor in storage",
-                "description": "Store Testefor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "description": "Testefor that should be stored",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Testefor"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Testefor"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            }
-        },
-        "/testefors/{id}": {
-            "get": {
-                "tags": [
-                    "Testefor"
-                ],
-                "summary": "Display the specified Testefor",
-                "description": "Get Testefor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Testefor",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Testefor"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Testefor"
-                ],
-                "summary": "Update the specified Testefor in storage",
-                "description": "Update Testefor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Testefor",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "description": "Testefor that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Testefor"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/Testefor"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Testefor"
-                ],
-                "summary": "Remove the specified Testefor from storage",
-                "description": "Delete Testefor",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Testefor",
+                        "description": "id of Telefone",
                         "required": true,
                         "type": "integer"
                     }
@@ -1302,37 +1193,6 @@
         }
     },
     "definitions": {
-        "Arno": {
-            "required": [
-                "nome"
-            ],
-            "properties": {
-                "id": {
-                    "description": "id",
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "nome": {
-                    "description": "Titulo do arno",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "created_at",
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "updated_at": {
-                    "description": "updated_at",
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "deleted_at": {
-                    "description": "deleted_at",
-                    "type": "string",
-                    "format": "date-time"
-                }
-            }
-        },
         "Cliente": {
             "required": [
                 "nome"
@@ -1363,37 +1223,6 @@
                 }
             }
         },
-        "Cor": {
-            "required": [
-                "nome"
-            ],
-            "properties": {
-                "id": {
-                    "description": "id",
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "nome": {
-                    "description": "Descricao de Cor",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "created_at",
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "updated_at": {
-                    "description": "updated_at",
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "deleted_at": {
-                    "description": "deleted_at",
-                    "type": "string",
-                    "format": "date-time"
-                }
-            }
-        },
         "Fornecedor": {
             "required": [
                 "nome"
@@ -1414,59 +1243,104 @@
                 }
             }
         },
-        "Testedopaulo": {
+        "H100": {
             "required": [
-                "nome"
+                "H100_T012_Id",
+                "H100_C007_Id"
             ],
             "properties": {
-                "id": {
-                    "description": "id",
+                "H100_Id": {
+                    "description": "H100_Id",
                     "type": "integer",
                     "format": "int32"
                 },
-                "nome": {
-                    "description": "Nome do cliente",
+                "H100_T012_Id": {
+                    "description": "H100_T012_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H100_C007_Id": {
+                    "description": "H100_C007_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H100_Quantidade": {
+                    "description": "H100_Quantidade",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H100_Quantidade_Pac": {
+                    "description": "H100_Quantidade_Pac",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H100_Saldo": {
+                    "description": "H100_Saldo",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H100_Valor_Unitario": {
+                    "description": "H100_Valor_Unitario",
+                    "type": "number",
+                    "format": "number"
+                },
+                "H100_Status": {
+                    "description": "H100_Status",
                     "type": "string"
                 },
-                "image": {
-                    "description": "Campo de foto, tipo imagem",
-                    "type": "string"
-                },
-                "old_id": {
-                    "description": "old_id",
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "created_by": {
-                    "description": "created_by",
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "updated_by": {
-                    "description": "updated_by",
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "deleted_by": {
-                    "description": "deleted_by",
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "created_at": {
-                    "description": "created_at",
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "updated_at": {
-                    "description": "updated_at",
+                "H100_Data_Lancamento": {
+                    "description": "H100_Data_Lancamento",
                     "type": "string",
                     "format": "date-time"
                 }
             }
         },
-        "Testefor": {
+        "H101": {
             "required": [
-                "nome"
+                "H101_H100_Id",
+                "H101_T014_Id"
+            ],
+            "properties": {
+                "H101_Id": {
+                    "description": "H101_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H101_H100_Id": {
+                    "description": "H101_H100_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H101_T014_Id": {
+                    "description": "H101_T014_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H101_Quantidade": {
+                    "description": "H101_Quantidade",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H101_Flag_Cancelado": {
+                    "description": "H101_Flag_Cancelado",
+                    "type": "string"
+                },
+                "H101_Valor_Unitario": {
+                    "description": "H101_Valor_Unitario",
+                    "type": "number",
+                    "format": "number"
+                },
+                "H101_Data_Lancamento": {
+                    "description": "H101_Data_Lancamento",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Telefone": {
+            "required": [
+                "cliente_id",
+                "numero"
             ],
             "properties": {
                 "id": {
@@ -1474,13 +1348,19 @@
                     "type": "integer",
                     "format": "int32"
                 },
-                "nome": {
-                    "description": "Nome do Fornecedor",
+                "cliente_id": {
+                    "description": "cliente_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "numero": {
+                    "description": "numero",
                     "type": "string"
                 },
-                "image": {
-                    "description": "Campo de foto, tipo imagem",
-                    "type": "string"
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
                 },
                 "created_at": {
                     "description": "created_at",
@@ -1489,11 +1369,6 @@
                 },
                 "updated_at": {
                     "description": "updated_at",
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "deleted_at": {
-                    "description": "deleted_at",
                     "type": "string",
                     "format": "date-time"
                 }

@@ -2,27 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Models\Testedopaulo;
+use App\Models\H101;
 use App\Repositories\BaseRepository;
 
 /**
- * Class TestedopauloRepository
+ * Class H101Repository
  * @package App\Repositories
- * @version March 29, 2021, 1:29 pm -03
+ * @version March 30, 2021, 9:29 am -03
 */
 
-class TestedopauloRepository extends BaseRepository
+class H101Repository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'nome',
-        'image',
-        'old_id',
-        'created_by',
-        'updated_by',
-        'deleted_by'
+        'H101_H100_Id',
+        'H101_T014_Id',
+        'H101_Quantidade',
+        'H101_Flag_Cancelado',
+        'H101_Valor_Unitario',
+        'H101_Data_Lancamento'
     ];
 
     /**
@@ -40,6 +40,6 @@ class TestedopauloRepository extends BaseRepository
      **/
     public function model()
     {
-        return Testedopaulo::class;
+        return H101::class;
     }
 }

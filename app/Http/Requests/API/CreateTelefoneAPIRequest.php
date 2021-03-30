@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\Cor;
+use App\Models\Telefone;
 use InfyOm\Generator\Request\APIRequest;
 
-class CreateCorAPIRequest extends APIRequest
+class CreateTelefoneAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class CreateCorAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Cor::$rules;
+        return Telefone::$rules;
     }
 }

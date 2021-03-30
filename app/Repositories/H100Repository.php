@@ -2,22 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\Arno;
+use App\Models\H100;
 use App\Repositories\BaseRepository;
 
 /**
- * Class ArnoRepository
+ * Class H100Repository
  * @package App\Repositories
- * @version March 26, 2021, 11:57 am -03
+ * @version March 29, 2021, 6:22 pm -03
 */
 
-class ArnoRepository extends BaseRepository
+class H100Repository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'nome'
+        'H100_T012_Id',
+        'H100_C007_Id',
+        'H100_Quantidade',
+        'H100_Quantidade_Pac',
+        'H100_Saldo',
+        'H100_Valor_Unitario',
+        'H100_Status',
+        'H100_Data_Lancamento'
     ];
 
     /**
@@ -35,6 +42,6 @@ class ArnoRepository extends BaseRepository
      **/
     public function model()
     {
-        return Arno::class;
+        return H100::class;
     }
 }

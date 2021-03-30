@@ -2,22 +2,23 @@
 
 namespace App\Repositories;
 
-use App\Models\Cor;
+use App\Models\Telefone;
 use App\Repositories\BaseRepository;
 
 /**
- * Class CorRepository
+ * Class TelefoneRepository
  * @package App\Repositories
- * @version March 26, 2021, 1:25 pm -03
+ * @version March 30, 2021, 11:14 am -03
 */
 
-class CorRepository extends BaseRepository
+class TelefoneRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'nome'
+        'cliente_id',
+        'numero'
     ];
 
     /**
@@ -35,6 +36,6 @@ class CorRepository extends BaseRepository
      **/
     public function model()
     {
-        return Cor::class;
+        return Telefone::class;
     }
 }

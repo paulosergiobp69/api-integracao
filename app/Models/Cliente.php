@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
-use App\Traits\CustomSoftDelete;
 
+use Eloquent as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \App\Models\Documento;
 
 /**
  * @SWG\Definition(
@@ -42,7 +43,7 @@ use App\Traits\CustomSoftDelete;
  */
 class Cliente extends Model
 {
-    use CustomSoftDeletes;
+    use SoftDeletes;
 
     public $table = 'clientes';
     
@@ -83,11 +84,11 @@ class Cliente extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
-    public function documentos()
+    public function documento()
     {
-        return $this->hasMany(\App\Models\Documento::class, 'cliente_id');
+        return $this->hasOne(Documento::class, 'cliente_id', 'id');
     }
 
     /**

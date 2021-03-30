@@ -49,7 +49,15 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::resource('arnos', 'ArnoAPIController');    
 
     Route::resource('cors', 'CorAPIController');
-    
+
+    Route::get('H100/{id}/H101', 'H100APIController@H101');
+    Route::resource('H100', 'H100APIController');  
+
+    Route::get('H101/{id}/H100', 'H101APIController@H100');
+    Route::resource('H101', 'H101APIController');
+
+    Route::resource('telefones', 'TelefoneAPIController');
+
 });
 
 
@@ -57,8 +65,7 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
 
 
-Route::resource('testefors', 'TesteforAPIController');
 
-Route::resource('testedopaulos', 'TestedopauloAPIController');
 
-Route::resource('fornecedors', 'FornecedorAPIController');
+
+

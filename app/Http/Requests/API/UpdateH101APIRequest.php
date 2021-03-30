@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\Cor;
+use App\Models\H101;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdateCorAPIRequest extends APIRequest
+class UpdateH101APIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,14 @@ class UpdateCorAPIRequest extends APIRequest
      */
     public function rules()
     {
-        $rules = Cor::$rules;
+        $rules = [
+            'H101_H100_Id' => 'integer',
+            'H101_T014_Id' => 'integer',
+            'H101_Quantidade' => 'nullable',
+            'H101_Flag_Cancelado' => 'nullable|string|max:1',
+            'H101_Valor_Unitario' => 'nullable|numeric',
+            'H101_Data_Lancamento' => 'nullable'
+        ];
         
         return $rules;
     }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\Testedopaulo;
+use App\Models\Telefone;
 use InfyOm\Generator\Request\APIRequest;
 
-class CreateTestedopauloAPIRequest extends APIRequest
+class UpdateTelefoneAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,8 @@ class CreateTestedopauloAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Testedopaulo::$rules;
+        $rules = Telefone::$rules;
+        
+        return $rules;
     }
 }
