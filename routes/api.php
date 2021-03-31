@@ -51,6 +51,7 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::resource('cors', 'CorAPIController');
 
     Route::get('H100/{id}/H101', 'H100APIController@H101');
+    Route::get('H100/{D009_Id},{Status}/getSaldo', 'H100APIController@getSaldo');
     Route::resource('H100', 'H100APIController');  
 
     Route::get('H101/{id}/H100', 'H101APIController@H100');
@@ -59,6 +60,10 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::resource('telefones', 'TelefoneAPIController');
 
 });
+
+
+
+
 
 
 

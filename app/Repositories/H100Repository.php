@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class H100Repository
  * @package App\Repositories
- * @version March 29, 2021, 6:22 pm -03
+ * @version March 30, 2021, 2:56 pm -03
 */
 
 class H100Repository extends BaseRepository
@@ -17,6 +17,7 @@ class H100Repository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
+        'H100_D009_Id',
         'H100_T012_Id',
         'H100_C007_Id',
         'H100_Quantidade',

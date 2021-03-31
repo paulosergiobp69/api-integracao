@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
 
-
 /**
  * Class H100Controller
  * @package App\Http\Controllers\API
@@ -20,6 +19,7 @@ class H100APIController extends AppBaseController
 {
     /** @var  H100Repository */
     private $h100Repository;
+    protected $model;
 
     public function __construct(H100Repository $h100Repo, H100 $doc)
     {
@@ -33,10 +33,10 @@ class H100APIController extends AppBaseController
      *
      * @SWG\Get(
      *      path="/H100",
-     *      summary="Obtenha uma lista de Ordem de Compra.",
+     *      summary="Obtenha uma lista das Ordens de Compras.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"H100"},
-     *      description="Selecione todos registros",
+     *      description="Seleciona todas Ordens de Compras.",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -62,13 +62,13 @@ class H100APIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $h100S = $this->h100Repository->all(
+        $H100 = $this->h100Repository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
-        return $this->sendResponse($h100S->toArray(), 'Ordem de Compra recuperada com sucesso.');
+        return $this->sendResponse($H100->toArray(), 'Ordens de Compra recuperadas com sucesso.');
     }
 
     /**
@@ -77,7 +77,7 @@ class H100APIController extends AppBaseController
      *
      * @SWG\Post(
      *      path="/H100",
-     *      summary="Ordem de Compra criada.",
+     *      summary="Ordem de Compra Criada com Sucesso",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"H100"},
      *      description="Ordem de Compra",
@@ -85,7 +85,7 @@ class H100APIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Ordem de Compra que deve ser gravada. ",
+     *          description="Ordem de Compra que deve ser armazenada. ",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/H100")
      *      ),
@@ -116,7 +116,7 @@ class H100APIController extends AppBaseController
 
         $h100 = $this->h100Repository->create($input);
 
-        return $this->sendResponse($h100->toArray(), 'Ordem de Compra salva com sucesso ');
+        return $this->sendResponse($h100->toArray(), 'Ordem de Compra incluida com sucesso.');
     }
 
     /**
@@ -125,14 +125,14 @@ class H100APIController extends AppBaseController
      *
      * @SWG\Get(
      *      path="/H100/{id}",
-     *      summary="Exibir a Ordem de Compra especifica. ",
+     *      summary="Exibir a Ordem de Compra especificada. ",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"H100"},
-     *      description="Get H100",
+     *      description="Seleciona Ordem de Compra.",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="Ordem de Compra",
+     *          description="Codigo da Ordem de Compra.",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -164,7 +164,7 @@ class H100APIController extends AppBaseController
         $h100 = $this->h100Repository->find($id);
 
         if (empty($h100)) {
-            return $this->sendError('Ordem de Compra não encontrada.');
+            return $this->sendError('Ordem de Compra não Localizada.');
         }
 
         return $this->sendResponse($h100->toArray(), 'Ordem de Compra recuperada com sucesso.');
@@ -177,10 +177,10 @@ class H100APIController extends AppBaseController
      *
      * @SWG\Put(
      *      path="/H100/{id}",
-     *      summary="Atualize a Ordem de Compra.",
+     *      summary="Atualiza a Ordem de Compra selecionada.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"H100"},
-     *      description="Atualize Ordem de Compra",
+     *      description="Atualiza a Ordem de Compra.",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
@@ -192,7 +192,7 @@ class H100APIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Ordem de Compra que deve ser atualizado ",
+     *          description="Ordem de Compra que deve ser atualizada. ",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/H100")
      *      ),
@@ -225,7 +225,7 @@ class H100APIController extends AppBaseController
         $h100 = $this->h100Repository->find($id);
 
         if (empty($h100)) {
-            return $this->sendError('Ordem de Compra não encontrada.');
+            return $this->sendError('Ordem de Compra não localizada.');
         }
 
         $h100 = $this->h100Repository->update($input, $id);
@@ -242,7 +242,7 @@ class H100APIController extends AppBaseController
      *      summary="Exclui Ordem de Compra.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"H100"},
-     *      description="Delete H100",
+     *      description="Exclui Ordem de Compra",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
@@ -278,13 +278,14 @@ class H100APIController extends AppBaseController
         $h100 = $this->h100Repository->find($id);
 
         if (empty($h100)) {
-            return $this->sendError('Ordem de Compra nao encontrada');
+            return $this->sendError('Ordem de Compra não Localizada.');
         }
 
         $h100->delete();
 
-        return $this->sendSuccess('Ordem de Compra excluida com sucesso.');
+        return $this->sendSuccess('Ordem de Compra Excluida com Sucesso.');
     }
+
 
     /**
      * @param int $id
@@ -292,14 +293,14 @@ class H100APIController extends AppBaseController
      *
      * @SWG\Get(
      *      path="/H100/{id}/H101",
-     *      summary="Exibir a Ordem de Compra Especificada com Itens. ",
+     *      summary="Listar Ordem de Compra e Itens.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"H100"},
-     *      description="Recupera Ordem de Compra e Itens",
+     *      description="Entre com o Registro.",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="Ordem de Compra",
+     *          description="Codigo da Ordem de Compra",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -315,7 +316,7 @@ class H100APIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/H100"
+     *                  ref="#/definitions/H101"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -328,10 +329,66 @@ class H100APIController extends AppBaseController
     public function H101($id)
     {
         if (!$data = $this->model->with('H101')->find($id)) {
-            return response()->json(['error' => 'Ordem de Compra nao foi encontrado!'], 404);
+            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
         } else {
             return response()->json($data);
         }
+
     }     
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/H100/{D009_Id},{Status}/getSaldo",
+     *      summary="Retornar Saldo De Item nas Ordem de Compra.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"H100"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="D009_Id",
+     *          description="Codigo do Produto na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="Status",
+     *          description="Status do Produto na Ordem de Compra",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/H101"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getSaldo($D009_Id, $status)
+    {
+        $result = $this->model::where('H100_Status','=', $status)
+                    ->where('H100_D009_Id','=',$D009_Id)
+                    ->sum('H100_Saldo');
+
+        return response()->json($result);
+    }     
+
 
 }

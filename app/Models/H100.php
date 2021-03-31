@@ -4,15 +4,20 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\H101;
 
 /**
  * @SWG\Definition(
  *      definition="H100",
- *      required={"H100_T012_Id", "H100_C007_Id"},
+ *      required={"H100_D009_Id", "H100_T012_Id", "H100_C007_Id"},
  *      @SWG\Property(
  *          property="H100_Id",
  *          description="H100_Id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="H100_D009_Id",
+ *          description="H100_D009_Id",
  *          type="integer",
  *          format="int32"
  *      ),
@@ -62,7 +67,7 @@ use App\Models\H101;
  *          description="H100_Data_Lancamento",
  *          type="string",
  *          format="date-time"
- *      ),
+ *      )
  * )
  */
 class H100 extends Model
@@ -81,6 +86,7 @@ class H100 extends Model
     protected $primaryKey = 'H100_Id';
 
     public $fillable = [
+        'H100_D009_Id',
         'H100_T012_Id',
         'H100_C007_Id',
         'H100_Quantidade',
@@ -98,6 +104,7 @@ class H100 extends Model
      */
     protected $casts = [
         'H100_Id' => 'integer',
+        'H100_D009_Id' => 'integer',
         'H100_T012_Id' => 'integer',
         'H100_C007_Id' => 'integer',
         'H100_Quantidade' => 'integer',
@@ -116,9 +123,11 @@ class H100 extends Model
     public static $rules = [
     ];
 
-    public function H101(){
-        return $this->hasMany(H101::class, 'H101_H100_Id','H100_Id');
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function H101()
+    {
+        return $this->hasMany(\App\Models\H101::class, 'H101_H100_Id');
     }
-
-    
 }

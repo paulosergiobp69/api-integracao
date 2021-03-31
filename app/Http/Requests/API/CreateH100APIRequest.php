@@ -23,7 +23,9 @@ class CreateH100APIRequest extends APIRequest
      * @return array
      */
     public function rules()
-    {   $rules = [
+    {   
+        $rules = [
+            'H100_D009_Id' => 'required',
             'H100_T012_Id' => 'required',
             'H100_C007_Id' => 'required',
             'H100_Quantidade' => 'nullable',
@@ -32,7 +34,8 @@ class CreateH100APIRequest extends APIRequest
             'H100_Valor_Unitario' => 'nullable|numeric',
             'H100_Status' => 'nullable|string|max:1',
             'H100_Data_Lancamento' => 'nullable'
-        ]
+        ];
+        
         return $rules;
     }
 }

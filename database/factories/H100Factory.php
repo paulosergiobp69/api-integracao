@@ -8,6 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(H100::class, function (Faker $faker) {
 
     return [
+        'H100_D009_Id' => $faker->word,
         'H100_T012_Id' => $faker->word,
         'H100_C007_Id' => $faker->word,
         'H100_Quantidade' => $faker->word,

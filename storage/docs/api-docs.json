@@ -459,8 +459,8 @@
                 "tags": [
                     "H100"
                 ],
-                "summary": "Obtenha uma lista de Ordem de Compra.",
-                "description": "Selecione todos registros",
+                "summary": "Obtenha uma lista das Ordens de Compras.",
+                "description": "Seleciona todas Ordens de Compras.",
                 "produces": [
                     "application/json"
                 ],
@@ -496,7 +496,7 @@
                 "tags": [
                     "H100"
                 ],
-                "summary": "Ordem de Compra criada.",
+                "summary": "Ordem de Compra Criada com Sucesso",
                 "description": "Ordem de Compra",
                 "produces": [
                     "application/json"
@@ -505,7 +505,7 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Ordem de Compra que deve ser gravada. ",
+                        "description": "Ordem de Compra que deve ser armazenada. ",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/H100"
@@ -543,8 +543,8 @@
                 "tags": [
                     "H100"
                 ],
-                "summary": "Exibir a Ordem de Compra especifica. ",
-                "description": "Get H100",
+                "summary": "Exibir a Ordem de Compra especificada. ",
+                "description": "Seleciona Ordem de Compra.",
                 "produces": [
                     "application/json"
                 ],
@@ -552,7 +552,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Ordem de Compra",
+                        "description": "Codigo da Ordem de Compra.",
                         "required": true,
                         "type": "integer"
                     }
@@ -586,8 +586,8 @@
                 "tags": [
                     "H100"
                 ],
-                "summary": "Atualize a Ordem de Compra.",
-                "description": "Atualize Ordem de Compra",
+                "summary": "Atualiza a Ordem de Compra selecionada.",
+                "description": "Atualiza a Ordem de Compra.",
                 "produces": [
                     "application/json"
                 ],
@@ -602,7 +602,7 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Ordem de Compra que deve ser atualizado ",
+                        "description": "Ordem de Compra que deve ser atualizada. ",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/H100"
@@ -639,7 +639,7 @@
                     "H100"
                 ],
                 "summary": "Exclui Ordem de Compra.",
-                "description": "Delete H100",
+                "description": "Exclui Ordem de Compra",
                 "produces": [
                     "application/json"
                 ],
@@ -683,8 +683,8 @@
                 "tags": [
                     "H100"
                 ],
-                "summary": "Exibir a Ordem de Compra Especificada com Itens. ",
-                "description": "Recupera Ordem de Compra e Itens",
+                "summary": "Listar Ordem de Compra e Itens.",
+                "description": "Entre com o Registro.",
                 "produces": [
                     "application/json"
                 ],
@@ -692,7 +692,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Ordem de Compra",
+                        "description": "Codigo da Ordem de Compra",
                         "required": true,
                         "type": "integer"
                     }
@@ -706,7 +706,59 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/H100"
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/H100/{D009_Id},{Status}/getSaldo": {
+            "get": {
+                "tags": [
+                    "H100"
+                ],
+                "summary": "Retornar Saldo De Item nas Ordem de Compra.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "D009_Id",
+                        "in": "path",
+                        "description": "Codigo do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Status",
+                        "in": "path",
+                        "description": "Status do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
                                 },
                                 "message": {
                                     "type": "string"
@@ -1245,12 +1297,18 @@
         },
         "H100": {
             "required": [
+                "H100_D009_Id",
                 "H100_T012_Id",
                 "H100_C007_Id"
             ],
             "properties": {
                 "H100_Id": {
                     "description": "H100_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "H100_D009_Id": {
+                    "description": "H100_D009_Id",
                     "type": "integer",
                     "format": "int32"
                 },

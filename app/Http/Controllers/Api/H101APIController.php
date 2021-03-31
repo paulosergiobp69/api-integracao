@@ -329,11 +329,22 @@ class H101APIController extends AppBaseController
      */
     public function H100($id)
     {
+        /*
+        $h101 = $this->h101Repository->find($id)->with('H100');
+
+        if (empty($h101)) {
+            return $this->sendError('Nota de entrada não encontrada.');
+        }
+
+        return $this->sendResponse($h101->toArray(), 'Registro recuperado com sucesso.');
+*/        
+
         if (!$data = $this->model->with('H100')->find($id)) {
             return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
         } else {
             return response()->json($data);
         }
+
     }     
 
 

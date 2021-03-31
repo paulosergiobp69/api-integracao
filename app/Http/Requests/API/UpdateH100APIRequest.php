@@ -25,6 +25,7 @@ class UpdateH100APIRequest extends APIRequest
     public function rules()
     {
         $rules = [
+            'H100_D009_Id' => 'integer',
             'H100_T012_Id' => 'integer',
             'H100_C007_Id' => 'integer',
             'H100_Quantidade' => 'nullable',
@@ -32,7 +33,7 @@ class UpdateH100APIRequest extends APIRequest
             'H100_Saldo' => 'nullable',
             'H100_Valor_Unitario' => 'nullable|numeric',
             'H100_Status' => 'nullable|string|max:1',
-            'H100_Data_Lancamento' => 'nullable'
+            'H100_Data_Lancamento' => 'nullable',
         ];
         
         return $rules;
