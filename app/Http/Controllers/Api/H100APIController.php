@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
 
+
 /**
  * Class H100Controller
  * @package App\Http\Controllers\API
@@ -38,6 +39,54 @@ class H100APIController extends AppBaseController
      *      tags={"H100"},
      *      description="Seleciona todas Ordens de Compras.",
      *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="limit",
+     *          description="Quantidade limite de exibição",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *          default="15"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="page",
+     *          description="Página a ser exibida",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *          default="1"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="order",
+     *          description="Ordenação do retorno",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="name"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="direction",
+     *          description="Direção da ordenação do retorno",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="ASC"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="fields",
+     *          description="Informe a seleção de campos que devem retornar da consulta separados por virgula",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="id, name, route, old_id"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="search",
+     *          description="Pesquise por qualquer campo, ao usar este campo as outras consultas serão desconsideradas",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="Busca"
+     *      ),
      *      @SWG\Response(
      *          response=200,
      *          description="Operação realizada com sucesso.",
@@ -219,6 +268,7 @@ class H100APIController extends AppBaseController
      */
     public function update($id, UpdateH100APIRequest $request)
     {
+        dd($request);
         $input = $request->all();
 
         /** @var H100 $h100 */
@@ -281,7 +331,7 @@ class H100APIController extends AppBaseController
             return $this->sendError('Ordem de Compra não Localizada.');
         }
 
-        $h100->delete();
+        $h100->forceDelete();
 
         return $this->sendSuccess('Ordem de Compra Excluida com Sucesso.');
     }
