@@ -63,6 +63,18 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 ## Engepeças Geração de Api
 
+Procedimento de Desenvolvimento API - Engepecas
+
+C:\xampp\htdocs>git clone https://github.com/paulosergiobp69/api-integracao.git
+ 
+C:\xampp\htdocs\api-integracao>composer install
+
+--> copiar arquivo .env  para a pasta instalada
+
+caso seja necessario reiniciar tabelas utilizar para carregar usuario:
+
+C:\code\api-integracao>php artisan db:seed
+
 1. C:\code\api-integracao>php artisan make:migration create_nome_tabel_table --create=tabela_desejada
 						  php artisan make:migration create_fornecedor_table --create=fornecedor
 
