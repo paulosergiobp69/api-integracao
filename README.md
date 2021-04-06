@@ -76,6 +76,7 @@ caso seja necessario reiniciar tabelas utilizar para carregar usuario:
 C:\code\api-integracao>php artisan db:seed
 
 1. C:\code\api-integracao>php artisan make:migration create_nome_tabel_table --create=tabela_desejada
+
 						  php artisan make:migration create_fornecedor_table --create=fornecedor
 
 ou
