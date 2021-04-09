@@ -268,7 +268,6 @@ class H100APIController extends AppBaseController
      */
     public function update($id, UpdateH100APIRequest $request)
     {
-        dd($request);
         $input = $request->all();
 
         /** @var H100 $h100 */

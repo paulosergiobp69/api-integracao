@@ -27,15 +27,15 @@ Route::get('me', 'Auth\AuthenticateController@getAuthenticatedUser');
 
 //Route::resource('telefones', 'Api\TelefoneApiController');
 
-Route::delete('H100/{id}','Api\H100APIController@destroy');
-Route::resource('H100', 'Api\H100APIController');  
+//Route::delete('H100/{id}','Api\H100APIController@destroy');
+//Route::resource('H100', 'Api\H100APIController');  
 
 
 
 //Route::group(['middleware' => ['apiJwt']], function () {
 //   Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 //    Route::group(['middleware' => ['api']], function () {
-/*
+
 Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
     //Rota de Documentos de Clientes
@@ -69,7 +69,9 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
 });
 
-*/
+
+
+
 
 
 
