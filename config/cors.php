@@ -23,7 +23,7 @@ return [
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['Content-Type', 'X-Requested-Width'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => false,
 
