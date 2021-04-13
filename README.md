@@ -71,8 +71,11 @@ C:\xampp\htdocs\api-integracao>composer install
 
 --> copiar arquivo .env  para a pasta instalada
 
-caso seja necessario reiniciar tabelas utilizar para carregar usuario:
+Criar as migrations iniciais de usuatios etc:
+C:\code\api-integracao>	php artisan  migrate (todos)
 
+
+caso seja necessario reiniciar tabelas utilizar para carregar usuario:
 C:\code\api-integracao>php artisan db:seed
 
 1. C:\code\api-integracao>php artisan make:migration create_nome_tabel_table --create=tabela_desejada

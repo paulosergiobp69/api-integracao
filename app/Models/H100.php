@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * @SWG\Definition(
  *      definition="H100",
@@ -74,6 +75,8 @@ class H100 extends Model
 {
     use SoftDeletes;
 
+    protected $connection = 'INTEGRACAO';
+
     public $table = 'H100';
     
     const CREATED_AT = 'created_at';
@@ -122,6 +125,7 @@ class H100 extends Model
      */
     public static $rules = [
     ];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

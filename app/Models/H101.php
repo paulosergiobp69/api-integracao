@@ -57,6 +57,8 @@ class H101 extends Model
 {
     use SoftDeletes;
 
+    protected $connection = 'INTEGRACAO';
+    
     public $table = 'H101';
     
     const CREATED_AT = 'created_at';
