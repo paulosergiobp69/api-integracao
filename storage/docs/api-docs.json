@@ -645,6 +645,377 @@
                     }
                 ]
             }
+        },
+        "/purchaseHistOrders": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Obtenha uma lista das Ordens de Compras.",
+                "description": "Seleciona todas Ordens de Compras.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "name"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, name, route, old_id"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/PurchaseHistOrders"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Ordem de Compra Criada com Sucesso",
+                "description": "Ordem de Compra",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Ordem de Compra que deve ser armazenada.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/PurchaseHistOrders"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/purchaseHistOrders/{id}": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Exibir a Ordem de Compra especificada.",
+                "description": "Seleciona Ordem de Compra.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo da Ordem de Compra.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Atualiza a Ordem de Compra selecionada.",
+                "description": "Atualiza a Ordem de Compra.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "C\u00f3digo da Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Ordem de Compra que deve ser atualizada.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/PurchaseHistOrders"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Exclui Ordem de Compra.",
+                "description": "Exclui Ordem de Compra",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo da Ordem de Compra.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/purchaseHistOrders/{id}/H101": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Listar Ordem de Compra e Itens.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo da Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/purchaseHistOrders/{D009_Id},{Status}/getSaldo": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Retornar Saldo De Item nas Ordem de Compra.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "D009_Id",
+                        "in": "path",
+                        "description": "Codigo do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Status",
+                        "in": "path",
+                        "description": "Status do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {
@@ -743,6 +1114,76 @@
                 },
                 "H101_Data_Lancamento": {
                     "description": "H101_Data_Lancamento",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "PurchaseHistOrders": {
+            "required": [
+                "HRD_T011_Id",
+                "HRD_T012_Id",
+                "HRD_T012_D009_Id",
+                "HRD_T011_C007_Id",
+                "HRD_T011_C004_Id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T011_Id": {
+                    "description": "HRD_T011_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T012_Id": {
+                    "description": "HRD_T012_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T012_D009_Id": {
+                    "description": "HRD_T012_D009_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T011_C007_Id": {
+                    "description": "HRD_T011_C007_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T011_C004_Id": {
+                    "description": "HRD_T011_C004_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T012_Quantidade": {
+                    "description": "HRD_T012_Quantidade",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_Quantidade_Pac": {
+                    "description": "HRD_Quantidade_Pac",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_Saldo": {
+                    "description": "HRD_Saldo",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T012_Valor_Custo_Unitario": {
+                    "description": "HRD_T012_Valor_Custo_Unitario",
+                    "type": "number",
+                    "format": "number"
+                },
+                "HRD_Status": {
+                    "description": "1 => CADASTRADO | 2 => ESTOQUE | 3 => VENDIDO | 4 => DEVOLVIDO | 5 => EXCLUIDO | 6 => TRANSFERIDO | 7 => PR\u00c9-VENDA",
+                    "type": "string"
+                },
+                "HRD_Data_Lancamento": {
+                    "description": "Data de geracao da oredem",
                     "type": "string",
                     "format": "date-time"
                 }

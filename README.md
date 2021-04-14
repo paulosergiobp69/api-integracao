@@ -90,7 +90,10 @@ ou
 	<gera migration>
 	php artisan  migrate (todos)
 
-	php artisan migrate --path="database/migrations/2020_11_04_111650_create_fornecedor_table.php"   (uma tabela)
+	C:\code\api-integracao>php artisan migrate --path="database/migrations/2020_11_04_111650_create_fornecedor_table.php"   (uma tabela)
+
+     para desfazer:
+     C:\code\api-integracao>php artisan migrate:rollback --path="database/migrations/2021_04_13_104308_create_purchase_hist_orders.php"   
 	
    
 2. C:\code\api-integracao>php artisan infyom:api Fornecedor --fromTable --tableName=fornecedor --primary=id 

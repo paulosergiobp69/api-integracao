@@ -45,8 +45,17 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::get('H101/{id}/H100', 'H101APIController@H100');
     Route::resource('H101', 'H101APIController');
 
+    Route::get('purchaseHistOrders/{id}/H101', 'H100APIController@H101');
+    Route::get('purchaseHistOrders/{D009_Id},{Status}/getSaldo', 'H100APIController@getSaldo');
+    Route::resource('purchaseHistOrders', 'PurchaseHistOrdersAPIController');    
 
 });
+
+
+
+
+
+
 
 
 
