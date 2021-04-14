@@ -96,7 +96,12 @@ ou
      C:\code\api-integracao>php artisan migrate:rollback --path="database/migrations/2021_04_13_104308_create_purchase_hist_orders.php"   
 	
    
-2. C:\code\api-integracao>php artisan infyom:api Fornecedor --fromTable --tableName=fornecedor --primary=id 
+2. C:\code\api-integracao>php artisan infyom:api PurchaseHistOrders  --fromTable --tableName=purchase_hist_orders  --primary=id 
+
+rollback
+php artisan infyom:rollback <classes> api
+C:\code\api-integracao>php artisan infyom:rollback PurchaseHistOrders api     
+
 
 3. MODEL:
 
