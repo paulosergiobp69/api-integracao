@@ -8,6 +8,7 @@
         </div>
     </nav> 
 </div>
+
 <div>
     <div class="container">
         <div>
@@ -23,19 +24,19 @@
                     <div class="card-body">
                         <div class="alert alert-info">Precisaremos da chave API <a href=""></a>.</strong></div> 
                         <div class="row providerSelector">
-                            <div class="col"><a href="http://192.168.10.126:8000/api/docs" target="_blank" class="d-flex flex-column justify-content-between providerOption active">
-                                <img src="{{ asset('images/digital-ocean.svg') }}"> <div class="text-center">Api de Integração</div></a>
+                            <div  id="bloco"><a href="http://192.168.10.126:8000/api/docs" target="_blank" class="d-flex flex-column justify-content-between providerOption active">
+                                <img src="{{ asset('images/laravel2.jpg') }}"> <div class="text-center">Api de Integração</div></a>
                             </div> 
-                            <div class="col"><a href="http://192.168.10.126:8080/" target="_blank" class="d-flex flex-column justify-content-between providerOption"><img src="{{ asset('images/vue-js.jpg') }}"> 
-                                <div class="text-center">Api de Consumo&nbsp;</div></a>
+                            <div   id="bloco"><a href="http://192.168.10.126:8080/" target="_blank" class="d-flex flex-column justify-content-between providerOption">
+                                <img src="{{ asset('images/vue3.jpg') }}"> <div class="text-center">Api de Consumo&nbsp;</div></a>
                             </div> 
-                            <div class="col"><a href="#" class="d-flex flex-column justify-content-between providerOption"><img src=""> 
+                            <div style="margin-top: 70px" class="col-sm-2 input-group><a href="#" class="d-flex flex-column justify-content-between providerOption"><img src=""> 
                                 <div class="text-center"> &nbsp;</div></a>
                             </div> 
-                            <div class="col"><a href="#" class="d-flex flex-column justify-content-between providerOption"><img src=""> 
+                            <div style="margin-top: 70px" class="col-sm-2 input-group><a href="#" class="d-flex flex-column justify-content-between providerOption"><img src=""> 
                                 <div class="text-center">&nbsp;</div></a>
                             </div> 
-                            <div class="col"><a href="#" class="d-flex flex-column justify-content-between providerOption"><img src="" class="w-100"> 
+                            <div style="margin-top: 70px" class="col-sm-2 input-group><a href="#" class="d-flex flex-column justify-content-between providerOption"><img src="" class="w-100"> 
                                 <div class="text-center"> &nbsp; </div></a>
                             </div>
                         </div> 
