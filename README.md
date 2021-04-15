@@ -100,6 +100,7 @@ ou
 
 rollback
 php artisan infyom:rollback <classes> api
+    
 C:\code\api-integracao>php artisan infyom:rollback PurchaseHistOrders api     
 
 
