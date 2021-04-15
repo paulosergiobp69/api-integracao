@@ -39,26 +39,8 @@ class CreatePurchaseHistOrders extends Migration
         });
 
         echo "Tabela Criada \n";
-       
-        $limit = 3000;
-
-        $count = DB::connection('E003')->table('T012')
-        ->leftJoin('T011', 'T011.T011_Id', 'T012.T012_T011_Id')
-        ->leftJoin('D009', 'D009.D009_Id', 'T012.T012_D009_Id')
-        ->leftJoin('C004', 'C004.C004_Id', 'T012.T012_C004_Id')
-        ->leftJoin('D049', 'D049.D049_Id', 'T012.T012_T011_Id')
-        ->whereIn('T012_C004_Id', [1,2,3,4,5,8,10,12,13,14])
-        ->whereRaw('ABS(T012_Quantidade_Pendente_2020(T012_Id)) > 0')
-        ->whereRaw('T011.T011_Data_Emissao >= date_sub(current_date(),interval 12 month)')
-        ->where('T012.T012_Flag_Cancelada', '!=','S')
-        ->where('T011.T011_Flag_Cancelada', '!=','S')->count();
-
-        echo "Count Executado: $count \n";
-        $count = ceil($count / $limit);
-        echo "Count Dividido em: $count \n";
-        
-        for ($i = 0; $i < $count; $i++) {                    
-            $results = DB::connection('E003')->table('T012')->select([
+               
+        $results = DB::connection('E003')->table('T012')->select([
                 'T011.T011_Id AS HRD_T011_Id',
                 'T012.T012_Id AS HRD_T012_Id',
                 'T011.T011_C004_Id AS HRD_T011_C004_Id',
@@ -79,14 +61,11 @@ class CreatePurchaseHistOrders extends Migration
             ->where('T012.T012_Flag_Cancelada', '!=','S')
             ->where('T011.T011_Flag_Cancelada', '!=','S')
             ->orderBy('T011.T011_Data_Emissao', 'desc')
-            ->limit($limit)
-            ->offset($limit * $i)
             ->get();
             
-            echo "       Select $i executado \n";
             
-            $data = [];
-            foreach ($results as $result) {
+        $data = [];
+        foreach ($results as $result) {
                 $data[] = [
                     'HRD_T011_Id' => $result->HRD_T011_Id,
                     'HRD_T012_Id' => $result->HRD_T012_Id,
@@ -102,33 +81,28 @@ class CreatePurchaseHistOrders extends Migration
                     'created_at' => date('Y-m-d H:i:s'),
                     'created_by' => 1
                 ];
-            }
+        }
 
-            $partialData = array_chunk($data, 1000, true);
-            foreach ($partialData as $value) {
-                try
-                {
-                    DB::table('purchase_hist_orders')->insert($value);
+        try
+        {
+            DB::table('purchase_hist_orders')->insert($data);
+
+/*                  A atualização foi bloqueada pois em simulação o tempo do processamento de 812.668 registros era de 1:15:00 com a atualização durante a carga de migration, 
+                    sem 00:07:00 , e a atualização via query 00:00:15, justificando a atualização posterior.
 
                     foreach($value as $registro){
                         DB::connection('E003')->table('T012')
-                                            ->where('T012_Id', $registro['HRD_T012_Id'])
                                             ->where('T012_T011_Id', $registro['HRD_T011_Id'])
-                                            ->where('T012_D009_Id', $registro['HRD_T012_D009_Id'])
-                                            ->where('T012_C004_ID', $registro['HRD_T011_C004_Id'])
+                                            ->where('T012_Id', $registro['HRD_T012_Id'])
                                             ->update(array('T012_Flag_Integrado' => 'S')); 
-                    }
-                }
-                catch(Exception $e)
-                {
-                    echo $e->getMessage();
-                }
-
-            }
-            
-            echo "       Insert $i executado \n";
+                    }*/
         }
-             
+        catch(Exception $e)
+        {
+            echo $e->getMessage();
+        }
+
+            
 
     }
 
