@@ -132,6 +132,15 @@ C:\code\api-integracao>php artisan infyom:rollback PurchaseHistOrders api
      *      produces={"application/json"},
 		 
 	
+7: routes
+     copia o caminho da api para dentro da estrutura de jwt
+     ajusta o nome da rota para o que esta no controler 
+
+     ex: 
+     De: purchase_hist_incoming_invoices
+     Para: purchaseHistIncomingInvoices
+
+
 ## Final Engepecas
 
 

@@ -646,6 +646,230 @@
                 ]
             }
         },
+        "/purchaseHistIncomingInvoices": {
+            "get": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Get a listing of the PurchaseHistIncomingInvoices.",
+                "description": "Get all PurchaseHistIncomingInvoices",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/PurchaseHistIncomingInvoice"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Store a newly created PurchaseHistIncomingInvoice in storage",
+                "description": "Store PurchaseHistIncomingInvoice",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "PurchaseHistIncomingInvoice that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/PurchaseHistIncomingInvoice"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistIncomingInvoice"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/purchaseHistIncomingInvoices/{id}": {
+            "get": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Display the specified PurchaseHistIncomingInvoice",
+                "description": "Get PurchaseHistIncomingInvoice",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of PurchaseHistIncomingInvoice",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistIncomingInvoice"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Update the specified PurchaseHistIncomingInvoice in storage",
+                "description": "Update PurchaseHistIncomingInvoice",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of PurchaseHistIncomingInvoice",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "PurchaseHistIncomingInvoice that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/PurchaseHistIncomingInvoice"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistIncomingInvoice"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Remove the specified PurchaseHistIncomingInvoice from storage",
+                "description": "Delete PurchaseHistIncomingInvoice",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of PurchaseHistIncomingInvoice",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
         "/purchaseHistOrders": {
             "get": {
                 "tags": [
@@ -1114,6 +1338,78 @@
                 },
                 "H101_Data_Lancamento": {
                     "description": "H101_Data_Lancamento",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "PurchaseHistIncomingInvoice": {
+            "required": [
+                "PHO_Id",
+                "HRD_T014_Id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "PHO_Id": {
+                    "description": "PHO_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_T014_Id": {
+                    "description": "HRD_T014_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_Quantidade": {
+                    "description": "HRD_Quantidade",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "HRD_Valor_Custo_Unitario": {
+                    "description": "HRD_Valor_Custo_Unitario",
+                    "type": "number",
+                    "format": "number"
+                },
+                "HRD_Flag_Cancelado": {
+                    "description": "S => SIM CANCELADA | N => NAO CANCELADA",
+                    "type": "string"
+                },
+                "HRD_Data_Lancamento": {
+                    "description": "Data de entrada nf compra",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_by": {
+                    "description": "created_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updated_by": {
+                    "description": "updated_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_by": {
+                    "description": "deleted_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
                     "type": "string",
                     "format": "date-time"
                 }
