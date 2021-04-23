@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use \App\Models\PurchaseHistIncomingInvoice;
 
 /**
  * @SWG\Definition(
@@ -151,5 +152,28 @@ class PurchaseHistOrders extends Model
     public static $rules = [
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function PurchaseHistIncomingInvoice()
+    {
+        return $this->hasMany(PurchaseHistIncomingInvoice::class,'PHO_Id','id');
+    }
     
+
+    public function getSaldoId($id, $Status)
+    {
+        $result = $this->model::where('id','=',$id)
+                              ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
+
+        return response()->json($result, 201);                              
+        //return response()->$result;
+
+    }    
+    
+    public function setHRD_StatusAttribute($value)
+    {
+        $this->attributes['HRD_Status'] = mb_strtoupper($value);
+    }    
+
 }

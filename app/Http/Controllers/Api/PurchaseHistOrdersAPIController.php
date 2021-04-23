@@ -19,10 +19,12 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 {
     /** @var  PurchaseHistOrdersRepository */
     private $purchaseHistOrdersRepository;
+    protected $model;
 
-    public function __construct(PurchaseHistOrdersRepository $purchaseHistOrdersRepo)
+    public function __construct(PurchaseHistOrdersRepository $purchaseHistOrdersRepo,  PurchaseHistOrders $doc)
     {
         $this->purchaseHistOrdersRepository = $purchaseHistOrdersRepo;
+        $this->model = $doc;
     }
 
     /**
@@ -36,6 +38,13 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *      tags={"PurchaseHistOrders"},
      *      description="Seleciona todas Ordens de Compras.",
      *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="HRD_T011_Id",
+     *          description="Ordem de Compra",
+     *          type="integer",
+     *          required=false,
+     *          in="query"
+     *      ),
      *      @SWG\Parameter(
      *          name="limit",
      *          description="Quantidade limite de exibição",
@@ -158,6 +167,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function store(CreatePurchaseHistOrdersAPIRequest $request)
     {
+
         $input = $request->all();
 
         $purchaseHistOrders = $this->purchaseHistOrdersRepository->create($input);
@@ -337,15 +347,15 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/purchaseHistOrders/{id}/H101",
+     *      path="/purchaseHistOrders/{HRD_T011_Id}/purchaseHistIncomingInvoices",
      *      summary="Listar Ordem de Compra e Itens.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"PurchaseHistOrders"},
      *      description="Entre com o Registro.",
      *      produces={"application/json"},
      *      @SWG\Parameter(
-     *          name="id",
-     *          description="Codigo da Ordem de Compra",
+     *          name="HRD_T011_Id",
+     *          description="Ordem de Compra",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -361,7 +371,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/H101"
+     *                  ref="#/definitions/PurchaseHistOrders"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -371,21 +381,25 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *      )
      * )
      */
-    public function H101($id)
+    public function purchaseHistIncomingInvoices($T011_Id)
     {
-        if (!$data = $this->model->with('H101')->find($id)) {
-            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
+        if (!$data = $this->model->with('purchaseHistIncomingInvoice')->where('HRD_T011_Id','=',$T011_Id)->get()) {
+//            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
+            return $this->sendError('Nenhum registro foi encontrado!');
         } else {
-            return response()->json($data);
+            //return response()->json($data);
+            return $this->sendResponse($data->toArray(), 'Item da Ordem de Compra Com Item das Notas Recebidas Recuperado(s) com Sucesso.');
+
         }
 
     }     
+
     /**
      * @param int $id
      * @return Response
      *
      * @SWG\Get(
-     *      path="/purchaseHistOrders/{D009_Id},{Status}/getSaldo",
+     *      path="/purchaseHistOrders/{D009_Id},{Status}/getSaldoTotal",
      *      summary="Retornar Saldo De Item nas Ordem de Compra.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"PurchaseHistOrders"},
@@ -416,7 +430,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/H101"
+     *                  ref="#/definitions/PurchaseHistOrders"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -426,13 +440,162 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *      )
      * )
      */
-    public function getSaldo($D009_Id, $status)
+    public function getSaldoTotal($D009_Id, $status)
     {
-        $result = $this->model::where('H100_Status','=', $status)
-                    ->where('H100_D009_Id','=',$D009_Id)
-                    ->sum('H100_Saldo');
+        $result = $this->model::where('HRD_Status','=', $status)
+                    ->where('HRD_T012_D009_Id','=',$D009_Id)
+                    ->sum('HRD_Saldo');
 
         return response()->json($result);
+    }     
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistOrders/{id},{Status}/getSaldoId",
+     *      summary="Retornar Saldo De Item nas Ordem de Compra.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistOrders"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="Id do Produto na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="Status",
+     *          description="Status do Produto na Ordem de Compra",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getSaldoId($id, $Status)
+    {
+        $result = $this->model::where('id','=',$id)
+                              ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
+
+        return $this->sendResponse($result->toArray(), 'Saldo do Item da Ordem de Compra Recuperado(s) com Sucesso.');
+//        return response()->json($result);
+//        return json_decode($result);
+
+    }     
+
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistOrders/{T012_Id},{T012_D009_Id},{T011_C004_Id},{T012_Valor_Custo_Unitario},{Status}/getId",
+     *      summary="Retornar Saldo De Item nas Ordem de Compra.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistOrders"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="T012_Id",
+     *          description="Id do Produto na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="T012_D009_Id",
+     *          description="Codigo do Produto na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="T011_C004_Id",
+     *          description="Codigo da Filial da Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="T012_Valor_Custo_Unitario",
+     *          description="Valor de Custo do Produto da Ordem de Compra",
+     *          type="number",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="Status",
+     *          description="Status do Produto na Ordem de Compra",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getId($T012_Id,$T012_D009_Id,$T011_C004_Id,$T012_Valor_Custo_Unitario,$Status)
+    {
+        $result = $this->model::where('HRD_T012_Id','=',$T012_Id)
+                              ->where('HRD_T012_D009_Id','=',$T012_D009_Id)
+                              ->where('HRD_T011_C004_Id','=',$T011_C004_Id)
+                              ->where('HRD_T012_Valor_Custo_Unitario','=',$T012_Valor_Custo_Unitario)
+                              ->where('HRD_Status','=',$Status)->get('id');
+
+//        return response()->json($result);
+
+        return $this->sendResponse($result->toArray(), 'Id do Item da Ordem de Compra Recuperado(s) com Sucesso.');
+    }     
+
+    public function putSaldo($id, $saldo)
+    {
+        $result = $this->model::where('id','=', $id)->update(['HRD_Saldo' => $saldo]);
+
+        if($result <= 0){
+            return $this->sendError('Houve Problemas Apenas No Processo de Atualização de Saldo de Ordem de Compra, este Não Foi Atualizado Verifique!');
+        }else{
+            return $this->sendResponse(array('Saldo' => $saldo), 'Ordem de Compra e Saldo Atualizado com Sucesso.');
+        }
     }     
 
 }

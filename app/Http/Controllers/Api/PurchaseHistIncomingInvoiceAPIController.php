@@ -4,10 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreatePurchaseHistIncomingInvoiceAPIRequest;
 use App\Http\Requests\API\UpdatePurchaseHistIncomingInvoiceAPIRequest;
+
+use App\Http\Controllers\API\PurchaseHistOrdersAPIController;
 use App\Models\PurchaseHistIncomingInvoice;
+use App\Models\PurchaseHistOrders;
 use App\Repositories\PurchaseHistIncomingInvoiceRepository;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+
 use Response;
 
 /**
@@ -19,10 +24,20 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
 {
     /** @var  PurchaseHistIncomingInvoiceRepository */
     private $purchaseHistIncomingInvoiceRepository;
+    protected $model;
+    protected $PurchaseHO;
+    protected $PurchaseHistOrdersAPICtrl;
 
-    public function __construct(PurchaseHistIncomingInvoiceRepository $purchaseHistIncomingInvoiceRepo)
+    public function __construct(PurchaseHistIncomingInvoiceRepository $purchaseHistIncomingInvoiceRepo, 
+                                PurchaseHistIncomingInvoice $doc,
+                                PurchaseHistOrders  $PurchaseHistOrders,
+                                PurchaseHistOrdersAPIController $PurchaseHistOrdersAPICtrl )
     {
         $this->purchaseHistIncomingInvoiceRepository = $purchaseHistIncomingInvoiceRepo;
+        $this->model = $doc;
+        $this->PurchaseHO = $PurchaseHistOrders;
+        $this->PurchaseHistOrdersAPICtrl = $PurchaseHistOrdersAPICtrl;
+
     }
 
     /**
@@ -36,6 +51,61 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *      tags={"PurchaseHistIncomingInvoice"},
      *      description="Get all PurchaseHistIncomingInvoices",
      *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="PHO_Id",
+     *          description="Ordem de Compra",
+     *          type="integer",
+     *          required=false,
+     *          in="query"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="limit",
+     *          description="Quantidade limite de exibição",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *          default="15"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="page",
+     *          description="Página a ser exibida",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *          default="1"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="order",
+     *          description="Ordenação do retorno",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="HRD_Quantidade"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="direction",
+     *          description="Direção da ordenação do retorno",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="DESC"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="fields",
+     *          description="Informe a seleção de campos que devem retornar da consulta separados por virgula",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="id, PHO_Id, HRD_T014_Id, HRD_Quantidade,HRD_Valor_Custo_Unitario,HRD_Flag_Cancelado,HRD_Data_Lancamento"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="search",
+     *          description="Pesquise por qualquer campo, ao usar este campo as outras consultas serão desconsideradas",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="Busca"
+     *      ),
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -66,7 +136,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse($purchaseHistIncomingInvoices->toArray(), 'Purchase Hist Incoming Invoices retrieved successfully');
+        return $this->sendResponse($purchaseHistIncomingInvoices->toArray(), 'Item de Nota Fiscal Recuperado(s) com Sucesso.');
     }
 
     /**
@@ -81,15 +151,22 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *      description="Store PurchaseHistIncomingInvoice",
      *      produces={"application/json"},
      *      @SWG\Parameter(
+     *          name="PHO_Id",
+     *          description="Ordem de Compra",
+     *          type="integer",
+     *          required=false,
+     *          in="query"
+     *      ),
+     *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="PurchaseHistIncomingInvoice that should be stored",
+     *          description="Item de Nota Fiscal que deve ser armazenado.",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/PurchaseHistIncomingInvoice")
      *      ),
      *      @SWG\Response(
      *          response=200,
-     *          description="successful operation",
+     *          description="Operação realizada com sucesso.",
      *          @SWG\Schema(
      *              type="object",
      *              @SWG\Property(
@@ -111,10 +188,26 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
     public function store(CreatePurchaseHistIncomingInvoiceAPIRequest $request)
     {
         $input = $request->all();
+        $id = $input['PHO_Id'];
 
+        $purchaseHoSaldo = $this->PurchaseHistOrdersAPICtrl->getSaldoId($id,'N');
+
+        $data = $purchaseHoSaldo->getData()->data;
+        $saldo = ($data[0]->HRD_Saldo - $input['HRD_Quantidade']);
+
+        if($saldo < 0){
+            return $this->sendError('Item de Nota Fiscal não Possui Mais Saldo Para Entrada.');
+        }
         $purchaseHistIncomingInvoice = $this->purchaseHistIncomingInvoiceRepository->create($input);
 
-        return $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Purchase Hist Incoming Invoice saved successfully');
+        $result = $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item de Nota Fiscal incluido com sucesso.');
+        
+        if($result->getData()->success == 1){
+            $result_update = $this->PurchaseHistOrdersAPICtrl->putSaldo($id, $saldo);
+        }
+
+        return $result_update;
+
     }
 
     /**
@@ -123,21 +216,21 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *
      * @SWG\Get(
      *      path="/purchaseHistIncomingInvoices/{id}",
-     *      summary="Display the specified PurchaseHistIncomingInvoice",
+     *      summary="Exibir a Item de Nota Fiscal especificado",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"PurchaseHistIncomingInvoice"},
-     *      description="Get PurchaseHistIncomingInvoice",
+     *      description="Seleciona Item de Nota Fiscal",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of PurchaseHistIncomingInvoice",
+     *          description="Codigo do Item de Nota Fiscal",
      *          type="integer",
      *          required=true,
      *          in="path"
      *      ),
      *      @SWG\Response(
      *          response=200,
-     *          description="successful operation",
+     *          description="Operação realizada com sucesso.",
      *          @SWG\Schema(
      *              type="object",
      *              @SWG\Property(
@@ -162,10 +255,10 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $purchaseHistIncomingInvoice = $this->purchaseHistIncomingInvoiceRepository->find($id);
 
         if (empty($purchaseHistIncomingInvoice)) {
-            return $this->sendError('Purchase Hist Incoming Invoice not found');
+            return $this->sendError('Item de Nota Fiscal não Localizado.');
         }
 
-        return $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Purchase Hist Incoming Invoice retrieved successfully');
+        return $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item de Nota Fiscal recuperado com sucesso.');
     }
 
     /**
@@ -175,14 +268,14 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *
      * @SWG\Put(
      *      path="/purchaseHistIncomingInvoices/{id}",
-     *      summary="Update the specified PurchaseHistIncomingInvoice in storage",
+     *      summary="Atualiza Item de Nota Fiscal Selecionado",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"PurchaseHistIncomingInvoice"},
-     *      description="Update PurchaseHistIncomingInvoice",
+     *      description="Atualiza Item de Nota Fiscal",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of PurchaseHistIncomingInvoice",
+     *          description="Codigo de Item de Nota Fiscal",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -190,13 +283,13 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="PurchaseHistIncomingInvoice that should be updated",
+     *          description="Item de Nota Fiscal que deve ser atualizado.",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/PurchaseHistIncomingInvoice")
      *      ),
      *      @SWG\Response(
      *          response=200,
-     *          description="successful operation",
+     *          description="Operação realizada com sucesso",
      *          @SWG\Schema(
      *              type="object",
      *              @SWG\Property(
@@ -223,12 +316,14 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $purchaseHistIncomingInvoice = $this->purchaseHistIncomingInvoiceRepository->find($id);
 
         if (empty($purchaseHistIncomingInvoice)) {
-            return $this->sendError('Purchase Hist Incoming Invoice not found');
+            return $this->sendError('Item de Nota Fiscal não localizado.');
         }
+
+        //$input['HRD_Flag_Cancelado'] = upper($input['HRD_Flag_Cancelado']);
 
         $purchaseHistIncomingInvoice = $this->purchaseHistIncomingInvoiceRepository->update($input, $id);
 
-        return $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'PurchaseHistIncomingInvoice updated successfully');
+        return $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item de Nota Fiscal Atualizado com Sucesso');
     }
 
     /**
@@ -237,21 +332,21 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *
      * @SWG\Delete(
      *      path="/purchaseHistIncomingInvoices/{id}",
-     *      summary="Remove the specified PurchaseHistIncomingInvoice from storage",
+     *      summary="Exclusao de Item de Nota Fiscal Especifico.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"PurchaseHistIncomingInvoice"},
      *      description="Delete PurchaseHistIncomingInvoice",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of PurchaseHistIncomingInvoice",
+     *          description="Codigo de Item de Nota Fiscal",
      *          type="integer",
      *          required=true,
      *          in="path"
      *      ),
      *      @SWG\Response(
      *          response=200,
-     *          description="successful operation",
+     *          description="Operação realizada com sucesso.",
      *          @SWG\Schema(
      *              type="object",
      *              @SWG\Property(
@@ -276,11 +371,62 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $purchaseHistIncomingInvoice = $this->purchaseHistIncomingInvoiceRepository->find($id);
 
         if (empty($purchaseHistIncomingInvoice)) {
-            return $this->sendError('Purchase Hist Incoming Invoice not found');
+            return $this->sendError(' Item de Nota Fiscal não Localizado.');
         }
 
         $purchaseHistIncomingInvoice->delete();
 
-        return $this->sendSuccess('Purchase Hist Incoming Invoice deleted successfully');
+        return $this->sendSuccess('Item de Nota Fiscal Excluida com Sucesso.');
     }
+
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistIncomingInvoices/{id}/purchaseHistOrders",
+     *      summary="Listar Itens com a Ordem de Compra Especifica. ",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistIncomingInvoice"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="Codigo da Nota de Entrada",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/H101"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function purchaseHistOrders($id)
+    {
+
+        if (!$data = $this->model->with('PurchaseHistOrder')->where('PHO_Id','=',$id)->get()) {
+            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
+        } else {
+            return response()->json($data);
+        }
+    }
+
 }

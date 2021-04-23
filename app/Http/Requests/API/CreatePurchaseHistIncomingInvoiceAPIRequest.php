@@ -4,6 +4,7 @@ namespace App\Http\Requests\API;
 
 use App\Models\PurchaseHistIncomingInvoice;
 use InfyOm\Generator\Request\APIRequest;
+use App\Rules\UpperCase;
 
 class CreatePurchaseHistIncomingInvoiceAPIRequest extends APIRequest
 {
@@ -29,9 +30,11 @@ class CreatePurchaseHistIncomingInvoiceAPIRequest extends APIRequest
             'HRD_T014_Id' => 'required|integer',
             'HRD_Quantidade' => 'nullable|integer',
             'HRD_Valor_Custo_Unitario' => 'nullable|numeric',
-            'HRD_Flag_Cancelado' => 'nullable|string|max:1',
+            'HRD_Flag_Cancelado' => ['nullable','string','max:1',new UpperCase],
             'HRD_Data_Lancamento' => 'nullable'
         ];
+//        'HRD_Flag_Cancelado' => ['nullable','string','max:1',new UpperCase],
+//          'HRD_Flag_Cancelado' => 'nullable|string|uppercase|max:1',
 
         return $rules;
     }

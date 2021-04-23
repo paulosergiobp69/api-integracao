@@ -656,6 +656,63 @@
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "name": "PHO_Id",
+                        "in": "query",
+                        "description": "Ordem de Compra",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "HRD_Quantidade"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "DESC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, PHO_Id, HRD_T014_Id, HRD_Quantidade,HRD_Valor_Custo_Unitario,HRD_Flag_Cancelado,HRD_Data_Lancamento"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -695,9 +752,16 @@
                 ],
                 "parameters": [
                     {
+                        "name": "PHO_Id",
+                        "in": "query",
+                        "description": "Ordem de Compra",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "body",
                         "in": "body",
-                        "description": "PurchaseHistIncomingInvoice that should be stored",
+                        "description": "Item de Nota Fiscal que deve ser armazenado.",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/PurchaseHistIncomingInvoice"
@@ -706,7 +770,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
                         "schema": {
                             "properties": {
                                 "success": {
@@ -735,8 +799,8 @@
                 "tags": [
                     "PurchaseHistIncomingInvoice"
                 ],
-                "summary": "Display the specified PurchaseHistIncomingInvoice",
-                "description": "Get PurchaseHistIncomingInvoice",
+                "summary": "Exibir a Item de Nota Fiscal especificado",
+                "description": "Seleciona Item de Nota Fiscal",
                 "produces": [
                     "application/json"
                 ],
@@ -744,14 +808,14 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of PurchaseHistIncomingInvoice",
+                        "description": "Codigo do Item de Nota Fiscal",
                         "required": true,
                         "type": "integer"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
                         "schema": {
                             "properties": {
                                 "success": {
@@ -778,8 +842,8 @@
                 "tags": [
                     "PurchaseHistIncomingInvoice"
                 ],
-                "summary": "Update the specified PurchaseHistIncomingInvoice in storage",
-                "description": "Update PurchaseHistIncomingInvoice",
+                "summary": "Atualiza Item de Nota Fiscal Selecionado",
+                "description": "Atualiza Item de Nota Fiscal",
                 "produces": [
                     "application/json"
                 ],
@@ -787,14 +851,14 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of PurchaseHistIncomingInvoice",
+                        "description": "Codigo de Item de Nota Fiscal",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "PurchaseHistIncomingInvoice that should be updated",
+                        "description": "Item de Nota Fiscal que deve ser atualizado.",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/PurchaseHistIncomingInvoice"
@@ -803,7 +867,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso",
                         "schema": {
                             "properties": {
                                 "success": {
@@ -830,7 +894,7 @@
                 "tags": [
                     "PurchaseHistIncomingInvoice"
                 ],
-                "summary": "Remove the specified PurchaseHistIncomingInvoice from storage",
+                "summary": "Exclusao de Item de Nota Fiscal Especifico.",
                 "description": "Delete PurchaseHistIncomingInvoice",
                 "produces": [
                     "application/json"
@@ -839,14 +903,14 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of PurchaseHistIncomingInvoice",
+                        "description": "Codigo de Item de Nota Fiscal",
                         "required": true,
                         "type": "integer"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
                         "schema": {
                             "properties": {
                                 "success": {
@@ -854,6 +918,51 @@
                                 },
                                 "data": {
                                     "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/purchaseHistIncomingInvoices/{id}/purchaseHistOrders": {
+            "get": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Listar Itens com a Ordem de Compra Especifica. ",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Codigo da Nota de Entrada",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
                                 },
                                 "message": {
                                     "type": "string"
@@ -881,6 +990,13 @@
                     "application/json"
                 ],
                 "parameters": [
+                    {
+                        "name": "HRD_T011_Id",
+                        "in": "query",
+                        "description": "Ordem de Compra",
+                        "required": false,
+                        "type": "integer"
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -1144,7 +1260,7 @@
                 ]
             }
         },
-        "/purchaseHistOrders/{id}/H101": {
+        "/purchaseHistOrders/{HRD_T011_Id}/purchaseHistIncomingInvoices": {
             "get": {
                 "tags": [
                     "PurchaseHistOrders"
@@ -1156,9 +1272,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "HRD_T011_Id",
                         "in": "path",
-                        "description": "Codigo da Ordem de Compra",
+                        "description": "Ordem de Compra",
                         "required": true,
                         "type": "integer"
                     }
@@ -1172,7 +1288,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/H101"
+                                    "$ref": "#/definitions/PurchaseHistOrders"
                                 },
                                 "message": {
                                     "type": "string"
@@ -1189,7 +1305,7 @@
                 ]
             }
         },
-        "/purchaseHistOrders/{D009_Id},{Status}/getSaldo": {
+        "/purchaseHistOrders/{D009_Id},{Status}/getSaldoTotal": {
             "get": {
                 "tags": [
                     "PurchaseHistOrders"
@@ -1224,7 +1340,132 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/H101"
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/purchaseHistOrders/{id},{Status}/getSaldoId": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Retornar Saldo De Item nas Ordem de Compra.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Status",
+                        "in": "path",
+                        "description": "Status do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/purchaseHistOrders/{T012_Id},{T012_D009_Id},{T011_C004_Id},{T012_Valor_Custo_Unitario},{Status}/getId": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Retornar Saldo De Item nas Ordem de Compra.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "T012_Id",
+                        "in": "path",
+                        "description": "Id do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "T012_D009_Id",
+                        "in": "path",
+                        "description": "Codigo do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "T011_C004_Id",
+                        "in": "path",
+                        "description": "Codigo da Filial da Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "T012_Valor_Custo_Unitario",
+                        "in": "path",
+                        "description": "Valor de Custo do Produto da Ordem de Compra",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "Status",
+                        "in": "path",
+                        "description": "Status do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
                                 },
                                 "message": {
                                     "type": "string"

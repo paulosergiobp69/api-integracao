@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use \App\Models\PurchaseHistOrders;
 
 /**
  * @SWG\Definition(
@@ -153,8 +154,21 @@ class PurchaseHistIncomingInvoice extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function pho()
+    public function PurchaseHistOrder()
     {
-        return $this->belongsTo(\App\Models\PurchaseHistOrder::class, 'PHO_Id');
+        return $this->belongsTo(PurchaseHistOrders::class,'PHO_Id', 'id');
     }
+
+    public function setHRD_Flag_Cancelado($value)
+    {
+        //$this->attributes['HRD_Flag_Cancelado'] = strtoupper(trim($value));
+        return strtoupper($value);
+    }      
+
+    public function getHRD_Flag_Cancelado($value)
+    {
+        //$this->attributes['HRD_Flag_Cancelado'] = strtoupper(trim($value));
+        return strtoupper($value);
+    }      
+
 }
