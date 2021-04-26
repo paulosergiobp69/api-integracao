@@ -23,6 +23,11 @@ Route::post('login', 'Auth\AuthenticateController@authenticate');
 Route::post('login-refresh', 'Auth\AuthenticateController@refreshToken');
 Route::get('me', 'Auth\AuthenticateController@getAuthenticatedUser');
 
+//Route::resource('purchaseHistOrders', 'PurchaseHistOrdersAPIController');    
+
+
+//Route::resource('purchaseHistIncomingInvoices', 'PurchaseHistIncomingInvoiceAPIController');
+
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
@@ -32,6 +37,10 @@ Route::get('me', 'Auth\AuthenticateController@getAuthenticatedUser');
 //Route::group(['middleware' => ['apiJwt']], function () {
 //   Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 //    Route::group(['middleware' => ['api']], function () {
+
+
+
+
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
