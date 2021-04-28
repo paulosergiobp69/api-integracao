@@ -33,8 +33,6 @@ class CreatePurchaseHistIncomingInvoiceAPIRequest extends APIRequest
             'HRD_Flag_Cancelado' => ['nullable','string','max:1',new UpperCase],
             'HRD_Data_Lancamento' => 'nullable'
         ];
-//        'HRD_Flag_Cancelado' => ['nullable','string','max:1',new UpperCase],
-//          'HRD_Flag_Cancelado' => 'nullable|string|uppercase|max:1',
 
         return $rules;
     }

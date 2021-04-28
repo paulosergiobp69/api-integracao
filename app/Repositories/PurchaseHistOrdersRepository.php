@@ -17,6 +17,7 @@ class PurchaseHistOrdersRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
+        'id',
         'HRD_T011_Id',
         'HRD_T012_Id',
         'HRD_T012_D009_Id',
@@ -47,4 +48,29 @@ class PurchaseHistOrdersRepository extends BaseRepository
     {
         return PurchaseHistOrders::class;
     }
+
+    /**
+     * Add a basic where clause to the query.
+     *
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|Model
+     */
+    public function advancedSearch($request)
+    {
+        $input = $request->get('search');
+        $baseModel = $this->model->newQuery();
+//        if ($request->exists('fields')) {
+//            $baseModel->select($this->mountFieldsToSelect($request));
+//        }
+        foreach ($this->fieldSearchable as $colum) {
+            $type = $this->model()::getFieldType($colum);
+       //     if ($type && $type == 'string') {
+       //         $baseModel->orWhere($colum, 'ilike', '%' . $input . '%');
+       //     }
+        }
+
+        return $baseModel;
+    }
+
+
 }

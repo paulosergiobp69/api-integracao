@@ -53,11 +53,11 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::resource('H101', 'H101APIController');
 
     Route::get('purchaseHistOrders/{id}/purchaseHistIncomingInvoices', 'PurchaseHistOrdersAPIController@purchaseHistIncomingInvoices');
-    Route::get('purchaseHistOrders/{id},{Status}/getSaldoId', 'PurchaseHistOrdersAPIController@getSaldoId');
     Route::get('purchaseHistOrders/{D009_Id},{Status}/getSaldoTotal', 'PurchaseHistOrdersAPIController@getSaldoTotal');
     Route::get('purchaseHistOrders/{T012_Id},{T012_D009_Id},{T011_C004_Id},{T012_Valor_Custo_Unitario},{Status}/getId', 'PurchaseHistOrdersAPIController@getId');
     Route::resource('purchaseHistOrders', 'PurchaseHistOrdersAPIController');    
 
+    Route::get('purchaseHistIncomingInvoices/{id},{Status}/getSaldoId', 'PurchaseHistIncomingInvoiceAPIController@getSaldoId');
     Route::get('purchaseHistIncomingInvoices/{id}/purchaseHistOrders', 'PurchaseHistIncomingInvoiceAPIController@purchaseHistOrders');
     Route::resource('purchaseHistIncomingInvoices', 'PurchaseHistIncomingInvoiceAPIController');
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreatePurchaseHistIncomingInvoiceAPIRequest;
 use App\Http\Requests\API\UpdatePurchaseHistIncomingInvoiceAPIRequest;
 
-use App\Http\Controllers\API\PurchaseHistOrdersAPIController;
 use App\Models\PurchaseHistIncomingInvoice;
 use App\Models\PurchaseHistOrders;
 use App\Repositories\PurchaseHistIncomingInvoiceRepository;
@@ -30,13 +29,11 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
 
     public function __construct(PurchaseHistIncomingInvoiceRepository $purchaseHistIncomingInvoiceRepo, 
                                 PurchaseHistIncomingInvoice $doc,
-                                PurchaseHistOrders  $PurchaseHistOrders,
-                                PurchaseHistOrdersAPIController $PurchaseHistOrdersAPICtrl )
+                                PurchaseHistOrders  $PurchaseHistOrders)
     {
         $this->purchaseHistIncomingInvoiceRepository = $purchaseHistIncomingInvoiceRepo;
         $this->model = $doc;
         $this->PurchaseHO = $PurchaseHistOrders;
-        $this->PurchaseHistOrdersAPICtrl = $PurchaseHistOrdersAPICtrl;
 
     }
 
@@ -190,7 +187,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $input = $request->all();
         $id = $input['PHO_Id'];
 
-        $purchaseHoSaldo = $this->PurchaseHistOrdersAPICtrl->getSaldoId($id,'N');
+        $purchaseHoSaldo = $this->getSaldoId($id,'N');
 
         $data = $purchaseHoSaldo->getData()->data;
         $saldo = ($data[0]->HRD_Saldo - $input['HRD_Quantidade']);
@@ -203,7 +200,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $result = $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item de Nota Fiscal incluido com sucesso.');
         
         if($result->getData()->success == 1){
-            $result_update = $this->PurchaseHistOrdersAPICtrl->putSaldo($id, $saldo);
+            $result_update = $this->putSaldo($id, $saldo);
         }
 
         return $result_update;
@@ -428,5 +425,75 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
             return response()->json($data);
         }
     }
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistIncomingInvoices/{id},{Status}/getSaldoId",
+     *      summary="Retornar Saldo De Item nas Ordem de Compra.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"purchaseHistIncomingInvoices"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="Id do Produto na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="Status",
+     *          description="Status do Produto na Ordem de Compra",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getSaldoId($id, $Status)
+    {
+        $result = $this->PurchaseHO::where('id','=',$id)
+                              ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
+
+        return $this->sendResponse($result->toArray(), 'Saldo do Item da Ordem de Compra Recuperado(s) com Sucesso.');
+//        return response()->json($result);
+//        return json_decode($result);
+
+    }     
+
+
+    public function putSaldo($id, $saldo)
+    {
+        $result = $this->PurchaseHO::where('id','=', $id)->update(['HRD_Saldo' => $saldo]);
+
+        if($result <= 0){
+            return $this->sendError('Houve Problemas Apenas No Processo de Atualização de Saldo de Ordem de Compra, este Não Foi Atualizado Verifique!');
+        }else{
+            return $this->sendResponse(array('Saldo' => $saldo), 'Ordem de Compra e Saldo Atualizado com Sucesso.');
+        }
+    }     
+
 
 }

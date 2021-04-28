@@ -144,6 +144,31 @@ class PurchaseHistOrders extends Model
         'updated_at'
     ];
 
+
+/**
+     * The attributes that should be casted to native types for automated search.
+     *
+     * @var array
+     */
+    public static $searchCasts = [
+        'id' => 'integer',
+        'HRD_T011_Id' => 'integer',
+        'HRD_T012_Id' => 'integer',
+        'HRD_T012_D009_Id' => 'integer',
+        'HRD_T011_C007_Id' => 'integer',
+        'HRD_T011_C004_Id' => 'integer',
+        'HRD_T012_Quantidade' => 'integer',
+        'HRD_Quantidade_Pac' => 'integer',
+        'HRD_Saldo' => 'integer',
+        'HRD_T012_Valor_Custo_Unitario' => 'decimal:2',
+        'HRD_Status' => 'string',
+        'HRD_Data_Lancamento' => 'datetime',
+        'created_by' => 'integer',
+        'updated_by' => 'integer',
+        'deleted_by' => 'integer'
+    ];
+
+
     /**
      * Validation rules
      *
@@ -151,6 +176,14 @@ class PurchaseHistOrders extends Model
      */
     public static $rules = [
     ];
+
+
+    public static function getFieldType($field)
+    {
+        return isset(static::$searchCasts[$field])? static::$searchCasts[$field] : false;
+    }
+
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

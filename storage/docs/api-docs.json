@@ -979,6 +979,58 @@
                 ]
             }
         },
+        "/purchaseHistIncomingInvoices/{id},{Status}/getSaldoId": {
+            "get": {
+                "tags": [
+                    "purchaseHistIncomingInvoices"
+                ],
+                "summary": "Retornar Saldo De Item nas Ordem de Compra.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Status",
+                        "in": "path",
+                        "description": "Status do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
         "/purchaseHistOrders": {
             "get": {
                 "tags": [
@@ -994,6 +1046,20 @@
                         "name": "HRD_T011_Id",
                         "in": "query",
                         "description": "Ordem de Compra",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "HRD_T012_Id",
+                        "in": "query",
+                        "description": "Id Nota Fiscal",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "HRD_T012_D009_Id",
+                        "in": "query",
+                        "description": "Id Produto",
                         "required": false,
                         "type": "integer"
                     },
@@ -1035,7 +1101,7 @@
                         "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
                         "required": false,
                         "type": "string",
-                        "default": "id, name, route, old_id"
+                        "default": "id, HRD_T011_Id, HRD_T012_Id, HRD_T012_D009_Id,HRD_T011_C007_Id,HRD_T011_C004_Id,HRD_T012_Quantidade,HRD_Quantidade_Pac,HRD_Saldo,HRD_T012_Valor_Custo_Unitario,HRD_Status,HRD_Data_Lancamento"
                     },
                     {
                         "name": "search",
@@ -1320,58 +1386,6 @@
                         "name": "D009_Id",
                         "in": "path",
                         "description": "Codigo do Produto na Ordem de Compra",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "Status",
-                        "in": "path",
-                        "description": "Status do Produto na Ordem de Compra",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/PurchaseHistOrders"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            }
-        },
-        "/purchaseHistOrders/{id},{Status}/getSaldoId": {
-            "get": {
-                "tags": [
-                    "PurchaseHistOrders"
-                ],
-                "summary": "Retornar Saldo De Item nas Ordem de Compra.",
-                "description": "Entre com o Registro.",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id do Produto na Ordem de Compra",
                         "required": true,
                         "type": "integer"
                     },

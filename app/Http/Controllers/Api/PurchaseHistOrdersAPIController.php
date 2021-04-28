@@ -46,6 +46,20 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *          in="query"
      *      ),
      *      @SWG\Parameter(
+     *          name="HRD_T012_Id",
+     *          description="Id Nota Fiscal",
+     *          type="integer",
+     *          required=false,
+     *          in="query"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="HRD_T012_D009_Id",
+     *          description="Id Produto",
+     *          type="integer",
+     *          required=false,
+     *          in="query"
+     *      ),
+     *      @SWG\Parameter(
      *          name="limit",
      *          description="Quantidade limite de exibição",
      *          type="integer",
@@ -83,7 +97,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *          type="string",
      *          required=false,
      *          in="query",
-     *          default="id, name, route, old_id"
+     *          default="id, HRD_T011_Id, HRD_T012_Id, HRD_T012_D009_Id,HRD_T011_C007_Id,HRD_T011_C004_Id,HRD_T012_Quantidade,HRD_Quantidade_Pac,HRD_Saldo,HRD_T012_Valor_Custo_Unitario,HRD_Status,HRD_Data_Lancamento"
      *      ),
      *      @SWG\Parameter(
      *          name="search",
@@ -117,12 +131,25 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+           /*
         $purchaseHistOrders = $this->purchaseHistOrdersRepository->all(
-            $request->except(['skip', 'limit']),
+            $request->except(['skip', 'limit', 'order']),
             $request->get('skip'),
             $request->get('limit')
         );
-
+        */
+        
+        if ($request->exists('search')) {
+            $purchaseHistOrders = $this->purchaseHistOrdersRepository
+                ->advancedSearch($request)
+                ->orderByRaw(($request->get('order') ?? 'id') . ' ' . ($request->get('direction') ?? 'DESC'))
+                ->paginate($request->get('limit'));
+        } else {
+            $purchaseHistOrders = $this->purchaseHistOrdersRepository
+            ->orderByRaw(($request->get('order') ?? 'id') . ' ' . ($request->get('direction') ?? 'DESC'))
+            ->paginate($request->get('limit'));
+        }
+        
         return $this->sendResponse($purchaseHistOrders->toArray(), 'Ordens de Compra recuperadas com sucesso.');
     }
 
@@ -449,62 +476,6 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         return response()->json($result);
     }     
 
-    /**
-     * @param int $id
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/purchaseHistOrders/{id},{Status}/getSaldoId",
-     *      summary="Retornar Saldo De Item nas Ordem de Compra.",
-     *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"PurchaseHistOrders"},
-     *      description="Entre com o Registro.",
-     *      produces={"application/json"},
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="Id do Produto na Ordem de Compra",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="Status",
-     *          description="Status do Produto na Ordem de Compra",
-     *          type="string",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Response(
-     *          response=200,
-     *          description="Operação realizada com sucesso.",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/PurchaseHistOrders"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-    public function getSaldoId($id, $Status)
-    {
-        $result = $this->model::where('id','=',$id)
-                              ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
-
-        return $this->sendResponse($result->toArray(), 'Saldo do Item da Ordem de Compra Recuperado(s) com Sucesso.');
-//        return response()->json($result);
-//        return json_decode($result);
-
-    }     
 
 
     /**
@@ -587,15 +558,5 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         return $this->sendResponse($result->toArray(), 'Id do Item da Ordem de Compra Recuperado(s) com Sucesso.');
     }     
 
-    public function putSaldo($id, $saldo)
-    {
-        $result = $this->model::where('id','=', $id)->update(['HRD_Saldo' => $saldo]);
-
-        if($result <= 0){
-            return $this->sendError('Houve Problemas Apenas No Processo de Atualização de Saldo de Ordem de Compra, este Não Foi Atualizado Verifique!');
-        }else{
-            return $this->sendResponse(array('Saldo' => $saldo), 'Ordem de Compra e Saldo Atualizado com Sucesso.');
-        }
-    }     
 
 }
