@@ -605,7 +605,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function getSaldoT012Id($HRD_T012_Id, $Status)
     {
-        $result = $this->PurchaseHO::where('HRD_T012_Id','=',$HRD_T012_Id)
+        $result = $this->model::where('HRD_T012_Id','=',$HRD_T012_Id)
                               ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
 
         return $this->sendResponse($result->toArray(), 'Saldo do Item da Ordem de Compra Recuperado(s) com Sucesso.');
