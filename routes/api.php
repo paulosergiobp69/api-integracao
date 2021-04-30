@@ -55,9 +55,9 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::get('purchaseHistOrders/{id}/purchaseHistIncomingInvoices', 'PurchaseHistOrdersAPIController@purchaseHistIncomingInvoices');
     Route::get('purchaseHistOrders/{D009_Id},{Status}/getSaldoTotal', 'PurchaseHistOrdersAPIController@getSaldoTotal');
     Route::get('purchaseHistOrders/{T012_Id},{T012_D009_Id},{T011_C004_Id},{T012_Valor_Custo_Unitario},{Status}/getId', 'PurchaseHistOrdersAPIController@getId');
+    Route::get('purchaseHistOrders/{T012_Id},{Status}/getSaldoT012Id', 'PurchaseHistOrdersAPIController@getSaldoT012Id');
     Route::resource('purchaseHistOrders', 'PurchaseHistOrdersAPIController');    
 
-    Route::get('purchaseHistIncomingInvoices/{T012_Id},{Status}/getSaldoT012Id', 'PurchaseHistIncomingInvoiceAPIController@getSaldoT012Id');
     Route::get('purchaseHistIncomingInvoices/{id},{Status}/getSaldoId', 'PurchaseHistIncomingInvoiceAPIController@getSaldoId');
     Route::get('purchaseHistIncomingInvoices/{id}/purchaseHistOrders', 'PurchaseHistIncomingInvoiceAPIController@purchaseHistOrders');
     Route::resource('purchaseHistIncomingInvoices', 'PurchaseHistIncomingInvoiceAPIController');
