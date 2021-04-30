@@ -434,7 +434,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *      path="/purchaseHistIncomingInvoices/{id},{Status}/getSaldoId",
      *      summary="Retornar Saldo De Item nas Ordem de Compra.",
      *      security={{ "EngepecasAuth": {} }},  
-     *      tags={"purchaseHistIncomingInvoices"},
+     *      tags={"PurchaseHistIncomingInvoice"},
      *      description="Entre com o Registro.",
      *      produces={"application/json"},
      *      @SWG\Parameter(

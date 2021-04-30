@@ -81,7 +81,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *          type="string",
      *          required=false,
      *          in="query",
-     *          default="name"
+     *          default="id"
      *      ),
      *      @SWG\Parameter(
      *          name="direction",
@@ -484,7 +484,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *
      * @SWG\Get(
      *      path="/purchaseHistOrders/{T012_Id},{T012_D009_Id},{T011_C004_Id},{T012_Valor_Custo_Unitario},{Status}/getId",
-     *      summary="Retornar Saldo De Item nas Ordem de Compra.",
+     *      summary="Retornar Saldo De Item nas Ordens de Compra.",
      *      security={{ "EngepecasAuth": {} }},  
      *      tags={"PurchaseHistOrders"},
      *      description="Entre com o Registro.",
@@ -514,7 +514,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *          name="T012_Valor_Custo_Unitario",
      *          description="Valor de Custo do Produto da Ordem de Compra",
      *          type="number",
-     *          required=true,
+     *          required=false,
      *          in="path"
      *      ),
      *      @SWG\Parameter(
@@ -553,9 +553,65 @@ class PurchaseHistOrdersAPIController extends AppBaseController
                               ->where('HRD_T012_Valor_Custo_Unitario','=',$T012_Valor_Custo_Unitario)
                               ->where('HRD_Status','=',$Status)->get('id');
 
-//        return response()->json($result);
-
         return $this->sendResponse($result->toArray(), 'Id do Item da Ordem de Compra Recuperado(s) com Sucesso.');
+    }     
+
+
+    /**
+     * @param int $T012_Id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistOrders/{T012_Id},{Status}/getSaldoT012Id",
+     *      summary="Retornar Saldo Do Item na Ordem de Compra Especifica.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistOrders"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="T012_Id",
+     *          description="Id da Tupla do Produto na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="Status",
+     *          description="Status do Produto na Ordem de Compra",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getSaldoT012Id($HRD_T012_Id, $Status)
+    {
+        $result = $this->PurchaseHO::where('HRD_T012_Id','=',$HRD_T012_Id)
+                              ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
+
+        return $this->sendResponse($result->toArray(), 'Saldo do Item da Ordem de Compra Recuperado(s) com Sucesso.');
+//        return response()->json($result);
+//        return json_decode($result);
+
     }     
 
 
