@@ -1547,6 +1547,58 @@
                     }
                 ]
             }
+        },
+        "/purchaseHistOrders/{T012_Id},{status}/getpurchaseHistOrdersItens": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Listar Itens com a Ordem de Compra Especifica. ",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "T012_Id",
+                        "in": "path",
+                        "description": "Codigo do Item da Nota de Entrada",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "Status da Nota de Entrada",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/H101"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {

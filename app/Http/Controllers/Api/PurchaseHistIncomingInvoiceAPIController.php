@@ -426,6 +426,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         }
     }
 
+
     /**
      * @param int $id
      * @return Response

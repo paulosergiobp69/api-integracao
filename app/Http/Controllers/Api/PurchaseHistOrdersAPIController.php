@@ -614,5 +614,63 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
     }     
 
+    /**
+     * @param int $T012_Id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistOrders/{T012_Id},{status}/getpurchaseHistOrdersItens",
+     *      summary="Listar Itens com a Ordem de Compra Especifica. ",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistOrders"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="T012_Id",
+     *          description="Codigo do Item da Nota de Entrada",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="status",
+     *          description="Status da Nota de Entrada",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/H101"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getpurchaseHistOrdersItens($T012_Id,$Status)
+    {
+
+        if (!$data = $this->model->with('purchaseHistIncomingInvoice')->where('HRD_T012_Id','=',$T012_Id)
+                                                                      ->where('HRD_Status','=',$Status)->get()) {
+            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
+        } else {
+            return response()->json($data);
+        }
+    }
+
+
 
 }
