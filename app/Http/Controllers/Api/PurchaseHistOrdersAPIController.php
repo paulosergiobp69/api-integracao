@@ -662,9 +662,11 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function getpurchaseHistOrdersItens($T012_Id,$Status)
     {
-
-        if (!$data = $this->model->with('purchaseHistIncomingInvoice')->where('HRD_T012_Id','=',$T012_Id)
-                                                                      ->where('HRD_Status','=',$Status)->get()) {
+        if (!$data = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
+                                            $query->orderBy('HRD_T014_Id');}])
+                                 ->where('HRD_T012_Id','=',$T012_Id)
+                                 ->where('HRD_Status','=',$Status)
+                                 ->get()) {
             return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
         } else {
             return response()->json($data);
