@@ -138,8 +138,8 @@ class PurchaseHistOrders extends Model
     protected $hidden = [
         'created_by',
         'updated_by',
-        'deleted_by',
-        'deleted_at',
+//        'deleted_by',
+//        'deleted_at',
         'created_at',
         'updated_at'
     ];
