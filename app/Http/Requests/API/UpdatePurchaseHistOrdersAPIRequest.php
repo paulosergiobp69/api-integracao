@@ -35,7 +35,9 @@ class UpdatePurchaseHistOrdersAPIRequest extends APIRequest
             'HRD_Saldo' => 'nullable|integer',
             'HRD_T012_Valor_Custo_Unitario' => 'nullable|numeric',
             'HRD_Status' => 'nullable|string|max:255',
-            'HRD_Data_Lancamento' => 'nullable'
+            'HRD_Data_Lancamento' => 'nullable',
+            'deleted_by' => 'integer',
+            'deleted_at' => 'nullable'
         ];
         
         return $rules;
