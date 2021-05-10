@@ -11,7 +11,7 @@ use App\Repositories\PurchaseHistIncomingInvoiceRepository;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
-
+use Monolog\Handler\IFTTTHandler;
 use Response;
 
 /**
@@ -186,11 +186,17 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
     {
         $input = $request->all();
         $id = $input['PHO_Id'];
+        $FlagCancelado = $input['HRD_Flag_Cancelado'];
 
         $purchaseHoSaldo = $this->getSaldoId($id,'N');
 
         $data = $purchaseHoSaldo->getData()->data;
-        $saldo = ($data[0]->HRD_Saldo - $input['HRD_Quantidade']);
+
+        if($FlagCancelado == 'N'){
+            $saldo = ($data[0]->HRD_Saldo - $input['HRD_Quantidade']);
+        }else{
+            $saldo = ($data[0]->HRD_Saldo + $input['HRD_Quantidade']);
+        }
 
         if($saldo < 0){
             return $this->sendError('Item de Nota Fiscal não Possui Mais Saldo Para Entrada.');
