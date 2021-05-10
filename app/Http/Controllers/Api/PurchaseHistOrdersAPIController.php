@@ -675,6 +675,4 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         }
     }
 
-
-
 }

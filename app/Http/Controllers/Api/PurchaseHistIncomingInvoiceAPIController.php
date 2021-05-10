@@ -496,5 +496,76 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         }
     }     
 
+    /**
+     * @param int $PHO_Id
+     * @param int $HRD_T014_Id
+     * @param string $HRD_Flag_Cancelado
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistIncomingInvoices/{PHO_Id},{HRD_T014_Id},{HRD_Flag_Cancelado}/getphiiCancel",
+     *      summary="Listar Ordem de Compra e Itens Cancelados.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistIncomingInvoice"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="PHO_Id",
+     *          description="Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="HRD_T014_Id",
+     *          description="Id Nota Fiscal da Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="HRD_Flag_Cancelado",
+     *          description="Status Item Nota Fiscal da Ordem de Compra",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getphiiCancel($PHO_Id, $HRD_T014_Id, $HRD_Flag_Cancelado)
+    {
+        if (!$data = $this->model->where('PHO_Id','=',$PHO_Id)
+                                 ->where('HRD_T014_Id','=',$HRD_T014_Id)
+                                 ->where('HRD_Flag_Cancelado','=',$HRD_Flag_Cancelado)
+                                 ->get()) {
+//            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
+            return $this->sendError('Nenhum registro foi encontrado!');
+        } else {
+            //return response()->json($data);
+            return $this->sendResponse($data->toArray(), 'Item da Ordem de Compra Com Item das Notas Recebidas Recuperado(s) com Sucesso.');
+
+        }
+
+    }     
+
 
 }

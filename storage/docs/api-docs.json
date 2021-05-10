@@ -1031,6 +1031,65 @@
                 ]
             }
         },
+        "/purchaseHistIncomingInvoices/{PHO_Id},{HRD_T014_Id},{HRD_Flag_Cancelado}/getphiiCancel": {
+            "get": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Listar Ordem de Compra e Itens Cancelados.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "PHO_Id",
+                        "in": "path",
+                        "description": "Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "HRD_T014_Id",
+                        "in": "path",
+                        "description": "Id Nota Fiscal da Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "HRD_Flag_Cancelado",
+                        "in": "path",
+                        "description": "Status Item Nota Fiscal da Ordem de Compra",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
         "/purchaseHistOrders": {
             "get": {
                 "tags": [
