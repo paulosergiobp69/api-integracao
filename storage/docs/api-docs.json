@@ -1430,6 +1430,51 @@
                 ]
             }
         },
+        "/purchaseHistOrders/{HRD_T011_Id}/purchaseHistIncomingInvoicesJoin": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Listar Ordem de Compra e Itens Com Join e Ordenando Por Nota.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "HRD_T011_Id",
+                        "in": "path",
+                        "description": "Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
         "/purchaseHistOrders/{D009_Id},{Status}/getSaldoTotal": {
             "get": {
                 "tags": [

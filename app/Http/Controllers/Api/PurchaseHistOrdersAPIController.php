@@ -414,15 +414,71 @@ class PurchaseHistOrdersAPIController extends AppBaseController
                                     $query->orderBy('HRD_T014_Id','asc')
                                           ->orderBy('HRD_Flag_Cancelado','asc');}])
                                 ->where('HRD_T011_Id','=',$T011_Id)->get()) {
-//            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
             return $this->sendError('Nenhum registro foi encontrado!');
         } else {
             //return response()->json($data);
-            return $this->sendResponse($data->toArray(), 'Item da Ordem de Compra Com Item das Notas Recebidas Recuperado(s) com Sucesso.');
+            return $this->sendResponse($data->toArray(), 'Item da Ordem de Compra Com Item das Notas Recebidas Recuperado(s) com Sucesso.viu');
 
         }
+    }     
+
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistOrders/{HRD_T011_Id}/purchaseHistIncomingInvoicesJoin",
+     *      summary="Listar Ordem de Compra e Itens Com Join e Ordenando Por Nota.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistOrders"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="HRD_T011_Id",
+     *          description="Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function purchaseHistIncomingInvoicesJoin($T011_Id)
+    {
+        if (!$data = $this->model->join('purchase_hist_incoming_invoices','PHO_Id','=','purchase_hist_orders.id')
+                ->where('HRD_T011_Id','=',$T011_Id)
+                ->orderBy('HRD_T014_Id','asc')
+                ->get()) {
+            return $this->sendError('Nenhum registro foi encontrado!');
+        } else {
+            //return response()->json($data);
+            return $this->sendResponse($data->toArray(), 'Item da Ordem de Compra Com Item das Notas Recebidas Recuperado(s) com Sucesso.viu');
+        }
+
+
 
     }     
+
+
 
     /**
      * @param int $id
