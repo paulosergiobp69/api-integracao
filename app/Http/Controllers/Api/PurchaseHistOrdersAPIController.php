@@ -464,7 +464,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function purchaseHistIncomingInvoicesJoin($T011_Id)
     {
-        if (!$data = $this->model->join('purchase_hist_incoming_invoices','PHO_Id','=','purchase_hist_orders.id')
+        if (!$data = $this->model->leftjoin('purchase_hist_incoming_invoices','PHO_Id','=','purchase_hist_orders.id')
                 ->where('HRD_T011_Id','=',$T011_Id)
                 ->orderBy('HRD_T014_Id','asc')
                 ->get()) {
