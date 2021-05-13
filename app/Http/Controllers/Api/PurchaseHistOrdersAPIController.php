@@ -467,6 +467,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         if (!$data = $this->model->leftjoin('purchase_hist_incoming_invoices','PHO_Id','=','purchase_hist_orders.id')
                 ->where('HRD_T011_Id','=',$T011_Id)
                 ->orderBy('HRD_T014_Id','asc')
+                ->orderBy('HRD_Flag_Cancelado','asc')
                 ->get()) {
             return $this->sendError('Nenhum registro foi encontrado!');
         } else {
