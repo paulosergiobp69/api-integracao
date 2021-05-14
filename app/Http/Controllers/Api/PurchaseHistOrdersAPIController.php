@@ -468,7 +468,11 @@ class PurchaseHistOrdersAPIController extends AppBaseController
                 ->where('HRD_T011_Id','=',$T011_Id)
                 ->orderBy('HRD_T014_Id','asc')
                 ->orderBy('HRD_Flag_Cancelado','asc')
-                ->get()) {
+                ->get(['purchase_hist_orders.id', 'HRD_T011_Id', 'HRD_T012_Id', 'HRD_T012_D009_Id', 'HRD_T011_C007_Id', 'HRD_T011_C004_Id', 'HRD_T012_Quantidade', 
+                       'HRD_Quantidade_Pac', 'HRD_Saldo', 'HRD_T012_Valor_Custo_Unitario', 'HRD_Status', 'HRD_Nac_Imp', 'purchase_hist_orders.HRD_Data_Lancamento',
+                       'purchase_hist_incoming_invoices.id as PHII_Id', 'PHO_Id', 'HRD_T014_Id', 'HRD_Quantidade', 'HRD_Valor_Custo_Unitario', 'HRD_Flag_Cancelado',
+                       'purchase_hist_incoming_invoices.HRD_Data_Lancamento as PHII_Data_Lancamento'])) {
+                    
             return $this->sendError('Nenhum registro foi encontrado!');
         } else {
             //return response()->json($data);
