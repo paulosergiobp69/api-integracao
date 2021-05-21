@@ -1090,6 +1090,51 @@
                 ]
             }
         },
+        "/purchaseHistIncomingInvoices/{HRD_T014_Id}/getpurchaseHistIncomingInvoices": {
+            "get": {
+                "tags": [
+                    "PurchaseHistIncomingInvoice"
+                ],
+                "summary": "Exibir a Item de Nota Fiscal especificado Pelo T014_Id (Numero do Item na Nota Fiscal)",
+                "description": "Seleciona Item de Nota Fiscal",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "HRD_T014_Id",
+                        "in": "path",
+                        "description": "Codigo do Item na Nota Fiscal",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistIncomingInvoice"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
         "/purchaseHistOrders": {
             "get": {
                 "tags": [

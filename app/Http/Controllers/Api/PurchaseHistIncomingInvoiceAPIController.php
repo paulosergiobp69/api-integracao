@@ -573,5 +573,55 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
 
     }     
 
+    /**
+     * @param int $HRD_T014_Id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistIncomingInvoices/{HRD_T014_Id}/getpurchaseHistIncomingInvoices",
+     *      summary="Exibir a Item de Nota Fiscal especificado Pelo T014_Id (Numero do Item na Nota Fiscal)",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistIncomingInvoice"},
+     *      description="Seleciona Item de Nota Fiscal",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="HRD_T014_Id",
+     *          description="Codigo do Item na Nota Fiscal",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistIncomingInvoice"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getpurchaseHistIncomingInvoices($HRD_T014_Id)
+    {
+        $purchaseHistIncomingInvoice =  $this->model->where('HRD_T014_Id','=',$HRD_T014_Id)->get();
+
+        if (empty($purchaseHistIncomingInvoice)) {
+            return $this->sendError('Item da Nota Fiscal não Localizado*****.');
+        }
+
+        return $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item da Nota Fiscal recuperado com sucesso.');
+    }
+
 
 }
