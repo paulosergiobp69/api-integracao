@@ -24,10 +24,10 @@
                     <div class="card-body">
                         <div class="alert alert-info">Precisaremos da chave API <a href=""></a>.</strong></div> 
                         <div class="row providerSelector">
-                            <div  id="bloco"><a href="http://192.168.10.126:8000/api/docs" target="_blank" class="d-flex flex-column justify-content-between providerOption active">
+                            <div  id="bloco"><a href="http://192.168.0.240:8000/api/docs" target="_blank" class="d-flex flex-column justify-content-between providerOption active">
                                 <img src="{{ asset('images/laravel2.jpg') }}"> <div class="text-center">Api de Integração</div></a>
                             </div> 
-                            <div   id="bloco"><a href="http://192.168.10.126:8080/" target="_blank" class="d-flex flex-column justify-content-between providerOption">
+                            <div   id="bloco"><a href="http://192.168.0.240:8080/" target="_blank" class="d-flex flex-column justify-content-between providerOption">
                                 <img src="{{ asset('images/vue3.jpg') }}"> <div class="text-center">Api de Consumo&nbsp;</div></a>
                             </div> 
                             <div style="margin-top: 70px" class="col-sm-2 input-group><a href="#" class="d-flex flex-column justify-content-between providerOption"><img src=""> 
