@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
         //check that app is local
         //if (!$this->app->isLocal()) {
             //else register your services you require for production
-            $this->app['request']->server->set('HTTPS', true);
+        //    $this->app['request']->server->set('HTTPS', true);
         //}        
     }
 
@@ -29,8 +29,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        if (env('APP_ENV') === 'production') {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
-        }        
+        //if (env('APP_ENV') === 'production') {
+        //    \Illuminate\Support\Facades\URL::forceScheme('https');
+        //}        
     }
 }

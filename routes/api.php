@@ -41,8 +41,9 @@ Route::get('me', 'Auth\AuthenticateController@getAuthenticatedUser');
 
 
 
+#    Route::group(['namespace' => 'Api', 'middleware' => 'auth:api','scheme' => 'https'], function () {
 
-Route::group(['namespace' => 'Api', 'middleware' => 'auth:api','scheme' => 'https'], function () {
+Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
 
     Route::get('H100/{id}/H101', 'H100APIController@H101');
