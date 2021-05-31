@@ -1,5 +1,5 @@
 <?php
-echo 'wentrei';
+echo 'entrei';
 $url = explode(':',$_SERVER['HTTP_HOST']);
 $ip = $url[0];
 $port = $url[1];
