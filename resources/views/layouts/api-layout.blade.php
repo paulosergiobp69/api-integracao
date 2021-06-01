@@ -1,15 +1,3 @@
-<?php
-echo 'entrei';
-$url = explode(':',$_SERVER['HTTP_HOST']);
-$ip = $url[0];
-$port = $url[1];
-echo $_SERVER['HTTP_HOST']. '<br>';
-echo $ip. '<br>';
-echo $port. '<br>';
-echo $_SERVER['REQUEST_URI']. '<br>';
-    
-
-?>
 <div id="app">
     <nav class="navbar navbar-expand-lg navbar-dark px-0" style="margin-bottom: 35px;">
         <div class="collapse navbar-collapse"><ul class="navbar-nav ml-auto">
