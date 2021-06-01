@@ -412,7 +412,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/H101"
+     *                  ref="#/definitions/PurchaseHistIncomingInvoice"
      *              ),
      *              @SWG\Property(
      *                  property="message",

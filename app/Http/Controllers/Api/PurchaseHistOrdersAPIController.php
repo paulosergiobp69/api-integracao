@@ -714,7 +714,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/H101"
+     *                  ref="#/definitions/PurchaseHistOrders"
      *              ),
      *              @SWG\Property(
      *                  property="message",
