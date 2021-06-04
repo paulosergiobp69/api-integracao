@@ -62,7 +62,7 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-/*
+
         'E003' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL_E003'),
@@ -83,7 +83,7 @@ return [
                 PDO::ATTR_EMULATE_PREPARES => true,
             ]) : [],
         ],
-
+/*
         'INTEGRACAO' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL_INTEGRACAO'),
@@ -103,7 +103,7 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-*/
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
@@ -131,7 +131,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
+*/
     ],
 
     /*
