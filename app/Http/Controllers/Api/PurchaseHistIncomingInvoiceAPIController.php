@@ -184,6 +184,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
      */
     public function store(CreatePurchaseHistIncomingInvoiceAPIRequest $request)
     {
+
         $input = $request->all();
         $id = $input['PHO_Id'];
         $FlagCancelado = $input['HRD_Flag_Cancelado'];
@@ -206,7 +207,9 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $result = $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item de Nota Fiscal incluido com sucesso.');
         
         if($result->getData()->success == 1){
-            $result_update = $this->putSaldo($id, $saldo);
+            if($FlagCancelado == 'N'){
+                $result_update = $this->putSaldo($id, $saldo);
+            }
         }
 
         return $result_update;
@@ -483,6 +486,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
     {
         $result = $this->PurchaseHO::where('id','=',$id)
                               ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
+
 
         return $this->sendResponse($result->toArray(), 'Saldo do Item da Ordem de Compra Recuperado(s) com Sucesso.');
 //        return response()->json($result);
