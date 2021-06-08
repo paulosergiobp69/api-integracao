@@ -475,7 +475,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
         if (!$data = $this->model->leftjoin('purchase_hist_incoming_invoices','PHO_Id','=','purchase_hist_orders.id')
                 ->where('HRD_T011_Id','=',$T011_Id)
-                ->orderBy('PHII_Id','asc')
+                ->orderBy('purchase_hist_incoming_invoices.id','asc')
                 ->orderBy('HRD_Flag_Cancelado','asc')
                 ->get(['purchase_hist_orders.id', 'HRD_T011_Id', 'HRD_T012_Id', 'HRD_T012_D009_Id', 'HRD_T011_C007_Id', 'HRD_T011_C004_Id', 'HRD_T012_Quantidade', 
                        'HRD_Quantidade_Pac', 'HRD_Saldo', 'HRD_T012_Valor_Custo_Unitario', 'HRD_Status', 'HRD_Nac_Imp', 'purchase_hist_orders.HRD_Data_Lancamento',
