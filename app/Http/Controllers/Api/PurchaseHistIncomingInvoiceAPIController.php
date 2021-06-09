@@ -207,9 +207,9 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $result = $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item de Nota Fiscal incluido com sucesso.');
         
         if($result->getData()->success == 1){
-            if($FlagCancelado == 'N'){
+            //if($FlagCancelado == 'N'){
                 $result_update = $this->putSaldo($id, $saldo);
-            }
+            //}
         }
 
         return $result_update;
