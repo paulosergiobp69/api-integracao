@@ -65,7 +65,8 @@ class CreatePurchaseHistOrders extends Migration
                 'T011.T011_C007_Id AS HRD_T011_C007_Id',
                 'D009.D009_Id AS HRD_T012_D009_Id', 
                 'T011.T011_Data_Emissao as HRD_Data_Lancamento',
-                DB::raw('T012_Quantidade_Pendente(T012_Id) as HRD_T012_Quantidade'),
+                'T012.T012_Quantidade as HRD_T012_Quantidade',
+                DB::raw('T012_Quantidade_Pendente(T012_Id) as HRD_Pendente'),
                 'T012.T012_Valor_Custo_Unitario AS HRD_T012_Valor_Custo_Unitario',
                 'T011.T011_Flag_Cancelada AS HRD_Status'
             ])

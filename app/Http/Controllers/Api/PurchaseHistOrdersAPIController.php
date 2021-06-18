@@ -737,4 +737,75 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         }
     }
 
+    /**
+     * @param int $D009_Id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistOrders/{D009_Id},{status}/getpurchaseHistOrdersProducts",
+     *      summary="Listar Itens com a Ordem de Compra Por Produto Especifico. ",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistOrders"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="D009_Id",
+     *          description="Codigo do Produto Na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="status",
+     *          description="Status da Nota de Entrada",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getpurchaseHistOrdersProducts($D009_Id,$Status)
+    {
+/*        $sql = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
+            $query->orderBy('HRD_T014_Id');}])
+ ->where('HRD_T012_D009_Id','=',$D009_Id)
+ ->where('HRD_Status','=',$Status)
+ ->toSql();
+
+            dd($sql);
+*/
+
+        if (!$data = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
+                                            $query->orderBy('HRD_Data_Lancamento', 'desc');}])
+                                 ->where('HRD_T012_D009_Id','=',$D009_Id)
+                                 ->where('HRD_Status','=',$Status)
+                                 ->orderBy('HRD_T011_Id','desc')
+                                 ->get()) {
+            return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
+        } else {
+            return response()->json($data);
+        }
+    }
+
+
+
 }

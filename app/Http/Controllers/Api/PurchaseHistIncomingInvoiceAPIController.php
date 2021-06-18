@@ -199,9 +199,9 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
             $saldo = ($data[0]->HRD_Saldo + $input['HRD_Quantidade']);
         }
 
-        if($saldo < 0){
-            return $this->sendError('Item de Nota Fiscal não Possui Mais Saldo Para Entrada.');
-        }
+//        if($saldo < 0){
+//            return $this->sendError('Item de Nota Fiscal não Possui Mais Saldo Para Entrada.');
+//        }
         $purchaseHistIncomingInvoice = $this->purchaseHistIncomingInvoiceRepository->create($input);
 
         $result = $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item de Nota Fiscal incluido com sucesso.');
@@ -211,7 +211,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
                 $result_update = $this->putSaldo($id, $saldo);
             //}
         }
-
+        
         return $result_update;
 
     }

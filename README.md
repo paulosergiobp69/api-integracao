@@ -146,6 +146,7 @@ Após o mapeamento dos campos sempre proceder com o a limpeza do cache do larave
 `php artisan config:cache` e `php artisan cache:clear`
 
 
+php artisan cache:clear
 
 php artisan config:cache
 Colocar as configurações em cache

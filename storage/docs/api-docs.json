@@ -1108,6 +1108,58 @@
                     }
                 ]
             }
+        },
+        "/purchaseHistOrders/{D009_Id},{status}/getpurchaseHistOrdersProducts": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Listar Itens com a Ordem de Compra Por Produto Especifico. ",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "D009_Id",
+                        "in": "path",
+                        "description": "Codigo do Produto Na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "Status da Nota de Entrada",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {
