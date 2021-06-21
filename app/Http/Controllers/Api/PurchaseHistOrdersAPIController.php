@@ -614,7 +614,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         $result = $this->model::where('HRD_T012_Id','=',$T012_Id)
                               ->where('HRD_T012_D009_Id','=',$T012_D009_Id)
                               ->where('HRD_T011_C004_Id','=',$T011_C004_Id)
-                              ->where('HRD_T012_Valor_Custo_Unitario','=',$T012_Valor_Custo_Unitario)
+                            //  ->where('HRD_T012_Valor_Custo_Unitario','=',$T012_Valor_Custo_Unitario)
                               ->where('HRD_Status','=',$Status)->get('id');
 
         return $this->sendResponse($result->toArray(), 'Id do Item da Ordem de Compra Recuperado(s) com Sucesso.');
@@ -785,20 +785,20 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function getpurchaseHistOrdersProducts($D009_Id,$Status)
     {
-/*        $sql = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
+     /*   $sql = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
             $query->orderBy('HRD_T014_Id');}])
  ->where('HRD_T012_D009_Id','=',$D009_Id)
  ->where('HRD_Status','=',$Status)
  ->toSql();
 
             dd($sql);
-*/
+    */
 
         if (!$data = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
-                                            $query->orderBy('HRD_Data_Lancamento', 'desc');}])
+                                            $query->orderBy('HRD_Data_Lancamento', 'asc');}])
                                  ->where('HRD_T012_D009_Id','=',$D009_Id)
                                  ->where('HRD_Status','=',$Status)
-                                 ->orderBy('HRD_T011_Id','desc')
+                                 ->orderBy('HRD_Data_Lancamento','desc')
                                  ->get()) {
             return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
         } else {
