@@ -8,6 +8,7 @@ use App\Models\PurchaseHistOrders;
 use App\Repositories\PurchaseHistOrdersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 /**
@@ -793,12 +794,13 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
             dd($sql);
     */
+        $this->getProcessaSaldoProducts($D009_Id,$Status);
 
-        if (!$data = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
-                                            $query->orderBy('HRD_Data_Lancamento', 'asc');}])
+        if (!$data = $this->model->with('purchaseHistIncomingInvoice')
                                  ->where('HRD_T012_D009_Id','=',$D009_Id)
                                  ->where('HRD_Status','=',$Status)
                                  ->orderBy('HRD_Data_Lancamento','desc')
+                                 ->orderBy('HRD_T012_Id','desc')
                                  ->get()) {
             return response()->json(['error' => 'Nenhum registro foi encontrado!'], 404);
         } else {
@@ -806,6 +808,105 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         }
     }
 
+    public function getProcessaSaldoProducts($D009_Id,$Status)
+    {
+        $results = DB::table('purchase_hist_orders as pho')->select([
+            'pho.id as PHO_Id', 
+            'pho.HRD_T011_Id', 
+            'pho.HRD_T012_Id',
+            'pho.HRD_T012_D009_Id',
+            'pho.HRD_T011_C004_Id',
+            'pho.HRD_T012_Quantidade',
+            'phii.HRD_T014_Id',
+             DB::raw('ifnull(phii.HRD_Quantidade,0) as phii_quantidade')
+            ])
+            ->leftJoin('purchase_hist_incoming_invoices as phii', 'phii.PHO_Id', 'pho.id')
+            ->where('pho.HRD_T012_D009_Id', '=',$D009_Id)
+            ->where('pho.HRD_Status', '=',$Status)
+            ->orderBy('pho.HRD_Data_Lancamento', 'asc')
+            ->orderBy('pho.HRD_T012_Id', 'asc')
+            ->get();
 
+        $SaldoAnterior = 0;
+        $Saldo = 0;
+        $PhoIdAnterior = 0;
+        $Oculta_Coluna ='N';
+        $i = 0;
+        foreach ($results as $result) {
+            if($PhoIdAnterior != $result->PHO_Id){
+                $Saldo = ($result->HRD_T012_Quantidade - $result->phii_quantidade) + $SaldoAnterior;
+                $Oculta_Coluna = 'N';
+            }else{
+                $Saldo =  (0  - $result->phii_quantidade) + $SaldoAnterior;
+                $Oculta_Coluna = 'S';
+            }    
+            /*
+            if($i == 0){
+//                echo $Saldo.' - '.$result->HRD_T012_Quantidade.' --'. $result->phii_quantidade.' -- '.$SaldoAnterior;
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '\n';
+            }
+            if($i == 1){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '\n>';
+            }
+
+            if($i == 2){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
+
+            }
+            if($i == 3){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
+
+            }
+            if($i == 4){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
+
+            }
+            if($i == 5){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
+
+            }
+            if($i == 6){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
+                die;
+
+            }
+            if($i == 7){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
+                die;
+
+            }
+            if($i == 8){
+                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
+                die;
+
+            }
+            */
+            $i++;
+
+
+            //    echo '<br>';
+        //    echo $Saldo;
+        //    echo '<br>';
+
+            if($result->HRD_T014_Id > 0){
+               DB::table('purchase_hist_incoming_invoices')
+                ->where('HRD_T014_Id', $result->HRD_T014_Id)
+                ->where('PHO_Id', $result->PHO_Id)
+                ->update(array('HRD_SaldoItem' => $Saldo,'HRD_Oculta_Coluna' => $Oculta_Coluna));         
+            }
+            $SaldoAnterior = $Saldo;
+            $PhoIdAnterior = $result->PHO_Id;
+
+        }
+    }
 
 }
