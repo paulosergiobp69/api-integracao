@@ -794,8 +794,20 @@ class PurchaseHistOrdersAPIController extends AppBaseController
             dd($sql);
     */
         $this->getProcessaSaldoProducts($D009_Id,$Status);
+     
+/*
+            if (!$data = $this->model->with('purchaseHistIncomingInvoice')
+            ->where('HRD_T012_D009_Id','=',$D009_Id)
+            ->where('HRD_Status','=',$Status)
+            ->orderBy('HRD_Data_Lancamento','desc')
+            ->orderBy('HRD_T012_Id','desc')
+            ->get()) {
+*/
 
-        if (!$data = $this->model->with('purchaseHistIncomingInvoice')
+
+        if (!$data = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
+                                        $query->orderBy('HRD_T014_Id');
+                                    }])
                                  ->where('HRD_T012_D009_Id','=',$D009_Id)
                                  ->where('HRD_Status','=',$Status)
                                  ->orderBy('HRD_Data_Lancamento','desc')
@@ -824,6 +836,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
             ->where('pho.HRD_Status', '=',$Status)
             ->orderBy('pho.HRD_Data_Lancamento', 'asc')
             ->orderBy('pho.HRD_T012_Id', 'asc')
+//            ->orderBy('phii.HRD_T014_Id', 'asc')
             ->get();
 
         $SaldoAnterior = 0;
