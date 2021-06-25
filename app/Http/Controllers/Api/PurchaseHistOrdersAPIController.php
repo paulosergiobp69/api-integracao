@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\DB;
 use Response;
-
 /**
  * Class PurchaseHistOrdersController
  * @package App\Http\Controllers\API
@@ -98,7 +97,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      *          type="string",
      *          required=false,
      *          in="query",
-     *          default="id, HRD_T011_Id, HRD_T012_Id, HRD_T012_D009_Id,HRD_T011_C007_Id,HRD_T011_C004_Id,HRD_T012_Quantidade,HRD_Quantidade_Pac,HRD_Saldo,HRD_T012_Valor_Custo_Unitario,HRD_Status,HRD_Data_Lancamento"
+     *          default="id, HRD_T011_Id, HRD_T012_Id, HRD_T012_D009_Id, HRD_T011_C007_Id, HRD_T011_C004_Id, HRD_T012_Quantidade, HRD_Quantidade_Pac, HRD_Saldo, HRD_T012_Valor_Custo_Unitario, HRD_Status, HRD_Nac_Imp, HRD_Data_Lancamento, HRD_T012_Ajuste_Saldo, HRD_C007_Ajuste_Saldo"
      *      ),
      *      @SWG\Parameter(
      *          name="search",
@@ -132,14 +131,13 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-           /*
+        /*
         $purchaseHistOrders = $this->purchaseHistOrdersRepository->all(
             $request->except(['skip', 'limit', 'order']),
             $request->get('skip'),
             $request->get('limit')
         );
         */
-        
         if ($request->exists('search')) {
             $purchaseHistOrders = $this->purchaseHistOrdersRepository
                 ->advancedSearch($request)
@@ -147,6 +145,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
                 ->paginate($request->get('limit'));
         } else {
             $purchaseHistOrders = $this->purchaseHistOrdersRepository
+            ->advancedSearch($request)
             ->orderByRaw(($request->get('order') ?? 'id') . ' ' . ($request->get('direction') ?? 'DESC'))
             ->paginate($request->get('limit'));
         }

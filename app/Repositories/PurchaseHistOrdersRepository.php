@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\PurchaseHistOrders;
-use App\Repositories\BaseRepository;
+use Illuminate\Database\Eloquent\Model;
+//use App\Repositories\BaseRepository;
+use Illuminate\Http\Request;
 
 /**
  * Class PurchaseHistOrdersRepository
@@ -28,7 +30,9 @@ class PurchaseHistOrdersRepository extends BaseRepository
         'HRD_Saldo',
         'HRD_T012_Valor_Custo_Unitario',
         'HRD_Status',
-        'HRD_Data_Lancamento'
+        'HRD_Data_Lancamento',
+        'HRD_T012_Ajuste_Saldo',
+        'HRD_C007_Ajuste_Saldo'
     ];
 
     /**
@@ -49,28 +53,20 @@ class PurchaseHistOrdersRepository extends BaseRepository
         return PurchaseHistOrders::class;
     }
 
-    /**
-     * Add a basic where clause to the query.
+    
+     /**
+     * Retorna faz a busca filtrandopor campos padrão caso houver
      *
-     * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|Model
+     * @param int $HRD_T011_Id
+     * @param int $HRD_T012_Id
+     * @param int $HRD_T012_D009_Id
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|
+     *  \Illuminate\Database\Eloquent\Collection|Model|null
      */
-    public function advancedSearch($request)
+    public function findAll($HRD_T011_Id = null, $HRD_T012_Id = null, $HRD_T012_D009_Id = null)
     {
-        $input = $request->get('search');
-        $baseModel = $this->model->newQuery();
-//        if ($request->exists('fields')) {
-//            $baseModel->select($this->mountFieldsToSelect($request));
-//        }
-        foreach ($this->fieldSearchable as $colum) {
-            $type = $this->model()::getFieldType($colum);
-       //     if ($type && $type == 'string') {
-       //         $baseModel->orWhere($colum, 'ilike', '%' . $input . '%');
-       //     }
-        }
-
-        return $baseModel;
+        return $this->model;
     }
-
 
 }

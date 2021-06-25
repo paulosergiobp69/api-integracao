@@ -5,7 +5,7 @@ namespace App\Http\Requests\API;
 use App\Models\PurchaseHistOrders;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdatePurchaseHistOrdersAPIRequest extends APIRequest
+class UpdatePurchaseHistOrdersAPIRequest extends ResponseAPIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,7 +37,9 @@ class UpdatePurchaseHistOrdersAPIRequest extends APIRequest
             'HRD_Status' => 'nullable|string|max:255',
             'HRD_Data_Lancamento' => 'nullable',
             'deleted_by' => 'integer',
-            'deleted_at' => 'nullable'
+            'deleted_at' => 'nullable',
+            'HRD_T012_Ajuste_Saldo' => 'nullable|integer',
+            'HRD_C007_Ajuste_Saldo' => 'nullable|integer'
         ];
         
         return $rules;

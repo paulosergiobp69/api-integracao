@@ -80,10 +80,22 @@ use \App\Models\PurchaseHistIncomingInvoice;
  *          description="Data de geracao da oredem",
  *          type="string",
  *          format="date-time"
- *      )
+ *      ),
+ *      @SWG\Property(
+ *          property="HRD_T012_Ajuste_Saldo",
+ *          description="Ajuste de Quantidade de Item de Ordem de Compra",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="HRD_C007_Ajuste_Saldo",
+ *          description="Usuario Responsavel Pelo Ajuste",
+ *          type="integer",
+ *          format="int32"
+ *      ),
  * )
  */
-class PurchaseHistOrders extends Model
+class PurchaseHistOrders extends BaseModel
 {
     use SoftDeletes;
 
@@ -108,7 +120,9 @@ class PurchaseHistOrders extends Model
         'HRD_Saldo',
         'HRD_T012_Valor_Custo_Unitario',
         'HRD_Status',
-        'HRD_Data_Lancamento'
+        'HRD_Data_Lancamento',
+        'HRD_T012_Ajuste_Saldo',
+        'HRD_C007_Ajuste_Saldo'
     ];
 
     /**
@@ -129,6 +143,8 @@ class PurchaseHistOrders extends Model
         'HRD_T012_Valor_Custo_Unitario' => 'decimal:2',
         'HRD_Status' => 'string',
         'HRD_Data_Lancamento' => 'datetime',
+        'HRD_T012_Ajuste_Saldo' => 'integer',
+        'HRD_C007_Ajuste_Saldo' => 'integer',
         'created_by' => 'integer',
         'updated_by' => 'integer',
         'deleted_by' => 'integer'
@@ -163,6 +179,8 @@ class PurchaseHistOrders extends Model
         'HRD_T012_Valor_Custo_Unitario' => 'decimal:2',
         'HRD_Status' => 'string',
         'HRD_Data_Lancamento' => 'datetime',
+        'HRD_T012_Ajuste_Saldo' => 'integer',
+        'HRD_C007_Ajuste_Saldo' => 'integer',
         'created_by' => 'integer',
         'updated_by' => 'integer',
         'deleted_by' => 'integer'

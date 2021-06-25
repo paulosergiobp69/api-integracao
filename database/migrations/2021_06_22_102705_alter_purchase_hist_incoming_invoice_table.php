@@ -28,8 +28,8 @@ class AlterPurchaseHistIncomingInvoiceTable extends Migration
     public function down()
     {
         Schema::table('purchase_hist_incoming_invoices', function (Blueprint $table) {
-            $table->integer('HRD_SaldoItem')->nullable(false)->change();
-            $table->string('HRD_Oculta_coluna',1)->nullable(false)->change();
+            $table->dropColumn('HRD_SaldoItem');
+            $table->dropColumn('HRD_Oculta_coluna');
         });
     }
 }
