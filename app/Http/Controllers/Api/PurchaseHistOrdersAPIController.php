@@ -806,7 +806,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
 
         if (!$data = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
-                                        $query->orderBy('HRD_T014_Id');
+                                        $query->orderBy('HRD_T014_Id','asc');
                                     }])
                                  ->where('HRD_T012_D009_Id','=',$D009_Id)
                                  ->where('HRD_Status','=',$Status)
