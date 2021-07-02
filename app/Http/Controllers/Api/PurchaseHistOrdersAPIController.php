@@ -836,7 +836,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
             ->where('pho.HRD_Status', '=',$Status)
             ->orderBy('pho.HRD_Data_Lancamento', 'asc')
             ->orderBy('pho.HRD_T012_Id', 'asc')
-//            ->orderBy('phii.HRD_T014_Id', 'asc')
+      //      ->orderBy('phii.HRD_T014_Id', 'asc')
             ->get();
 
         $SaldoAnterior = 0;
@@ -920,5 +920,4 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
         }
     }
-
 }

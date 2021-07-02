@@ -122,7 +122,8 @@ class PurchaseHistOrders extends BaseModel
         'HRD_Status',
         'HRD_Data_Lancamento',
         'HRD_T012_Ajuste_Saldo',
-        'HRD_C007_Ajuste_Saldo'
+        'HRD_C007_Ajuste_Saldo',
+        'HRD_T012_Data_Ajuste_Saldo'
     ];
 
     /**
@@ -145,6 +146,7 @@ class PurchaseHistOrders extends BaseModel
         'HRD_Data_Lancamento' => 'datetime',
         'HRD_T012_Ajuste_Saldo' => 'integer',
         'HRD_C007_Ajuste_Saldo' => 'integer',
+        'HRD_T012_Data_Ajuste_Saldo' => 'datetime',
         'created_by' => 'integer',
         'updated_by' => 'integer',
         'deleted_by' => 'integer'
@@ -181,6 +183,7 @@ class PurchaseHistOrders extends BaseModel
         'HRD_Data_Lancamento' => 'datetime',
         'HRD_T012_Ajuste_Saldo' => 'integer',
         'HRD_C007_Ajuste_Saldo' => 'integer',
+        'HRD_T012_Data_Ajuste_Saldo' => 'datetime',
         'created_by' => 'integer',
         'updated_by' => 'integer',
         'deleted_by' => 'integer'

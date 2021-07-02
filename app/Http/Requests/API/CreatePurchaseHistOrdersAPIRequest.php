@@ -37,7 +37,8 @@ class CreatePurchaseHistOrdersAPIRequest extends ResponseAPIRequest
             'HRD_Status' => 'nullable|string|max:255',
             'HRD_Data_Lancamento' => 'nullable',
             'HRD_T012_Ajuste_Saldo' => 'nullable|integer',
-            'HRD_C007_Ajuste_Saldo' => 'nullable|integer'
+            'HRD_C007_Ajuste_Saldo' => 'nullable|integer',
+            'HRD_T012_Data_Ajuste_Saldo' => 'nullable'
         ];
         return $rules;
     }

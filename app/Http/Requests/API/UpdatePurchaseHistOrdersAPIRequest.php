@@ -39,7 +39,8 @@ class UpdatePurchaseHistOrdersAPIRequest extends ResponseAPIRequest
             'deleted_by' => 'integer',
             'deleted_at' => 'nullable',
             'HRD_T012_Ajuste_Saldo' => 'nullable|integer',
-            'HRD_C007_Ajuste_Saldo' => 'nullable|integer'
+            'HRD_C007_Ajuste_Saldo' => 'nullable|integer',
+            'HRD_T012_Data_Ajuste_Saldo' => 'nullable'
         ];
         
         return $rules;

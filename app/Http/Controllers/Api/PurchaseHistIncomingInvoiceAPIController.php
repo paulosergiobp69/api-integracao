@@ -621,7 +621,7 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $purchaseHistIncomingInvoice =  $this->model->where('HRD_T014_Id','=',$HRD_T014_Id)->get();
 
         if (empty($purchaseHistIncomingInvoice)) {
-            return $this->sendError('Item da Nota Fiscal não Localizado*****.');
+            return $this->sendError('Item da Nota Fiscal não Localizado.');
         }
 
         return $this->sendResponse($purchaseHistIncomingInvoice->toArray(), 'Item da Nota Fiscal recuperado com sucesso.');
