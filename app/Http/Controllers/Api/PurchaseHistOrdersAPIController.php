@@ -540,6 +540,72 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         return response()->json($result);
     }     
 
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/purchaseHistOrders/{D009_Id},{Status}/getSaldoTotalAjuste",
+     *      summary="Retornar Saldo De Item nas Ordem de Compra Com Ajuste.",
+     *      security={{ "EngepecasAuth": {} }},  
+     *      tags={"PurchaseHistOrders"},
+     *      description="Entre com o Registro.",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="D009_Id",
+     *          description="Codigo do Produto na Ordem de Compra",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="Status",
+     *          description="Status do Produto na Ordem de Compra",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operação realizada com sucesso.",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/PurchaseHistOrders"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getSaldoTotalAjuste($D009_Id, $status)
+    {
+/*
+        $data = $this->model::where('HRD_Status','=', $status)
+                    ->where('HRD_T012_D009_Id','=',$D009_Id)
+                    ->select(DB::raw('sum(HRD_Saldo + HRD_T012_Ajuste_Saldo) as SaldoAjuste'))
+                    ->toSql();
+        dd($data);
+*/
+        if (!$data = $this->model::where('HRD_Status','=', $status)
+                    ->where('HRD_T012_D009_Id','=',$D009_Id)
+                    ->select(DB::raw('sum(HRD_Saldo + HRD_T012_Ajuste_Saldo) as SaldoApiAjuste'))
+                    ->get()){
+
+            return $this->sendError('Nenhum registro foi encontrado!');
+        } else {
+          //return response()->json($data);
+            return $this->sendResponse($data->toArray(), 'Saldo do Item na Ordem de Compra Recuperado com Sucesso.');
+        }
+    }     
 
 
     /**
@@ -920,4 +986,6 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
         }
     }
+
+
 }

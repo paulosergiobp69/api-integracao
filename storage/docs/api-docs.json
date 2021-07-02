@@ -932,6 +932,58 @@
                 ]
             }
         },
+        "/purchaseHistOrders/{D009_Id},{Status}/getSaldoTotalAjuste": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Retornar Saldo De Item nas Ordem de Compra Com Ajuste.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "D009_Id",
+                        "in": "path",
+                        "description": "Codigo do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Status",
+                        "in": "path",
+                        "description": "Status do Produto na Ordem de Compra",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
         "/purchaseHistOrders/{T012_Id},{T012_D009_Id},{T011_C004_Id},{T012_Valor_Custo_Unitario},{Status}/getId": {
             "get": {
                 "tags": [
