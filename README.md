@@ -143,8 +143,7 @@ C:\code\api-integracao>php artisan infyom:rollback PurchaseHistOrders api
 
 Após o mapeamento dos campos sempre proceder com o a limpeza do cache do laravel 
 
-`php artisan config:cache` e `php artisan cache:clear`
-
+`php artisan cache:clear` e `php artisan config:cache`  
 
 php artisan cache:clear
 

@@ -681,7 +681,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
                               ->where('HRD_T012_D009_Id','=',$T012_D009_Id)
                               ->where('HRD_T011_C004_Id','=',$T011_C004_Id)
                             //  ->where('HRD_T012_Valor_Custo_Unitario','=',$T012_Valor_Custo_Unitario)
-                              ->where('HRD_Status','=',$Status)->get('id');
+                              ->where('HRD_Status','=',$Status)->get(['id','HRD_Quantidade_Pac']);
 
         return $this->sendResponse($result->toArray(), 'Id do Item da Ordem de Compra Recuperado(s) com Sucesso.');
     }     
@@ -887,6 +887,29 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
     public function getProcessaSaldoProducts($D009_Id,$Status)
     {
+       /*
+        $sql = DB::table('purchase_hist_orders as pho')->select([
+            'pho.id as PHO_Id', 
+            'pho.HRD_T011_Id', 
+            'pho.HRD_T012_Id',
+            'pho.HRD_T012_D009_Id',
+            'pho.HRD_T011_C004_Id',
+            'pho.HRD_Quantidade_Pac',
+            'phii.HRD_T014_Id',
+            DB::raw('ifnull(pho.HRD_Quantidade_Pac,0) as HRD_Quantidade_Pac'),
+            DB::raw('ifnull(phii.HRD_Quantidade,0) as phii_quantidade')
+            ])
+            ->leftJoin('purchase_hist_incoming_invoices as phii', 'phii.PHO_Id', 'pho.id')
+            ->where('pho.HRD_T012_D009_Id', '=',$D009_Id)
+            ->where('pho.HRD_Status', '=',$Status)
+            ->where('phii.HRD_Flag_Cancelado', '=',$Status)
+            ->orderBy('pho.HRD_Data_Lancamento', 'asc')
+            ->orderBy('pho.HRD_T012_Id', 'asc')
+      //      ->orderBy('phii.HRD_T014_Id', 'asc')
+            ->get();
+//            ->toSql();
+*/
+
         $results = DB::table('purchase_hist_orders as pho')->select([
             'pho.id as PHO_Id', 
             'pho.HRD_T011_Id', 
@@ -894,12 +917,14 @@ class PurchaseHistOrdersAPIController extends AppBaseController
             'pho.HRD_T012_D009_Id',
             'pho.HRD_T011_C004_Id',
             'pho.HRD_T012_Quantidade',
+            DB::raw('ifnull(pho.HRD_Quantidade_Pac,0) as HRD_Quantidade_Pac'),
             'phii.HRD_T014_Id',
              DB::raw('ifnull(phii.HRD_Quantidade,0) as phii_quantidade')
             ])
             ->leftJoin('purchase_hist_incoming_invoices as phii', 'phii.PHO_Id', 'pho.id')
             ->where('pho.HRD_T012_D009_Id', '=',$D009_Id)
             ->where('pho.HRD_Status', '=',$Status)
+            ->where('phii.HRD_Flag_Cancelado', '=',$Status)
             ->orderBy('pho.HRD_Data_Lancamento', 'asc')
             ->orderBy('pho.HRD_T012_Id', 'asc')
       //      ->orderBy('phii.HRD_T014_Id', 'asc')
@@ -912,7 +937,11 @@ class PurchaseHistOrdersAPIController extends AppBaseController
         $i = 0;
         foreach ($results as $result) {
             if($PhoIdAnterior != $result->PHO_Id){
-                $Saldo = ($result->HRD_T012_Quantidade - $result->phii_quantidade) + $SaldoAnterior;
+                if($result->HRD_Quantidade_Pac > 0){
+                    $Saldo = (($result->HRD_T012_Quantidade * $result->HRD_Quantidade_Pac)  - $result->phii_quantidade) + $SaldoAnterior;
+                }else{
+                    $Saldo = ($result->HRD_T012_Quantidade - $result->phii_quantidade) + $SaldoAnterior;
+                }
                 $Oculta_Coluna = 'N';
             }else{
                 $Saldo =  (0  - $result->phii_quantidade) + $SaldoAnterior;
