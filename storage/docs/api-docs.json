@@ -1212,6 +1212,58 @@
                     }
                 ]
             }
+        },
+        "/purchaseHistOrders/{T014_Id},{Status}/getCancelado": {
+            "get": {
+                "tags": [
+                    "PurchaseHistOrders"
+                ],
+                "summary": "Retornar T14_Id Cancelado.",
+                "description": "Entre com o Registro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "T014_Id",
+                        "in": "path",
+                        "description": "Id da Tupla do Produto na Nota Fiscal",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "Status",
+                        "in": "path",
+                        "description": "Status do Produto na Nota Fiscal",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/PurchaseHistOrders"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {

@@ -860,6 +860,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
             dd($sql);
     */
         $this->getProcessaSaldoProducts($D009_Id,$Status);
+        
      
 /*
             if (!$data = $this->model->with('purchaseHistIncomingInvoice')
@@ -887,28 +888,35 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
     public function getProcessaSaldoProducts($D009_Id,$Status)
     {
-       /*
+        /*
         $sql = DB::table('purchase_hist_orders as pho')->select([
             'pho.id as PHO_Id', 
             'pho.HRD_T011_Id', 
             'pho.HRD_T012_Id',
             'pho.HRD_T012_D009_Id',
             'pho.HRD_T011_C004_Id',
-            'pho.HRD_Quantidade_Pac',
-            'phii.HRD_T014_Id',
+            'pho.HRD_T012_Quantidade',
             DB::raw('ifnull(pho.HRD_Quantidade_Pac,0) as HRD_Quantidade_Pac'),
-            DB::raw('ifnull(phii.HRD_Quantidade,0) as phii_quantidade')
+            'phii.HRD_T014_Id',
+             DB::raw('ifnull(phii.HRD_Quantidade,0) as phii_quantidade')
             ])
             ->leftJoin('purchase_hist_incoming_invoices as phii', 'phii.PHO_Id', 'pho.id')
             ->where('pho.HRD_T012_D009_Id', '=',$D009_Id)
             ->where('pho.HRD_Status', '=',$Status)
             ->where('phii.HRD_Flag_Cancelado', '=',$Status)
+            ->whereRaw('phii.HRD_T014_Id not in (select HRD_T014_Id FROM purchase_hist_incoming_invoices as phii2 where phii2.HRD_T014_Id = phii.HRD_T014_Id and phii2.HRD_Flag_Cancelado = "S")')            
             ->orderBy('pho.HRD_Data_Lancamento', 'asc')
             ->orderBy('pho.HRD_T012_Id', 'asc')
       //      ->orderBy('phii.HRD_T014_Id', 'asc')
-            ->get();
-//            ->toSql();
-*/
+      //      ->get();
+  //          ->get();
+            ->toSql();
+            
+            echo $sql;
+
+            die;
+            */
+
 
         $results = DB::table('purchase_hist_orders as pho')->select([
             'pho.id as PHO_Id', 
@@ -925,6 +933,7 @@ class PurchaseHistOrdersAPIController extends AppBaseController
             ->where('pho.HRD_T012_D009_Id', '=',$D009_Id)
             ->where('pho.HRD_Status', '=',$Status)
             ->where('phii.HRD_Flag_Cancelado', '=',$Status)
+            ->whereRaw('phii.HRD_T014_Id not in (select HRD_T014_Id FROM purchase_hist_incoming_invoices as phii2 where phii2.HRD_T014_Id = phii.HRD_T014_Id and phii2.HRD_Flag_Cancelado = "S")')            
             ->orderBy('pho.HRD_Data_Lancamento', 'asc')
             ->orderBy('pho.HRD_T012_Id', 'asc')
       //      ->orderBy('phii.HRD_T014_Id', 'asc')
@@ -947,63 +956,66 @@ class PurchaseHistOrdersAPIController extends AppBaseController
                 $Saldo =  (0  - $result->phii_quantidade) + $SaldoAnterior;
                 $Oculta_Coluna = 'S';
             }    
-            /*
+            
+/*
+
             if($i == 0){
 //                echo $Saldo.' - '.$result->HRD_T012_Quantidade.' --'. $result->phii_quantidade.' -- '.$SaldoAnterior;
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
-                echo '\n';
+                echo ' passo: '.$i.' Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo '<br>';
             }
             if($i == 1){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '\n>';
             }
 
             if($i == 2){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '<br>';
 
             }
             if($i == 3){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '<br>';
 
             }
             if($i == 4){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '<br>';
 
             }
             if($i == 5){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '<br>';
 
             }
             if($i == 6){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '<br>';
                 die;
 
             }
             if($i == 7){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '<br>';
                 die;
 
             }
             if($i == 8){
-                echo 'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
+                echo ' passo: '.$i.'Saldo:'.$Saldo.' -T012_Quantidade:'.$result->HRD_T012_Quantidade.' -->phii_quantidade:'. $result->phii_quantidade.' -- SaldoAnterior:'.$SaldoAnterior.' OCULTA:'.$Oculta_Coluna;
                 echo '<br>';
                 die;
 
             }
-            */
+
+            
             $i++;
 
 
-            //    echo '<br>';
-        //    echo $Saldo;
-        //    echo '<br>';
-
+            echo '<br>';
+            echo $Saldo;
+            echo '<br>';
+*/
             if($result->HRD_T014_Id > 0){
                DB::table('purchase_hist_incoming_invoices')
                 ->where('HRD_T014_Id', $result->HRD_T014_Id)
@@ -1015,6 +1027,5 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
         }
     }
-
 
 }
