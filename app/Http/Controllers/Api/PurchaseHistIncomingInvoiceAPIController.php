@@ -190,15 +190,25 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
         $FlagCancelado = $input['HRD_Flag_Cancelado'];
 
         $purchaseHoSaldo = $this->getSaldoId($id,'N');
-
         $data = $purchaseHoSaldo->getData()->data;
+        //print_r('data:'.$data);
+        //die;
+        if(empty($data)){
+                return response()->json([
+                    'message' => 'Item sem Saldo Para Processamento...!',
+                    'data' => '',
+                    'result' => false,
+                ], 401);
+                die;
+        }
+        //$data = $purchaseHoSaldo->getData()->data;
 
         if($FlagCancelado == 'N'){
             $saldo = ($data[0]->HRD_Saldo - $input['HRD_Quantidade']);
         }else{
             $saldo = ($data[0]->HRD_Saldo + $input['HRD_Quantidade']);
         }
-
+        
 //        if($saldo < 0){
 //            return $this->sendError('Item de Nota Fiscal não Possui Mais Saldo Para Entrada.');
 //        }
@@ -485,12 +495,9 @@ class PurchaseHistIncomingInvoiceAPIController extends AppBaseController
     public function getSaldoId($id, $Status)
     {
         $result = $this->PurchaseHO::where('id','=',$id)
-                              ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
-
+                                    ->where('HRD_Status','=',$Status)->get('HRD_Saldo');
 
         return $this->sendResponse($result->toArray(), 'Saldo do Item da Ordem de Compra Recuperado(s) com Sucesso.');
-//        return response()->json($result);
-//        return json_decode($result);
 
     }     
 

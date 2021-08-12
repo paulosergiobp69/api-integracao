@@ -6,6 +6,1740 @@
     },
     "basePath": "/api",
     "paths": {
+        "/products": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Obtenha uma lista dos produtos.",
+                "description": "Obtenha todos os produtos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, hrd_D001_Id, product_description_id, product_line_id, product_group_id, product_utilization_id, code, reference, technical_data, application, commercial_description, unit_weight_kg, development_flag, development_date, code_formatted, reference_formatted, code_redirect"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o Realizada com Sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Product"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Salve o Produto no Banco de Dados",
+                "description": "Store Product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Produto que deve ser armazenado.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o Realizada com Sucesso",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Product"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Exibir o Produto Especificado.",
+                "description": "Get Product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Produto",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operacao Realizada com Sucesso",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Product"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Atualize o Produto Especificado no Banco de Dados.",
+                "description": "Update Product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Produto",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Produto que deve ser atualizado.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Product"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Remova o produto especificado do armazenamento.",
+                "description": "Excluir Produto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Produto.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{code}/getProductDetailCode": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Exibir o Produto Especificado.",
+                "description": "Get Product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "Codigo do Produto",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, hrd_D001_Id, product_description_id, product_line_id, product_group_id, product_utilization_id, code, reference, technical_data, application, commercial_description, unit_weight_kg, development_flag, development_date, code_formatted, reference_formatted, code_redirect"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operacao Realizada com Sucesso",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Product"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{codeFullText}/getProductDetailCodeFullText": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Exibir o Produto Especificado.",
+                "description": "Get Product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "codeFullText",
+                        "in": "path",
+                        "description": "Codigo do Produto",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "product.id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operacao Realizada com Sucesso",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Product"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/productDescriptions": {
+            "get": {
+                "tags": [
+                    "ProductDescription"
+                ],
+                "summary": "Obtenha uma lista das descri\u00e7\u00f5es do produto.",
+                "description": "Obtenha todas as descri\u00e7\u00f5es do produto ",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, hrd_D002_id, product_utilization_id, description, description_detail"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductDescription"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ProductDescription"
+                ],
+                "summary": "Armazene uma Descri\u00e7\u00e3o do Produto rec\u00e9m-criada no armazenamento.",
+                "description": "Store ProductDescription",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Descri\u00e7\u00e3o do produto que deve ser armazenada.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductDescription"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductDescription"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/productDescriptions/{id}": {
+            "get": {
+                "tags": [
+                    "ProductDescription"
+                ],
+                "summary": "Exibir a descri\u00e7\u00e3o do produto especificada.",
+                "description": "Obter Descri\u00e7\u00e3o do Produto ",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de Produto Descri\u00e7\u00e3o.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductDescription"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "ProductDescription"
+                ],
+                "summary": "Atualize a Descri\u00e7\u00e3o do Produto especificada no armazenamento.",
+                "description": "Atualizar Descri\u00e7\u00e3o do Produto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da Descri\u00e7\u00e3o do Produto.",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Descri\u00e7\u00e3o do produto que deve ser atualizada.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductDescription"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductDescription"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "ProductDescription"
+                ],
+                "summary": "Remova a Descri\u00e7\u00e3o Do Produto especificada do armazenamento ",
+                "description": "Excluir Descri\u00e7\u00e3o do Produto ",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da Descri\u00e7\u00e3o do Produto",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
+        "/productGroups": {
+            "get": {
+                "tags": [
+                    "ProductGroup"
+                ],
+                "summary": "Obtenha uma lista dos grupos de produtos.",
+                "description": "Obtenha todos os grupos de produtos ",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, hrd_D015_Id, product_utilization_id, name, active"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductGroup"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ProductGroup"
+                ],
+                "summary": "Armazene um Grupo de Produtos rec\u00e9m-criado no armazenamento.",
+                "description": "Grupo de produtos da loja.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Grupo de produtos que deve ser armazenado.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductGroup"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductGroup"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productGroups/{id}": {
+            "get": {
+                "tags": [
+                    "ProductGroup"
+                ],
+                "summary": "Exibir o Grupo de Produtos especificado ",
+                "description": "Get ProductGroup",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductGroup",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductGroup"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ProductGroup"
+                ],
+                "summary": "Atualize o Grupo de Produtos especificado no armazenamento.",
+                "description": "Update ProductGroup",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do Grupo de Produtos",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Grupo de produtos que deve ser atualizado.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductGroup"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductGroup"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ProductGroup"
+                ],
+                "summary": "Remova o Grupo de Produtos especificado do armazenamento ",
+                "description": "Delete ProductGroup",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductGroup",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productLines": {
+            "get": {
+                "tags": [
+                    "ProductLine"
+                ],
+                "summary": "Get a listing of the ProductLines.",
+                "description": "Obtenha todas as linhas de produtos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, hrd_D003_Id, product_utilization_id, name, abbreviation, active"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductLine"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ProductLine"
+                ],
+                "summary": "Armazene uma Linha de Produto rec\u00e9m-criada no armazenamento.",
+                "description": "Store ProductLine",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Linha de Produto deve ser armazenada.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductLine"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductLine"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productLines/{id}": {
+            "get": {
+                "tags": [
+                    "ProductLine"
+                ],
+                "summary": "Exibir a linha de produtos especificada.",
+                "description": "Get ProductLine",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de Linha de Produto.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductLine"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ProductLine"
+                ],
+                "summary": "Atualize a Linha de Produto especificado no armazenamento.",
+                "description": "Atualizar Linha de Produto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da Linha de Produto.",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Linha de Produto que deve ser atualizado ",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductLine"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductLine"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ProductLine"
+                ],
+                "summary": "Remova a Linha de produto especificado do armazenamento.",
+                "description": "Excluir Linha de Produto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da Linha de Produto.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productReplacements": {
+            "get": {
+                "tags": [
+                    "ProductReplacement"
+                ],
+                "summary": "Obtenha uma Lista de Produto Substituto.",
+                "description": "Obtenha Todas os Produto Substituto",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, product_id, product_utilization_id, user_hrd_id, code_new, code_old, date_include, code_formatted_old, hrd_D017_Id"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductReplacement"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ProductReplacement"
+                ],
+                "summary": "Armazene um Produto Substituto Rec\u00e9m-criado no Armazenamento ",
+                "description": "Store ProductReplacement",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Produto Substituto que deve ser armazenado ",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductReplacement"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductReplacement"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productReplacements/{id}": {
+            "get": {
+                "tags": [
+                    "ProductReplacement"
+                ],
+                "summary": "Exibir o Produto Substituto Especificado.",
+                "description": "Obter Produto Substituto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do Produto Substituto",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductReplacement"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ProductReplacement"
+                ],
+                "summary": "Atualize o Produto Substituto Especificado no Armazenamento.",
+                "description": "Atualizar Produto Substituto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do Produto Substituto",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Produto Substituto que deve ser atualizado ",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductReplacement"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductReplacement"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ProductReplacement"
+                ],
+                "summary": "Remova o Produto Substituto Especificado do Armazenamento.",
+                "description": "Exclur Produto Substituto",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do Produto Substituto",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productUtilizations": {
+            "get": {
+                "tags": [
+                    "ProductUtilization"
+                ],
+                "summary": "Obtenha uma lista de Utiliza\u00e7\u00e3o de Produtos.",
+                "description": "Obtenha todos as Utiliza\u00e7\u00f5es de Produtos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, product_id, product_utilization_id, user_hrd_id, code_new, code_old, date_include, code_formatted_old, hrd_D017_Id"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductUtilization"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ProductUtilization"
+                ],
+                "summary": "Armazene a Utiliza\u00e7\u00e3o de Produto Rec\u00e9m-criado no Armazenamento.",
+                "description": "Utiliza\u00e7\u00e3o do produto da loja. ",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Utiliza\u00e7\u00e3o do produto que deve ser armazenado.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductUtilization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductUtilization"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productUtilizations/{id}": {
+            "get": {
+                "tags": [
+                    "ProductUtilization"
+                ],
+                "summary": "Exibir o Utiliza\u00e7\u00e3o do Produto Especificado.",
+                "description": "Obtenha a Utiliza\u00e7\u00e3o do Produto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da Utiliza\u00e7\u00e3o do Produto.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductUtilization"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ProductUtilization"
+                ],
+                "summary": "Atualizar o Utiliza\u00e7\u00e3o do Produto Especificado no Armazenamento.",
+                "description": "Atualizar a Utiliza\u00e7\u00e3o do Produto.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Utiliza\u00e7\u00e3o do Produto",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Utiliza\u00e7\u00e3o do produto que deve ser atualizada.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductUtilization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductUtilization"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ProductUtilization"
+                ],
+                "summary": "Remova a Utiliza\u00e7\u00e3o do Produto Especificada do Armazenamento ",
+                "description": "Excluir Utiliza\u00e7\u00e3o do Produto",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da Utiliza\u00e7\u00e3o do Produto",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/purchaseHistIncomingInvoices": {
             "get": {
                 "tags": [
@@ -1212,61 +2946,396 @@
                     }
                 ]
             }
-        },
-        "/purchaseHistOrders/{T014_Id},{Status}/getCancelado": {
-            "get": {
-                "tags": [
-                    "PurchaseHistOrders"
-                ],
-                "summary": "Retornar T14_Id Cancelado.",
-                "description": "Entre com o Registro.",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "T014_Id",
-                        "in": "path",
-                        "description": "Id da Tupla do Produto na Nota Fiscal",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "Status",
-                        "in": "path",
-                        "description": "Status do Produto na Nota Fiscal",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Opera\u00e7\u00e3o realizada com sucesso.",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "$ref": "#/definitions/PurchaseHistOrders"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "EngepecasAuth": []
-                    }
-                ]
-            }
         }
     },
     "definitions": {
+        "Product": {
+            "required": [
+                "hrd_D001_Id",
+                "product_description_id",
+                "product_line_id",
+                "product_group_id",
+                "product_utilization_id",
+                "code",
+                "unit_weight_kg",
+                "development_flag",
+                "code_formatted"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "hrd_D001_Id": {
+                    "description": "D001_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_description_id": {
+                    "description": "D001_D002_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_line_id": {
+                    "description": "D001_D003_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_group_id": {
+                    "description": "D001_D015_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_utilization_id": {
+                    "description": "D001_C008_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "code": {
+                    "description": "D001_Codigo_Produto",
+                    "type": "string"
+                },
+                "reference": {
+                    "description": "D001_Codigo_Referencia",
+                    "type": "string"
+                },
+                "technical_data": {
+                    "description": "D001_Descricao_Produto",
+                    "type": "string"
+                },
+                "application": {
+                    "description": "D001_Aplicacao",
+                    "type": "string"
+                },
+                "commercial_description": {
+                    "description": "D001_Descricao_Comercial",
+                    "type": "string"
+                },
+                "unit_weight_kg": {
+                    "description": "D001_Peso_Unitario_Kg",
+                    "type": "number",
+                    "format": "number"
+                },
+                "development_flag": {
+                    "description": "D001_Flag_desenvolvimento",
+                    "type": "string"
+                },
+                "development_date": {
+                    "description": "D001_Data_Desenvolvimento",
+                    "type": "string",
+                    "format": "date"
+                },
+                "code_formatted": {
+                    "description": "D001_Codigo_Produto_Formatado",
+                    "type": "string"
+                },
+                "reference_formatted": {
+                    "description": "D001_Codigo_Referencia_Formatado",
+                    "type": "string"
+                },
+                "code_redirect": {
+                    "description": "D001_Codigo_Use",
+                    "type": "string"
+                }
+            }
+        },
+        "ProductDescription": {
+            "required": [
+                "hrd_D002_id",
+                "product_utilization_id",
+                "description"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "hrd_D002_id": {
+                    "description": "D002_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_utilization_id": {
+                    "description": "D002_C008_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "description": "D002_Descricao_Produto",
+                    "type": "string"
+                },
+                "description_detail": {
+                    "description": "D002_Decricao_Detalhada",
+                    "type": "string"
+                },
+                "created_by": {
+                    "description": "created_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updated_by": {
+                    "description": "updated_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_by": {
+                    "description": "deleted_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "ProductGroup": {
+            "required": [
+                "hrd_D015_Id",
+                "product_utilization_id",
+                "name",
+                "active"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "hrd_D015_Id": {
+                    "description": "D015_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_utilization_id": {
+                    "description": "D015_C008_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "D015_Nome_Grupo",
+                    "type": "string"
+                },
+                "active": {
+                    "description": "D015_Ativo",
+                    "type": "string"
+                }
+            }
+        },
+        "ProductLine": {
+            "required": [
+                "hrd_D003_Id",
+                "product_utilization_id",
+                "name",
+                "active"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "hrd_D003_Id": {
+                    "description": "D003_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_utilization_id": {
+                    "description": "D003_C008_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "D003_Nome_Linha",
+                    "type": "string"
+                },
+                "abbreviation": {
+                    "description": "D003_Abreviatura",
+                    "type": "string"
+                },
+                "active": {
+                    "description": "D003_Ativo",
+                    "type": "string"
+                },
+                "created_by": {
+                    "description": "created_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updated_by": {
+                    "description": "updated_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_by": {
+                    "description": "deleted_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "ProductReplacement": {
+            "required": [
+                "product_id",
+                "product_utilization_id",
+                "user_hrd_id",
+                "hrd_D017_Id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_id": {
+                    "description": "D017_D001_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_utilization_id": {
+                    "description": "D017_C008_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_hrd_id": {
+                    "description": "D017_C007_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "code_new": {
+                    "description": "D017_Codigo_Novo",
+                    "type": "string"
+                },
+                "code_old": {
+                    "description": "D017_Codigo_Antigo",
+                    "type": "string"
+                },
+                "date_include": {
+                    "description": "D017_Data_Inclusao",
+                    "type": "string",
+                    "format": "date"
+                },
+                "code_formatted_old": {
+                    "description": "D017_Codigo_Antigo_Formatado",
+                    "type": "string"
+                },
+                "hrd_D017_Id": {
+                    "description": "D017_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "created_by": {
+                    "description": "created_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updated_by": {
+                    "description": "updated_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_by": {
+                    "description": "deleted_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "ProductUtilization": {
+            "required": [
+                "hrd_C008_Id",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "hrd_C008_Id": {
+                    "description": "C008_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "description": "C008_Tipo",
+                    "type": "string"
+                },
+                "created_by": {
+                    "description": "created_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updated_by": {
+                    "description": "updated_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_by": {
+                    "description": "deleted_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "PurchaseHistIncomingInvoice": {
             "required": [
                 "PHO_Id",

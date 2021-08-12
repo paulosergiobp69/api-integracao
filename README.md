@@ -98,6 +98,10 @@ ou
    
 2. C:\code\api-integracao>php artisan infyom:api PurchaseHistOrders  --fromTable --tableName=purchase_hist_orders  --primary=id 
 
+
+     caso precise outra conexão de bd:
+     ---> php artisan infyom:api Config --connection=name --fromTable --tableName=nomeTabela
+
 rollback
 php artisan infyom:rollback <classes> api
     
@@ -110,7 +114,7 @@ C:\code\api-integracao>php artisan infyom:rollback PurchaseHistOrders api
         b) $hidden --> campo que serão ocultados se precisar mostrar tem que retira deste parametro
 		
 		
-		c) $cast --> deixa
+        c) $cast --> deixa
         d) $rules ---> copia para usar no Create????APIRequest.php e UpdateApi
 		
 		

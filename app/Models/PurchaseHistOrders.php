@@ -156,14 +156,14 @@ class PurchaseHistOrders extends BaseModel
     protected $hidden = [
         'created_by',
         'updated_by',
-//        'deleted_by',
-//        'deleted_at',
+      //'deleted_by',
+      //'deleted_at',
         'created_at',
         'updated_at'
     ];
 
 
-/**
+    /**
      * The attributes that should be casted to native types for automated search.
      *
      * @var array

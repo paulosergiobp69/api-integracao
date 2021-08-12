@@ -851,27 +851,8 @@ class PurchaseHistOrdersAPIController extends AppBaseController
      */
     public function getpurchaseHistOrdersProducts($D009_Id,$Status)
     {
-     /*   $sql = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
-            $query->orderBy('HRD_T014_Id');}])
- ->where('HRD_T012_D009_Id','=',$D009_Id)
- ->where('HRD_Status','=',$Status)
- ->toSql();
-
-            dd($sql);
-    */
         $this->getProcessaSaldoProducts($D009_Id,$Status);
         
-     
-/*
-            if (!$data = $this->model->with('purchaseHistIncomingInvoice')
-            ->where('HRD_T012_D009_Id','=',$D009_Id)
-            ->where('HRD_Status','=',$Status)
-            ->orderBy('HRD_Data_Lancamento','desc')
-            ->orderBy('HRD_T012_Id','desc')
-            ->get()) {
-*/
-
-
         if (!$data = $this->model->with(['purchaseHistIncomingInvoice' => function ($query) {
                                         $query->orderBy('HRD_T014_Id','asc');
                                     }])
@@ -888,36 +869,6 @@ class PurchaseHistOrdersAPIController extends AppBaseController
 
     public function getProcessaSaldoProducts($D009_Id,$Status)
     {
-        /*
-        $sql = DB::table('purchase_hist_orders as pho')->select([
-            'pho.id as PHO_Id', 
-            'pho.HRD_T011_Id', 
-            'pho.HRD_T012_Id',
-            'pho.HRD_T012_D009_Id',
-            'pho.HRD_T011_C004_Id',
-            'pho.HRD_T012_Quantidade',
-            DB::raw('ifnull(pho.HRD_Quantidade_Pac,0) as HRD_Quantidade_Pac'),
-            'phii.HRD_T014_Id',
-             DB::raw('ifnull(phii.HRD_Quantidade,0) as phii_quantidade')
-            ])
-            ->leftJoin('purchase_hist_incoming_invoices as phii', 'phii.PHO_Id', 'pho.id')
-            ->where('pho.HRD_T012_D009_Id', '=',$D009_Id)
-            ->where('pho.HRD_Status', '=',$Status)
-            ->where('phii.HRD_Flag_Cancelado', '=',$Status)
-            ->whereRaw('phii.HRD_T014_Id not in (select HRD_T014_Id FROM purchase_hist_incoming_invoices as phii2 where phii2.HRD_T014_Id = phii.HRD_T014_Id and phii2.HRD_Flag_Cancelado = "S")')            
-            ->orderBy('pho.HRD_Data_Lancamento', 'asc')
-            ->orderBy('pho.HRD_T012_Id', 'asc')
-      //      ->orderBy('phii.HRD_T014_Id', 'asc')
-      //      ->get();
-  //          ->get();
-            ->toSql();
-            
-            echo $sql;
-
-            die;
-            */
-
-
         $results = DB::table('purchase_hist_orders as pho')->select([
             'pho.id as PHO_Id', 
             'pho.HRD_T011_Id', 

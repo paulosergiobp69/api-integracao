@@ -37,29 +37,22 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::get('purchaseHistIncomingInvoices/{id},{Status}/getSaldoId', 'PurchaseHistIncomingInvoiceAPIController@getSaldoId');
     Route::get('purchaseHistIncomingInvoices/{id}/purchaseHistOrders', 'PurchaseHistIncomingInvoiceAPIController@purchaseHistOrders');
     Route::resource('purchaseHistIncomingInvoices', 'PurchaseHistIncomingInvoiceAPIController');
+
+    Route::get('products/{codeFullText}/getProductDetailCodeFullText', 'ProductAPIController@getProductDetailCodeFullText');
+    Route::get('products/{code}/getProductDetailCode', 'ProductAPIController@getProductDetailCode');
+    Route::resource('products', 'ProductAPIController');
+
+    Route::resource('productDescriptions', 'ProductDescriptionAPIController');
+
+    Route::resource('productGroups', 'ProductGroupAPIController');
+
+    Route::resource('productLines', 'ProductLineAPIController');
+
+    Route::resource('productReplacements', 'ProductReplacementAPIController');
+
+    Route::resource('productUtilizations', 'ProductUtilizationAPIController'); 
+
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
