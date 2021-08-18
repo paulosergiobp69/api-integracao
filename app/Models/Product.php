@@ -5,6 +5,8 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ProductSuppliers;
+
 
 /**
  * @SWG\Definition(
@@ -215,6 +217,14 @@ class Product extends Model
      */
     public static $rules = [
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function ProductSuppliers()
+    {
+        return $this->hasMany(ProductSuppliers::class,'product_id','id');
+    }
 
     
 }

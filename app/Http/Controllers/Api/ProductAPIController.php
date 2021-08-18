@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use App\Models\ProductReplacement;
+use App\Models\ProductSuppliers;
 use Response;
 
 
@@ -111,13 +113,28 @@ class ProductAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+
+        if ($request->exists('search')) {
+            $products = $this->productRepository
+            ->advancedSearch($request)
+            ->orderByRaw(($request->get('order') ?? 'id') . ' ' . ($request->get('direction') ?? 'DESC'))
+            ->paginate($request->get('limit'));
+        } else {
+            $products = $this->productRepository
+            ->findAllFieldsAnd($request)
+            ->orderByRaw(($request->get('order') ?? 'id') . ' ' . ($request->get('direction') ?? 'DESC'))
+            ->paginate($request->get('limit'));
+        }
+
+        return $this->sendResponse($products->toArray(), 'Produto(s) recuperado(s) com sucesso.');
+
+/*
         $products = $this->productRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
-
-        return $this->sendResponse($products->toArray(), 'Produto(s) recuperado(s) com sucesso.');
+*/
     }
 
     /**
@@ -460,6 +477,13 @@ class ProductAPIController extends AppBaseController
      *      description="Get Product",
      *      produces={"application/json"},
      *      @SWG\Parameter(
+     *          name="codeBranch",
+     *          description="Codigo da Filial.",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
      *          name="codeFullText",
      *          description="Codigo do Produto",
      *          type="string",
@@ -498,6 +522,22 @@ class ProductAPIController extends AppBaseController
      *          in="query",
      *          default="ASC"
      *      ),
+     *      @SWG\Parameter(
+     *          name="fields",
+     *          description="Informe a seleção de campos que devem retornar da consulta separados por virgula",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="id, hrd_D001_Id, product_description_id, product_line_id, product_group_id, product_utilization_id, code, reference, technical_data, application, commercial_description, unit_weight_kg, development_flag, development_date, code_formatted, reference_formatted, code_redirect"
+     *      ),
+     *      @SWG\Parameter(
+     *          name="search",
+     *          description="Pesquise por qualquer campo, ao usar este campo as outras consultas serão desconsideradas",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *          default="Busca"
+     *      ),
      *      @SWG\Response(
      *          response=200,
      *          description="Operacao Realizada com Sucesso",
@@ -521,26 +561,122 @@ class ProductAPIController extends AppBaseController
      */
     public function getProductDetailCodeFullText($codeFullText, Request $request)
     {
-        if (!$data = $this->model->join('product_line','product_line.id','=','product.product_line_id')
-                ->join('product_utilization','product_utilization.id','=','product.product_utilization_id')
-                ->join('product_group','product_group.id','=','product.product_group_id')
-                ->leftjoin('product_suppliers','product_suppliers.product_id','=','product.id')
-                ->whereRaw('match (product.code,product.reference_formatted,product.code_formatted) against (? in boolean mode)',[$codeFullText])
-                ->orderBy($request->get('order'),$request->get('direction'))
-                ->get(['product.product_line_id', 'product_line.hrd_D003_Id', 'product_line.abbreviation',
-                    'product.product_utilization_id', 'product_utilization.hrd_C008_Id', 'product_utilization.type as product_utilization_type',
-                    'product.product_group_id', 'product_group.hrd_D015_Id', 'product_group.name as product_group_name',
-                    'product_suppliers.id', 'product_suppliers.code_supplier', 'product_suppliers.technical_data',
-                    'product.reference_formatted', 'product.commercial_description', 'product.application',
-                    'product.hrd_D001_Id', 'product.code_formatted', 'product.code'
-                ])->take($request->get('limit'))){
-            return $this->sendError('Nenhum registro foi encontrado!');
-        } else {
-            return $this->sendResponse($data->toArray(), 'Item da Ordem de Compra Com Item das Notas Recebidas Recuperado(s) com Sucesso.viu');
-        }
+        $Codigo_Produto = $this->Limpa($codeFullText);
 
+        $data = $this->model->join('product_line','product_line.id','=','product.product_line_id')
+                                ->join('product_utilization','product_utilization.id','=','product.product_utilization_id')
+                                ->join('product_group','product_group.id','=','product.product_group_id')
+                                ->leftjoin('product_suppliers','product_suppliers.product_id','=','product.id')
+                                ->whereRaw('match (product.code,product.reference_formatted,product.code_formatted) against (? in boolean mode)',[$Codigo_Produto])
+                                ->orderBy($request->get('order'),$request->get('direction'))
+                                ->get(['product.product_line_id', 'product_line.hrd_D003_Id', 'product_line.abbreviation',
+                                'product.product_utilization_id', 'product_utilization.hrd_C008_Id', 'product_utilization.type as product_utilization_type',
+                                'product.product_group_id', 'product_group.hrd_D015_Id', 'product_group.name as product_group_name',
+                                'product_suppliers.id', 'product_suppliers.code_supplier', 'product_suppliers.technical_data',
+                                'product.reference_formatted', 'product.commercial_description', 'product.application',
+                                'product.hrd_D001_Id', 'product.code_formatted', 'product.code'
+                                ])->take($request->get('limit'));
+
+        if(!empty($data->toArray())){
+            return $this->sendResponse($data->toArray(), 'Produto Recuperado(s) com Sucesso [match].'); // ok
+        }else{
+            $products = $this->index($request);
+
+            if(!empty($products->getData()->data->data)){
+                return $this->sendResponse($products->getData()->data, 'Produto Recuperado(s) com Sucesso [index].'); // ok
+            }else{
+                // SUBISTITUICAO
+                //$Codigo_Produto = 175755; funciona
+                $D049 = $this->model->leftjoin('product_suppliers','product_id','=','product.id')
+                                        ->where('code_supplier_formatted','=',$Codigo_Produto)
+                                        ->orderBy('hrd_D049_Id','asc')
+                                        ->get(['code_supplier_formatted as T004_Codigo_Substituto',
+                                                'code as Codigo_Produto',
+                                                'hrd_D001_Id as D001Id']);
+                if(!empty($D049->toArray())){
+                    return $this->sendResponse($D049->toArray(), 'product_suppliers Recuperado(s) com Sucesso.[D049]');
+                }else{
+                    //$Codigo_Produto = 'B13144025';
+                    $D017 = $this->model->leftjoin('product_replacement','product_id','=','product.id')
+                                        ->where('code_formatted_old','=',$Codigo_Produto)
+                                        ->orderBy('hrd_D017_Id','asc')
+                                        ->get(['code_formatted_old',
+                                                'code_formatted as T004_Codigo_Substituto',
+                                                'code as Codigo_Produto',
+                                                'product_id as D001Id']);
+                    if(!empty($D017->toArray())){
+                        return $this->sendResponse($D017->toArray(), 'product_suppliers Recuperado(s) com Sucesso.[D017]');
+                    }else{
+                        $Relevancia=0;
+                        while(true){
+                            $Conteudo_RegExp='';
+                            $Conteudo_RegExp=substr($Codigo_Produto,0,strlen($Codigo_Produto)-$Relevancia);
+                            $data = $this->model->join('product_line','product_line.id','=','product.product_line_id')
+                            ->join('product_utilization','product_utilization.id','=','product.product_utilization_id')
+                            ->join('product_group','product_group.id','=','product.product_group_id')
+                            ->leftjoin('product_suppliers','product_suppliers.product_id','=','product.id')
+                            ->whereRaw('product.code_formatted like ? ',[$Conteudo_RegExp.'%'])
+                            ->orderBy($request->get('order'),$request->get('direction'))
+                            ->get(['product.product_line_id', 'product_line.hrd_D003_Id', 'product_line.abbreviation',
+                                'product.product_utilization_id', 'product_utilization.hrd_C008_Id', 'product_utilization.type as product_utilization_type',
+                                'product.product_group_id', 'product_group.hrd_D015_Id', 'product_group.name as product_group_name',
+                                'product_suppliers.id', 'product_suppliers.code_supplier', 'product_suppliers.technical_data',
+                                'product.reference_formatted', 'product.commercial_description', 'product.application',
+                                'product.hrd_D001_Id', 'product.code_formatted', 'product.code'
+                            ])->take($request->get('limit'));
+                            
+                            if(!empty($data->toArray())){
+                                return $this->sendResponse($data->toArray(), 'Produto Recuperado(s) com Sucesso [like].'); // ok
+                            }else{
+                                $Relevancia++;
+                                if($Conteudo_RegExp == ''){
+                                    $Relevancia=0;
+                                    while(true){
+                                        $Conteudo_RegExp='';
+                                        $Conteudo_RegExp=substr($Codigo_Produto,0,strlen($Codigo_Produto)-$Relevancia);
+                                        $data = $this->model->join('product_line','product_line.id','=','product.product_line_id')
+                                        ->join('product_utilization','product_utilization.id','=','product.product_utilization_id')
+                                        ->join('product_group','product_group.id','=','product.product_group_id')
+                                        ->leftjoin('product_suppliers','product_suppliers.product_id','=','product.id')
+                                        ->whereRaw('product.code_formatted like ? ',['%'.$Conteudo_RegExp.'%'])
+                                        ->orderBy($request->get('order'),$request->get('direction'))
+                                        ->get(['product.product_line_id', 'product_line.hrd_D003_Id', 'product_line.abbreviation',
+                                            'product.product_utilization_id', 'product_utilization.hrd_C008_Id', 'product_utilization.type as product_utilization_type',
+                                            'product.product_group_id', 'product_group.hrd_D015_Id', 'product_group.name as product_group_name',
+                                            'product_suppliers.id', 'product_suppliers.code_supplier', 'product_suppliers.technical_data',
+                                            'product.reference_formatted', 'product.commercial_description', 'product.application',
+                                            'product.hrd_D001_Id', 'product.code_formatted', 'product.code'
+                                        ])->take($request->get('limit'));
+                                        
+                                        if(!empty($data->toArray())){
+                                            return $this->sendResponse($data->toArray(), 'Produto Recuperado(s) com Sucesso [like %%].'); // ok
+                                        }else{
+                                            $Relevancia++;
+                                            if($Conteudo_RegExp == ''){
+                                                return $this->sendError('Nenhum registro foi encontrado!****');
+                                            }                                             
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }                            
+                }
+            }
+        }
     }
 
+    public function Limpa($Codigo)
+    {
+
+        $Codigo = str_replace('-', '', $Codigo);
+        $Codigo = str_replace(' ', '', $Codigo);
+        $Codigo = str_replace('.', '', $Codigo);
+        $Codigo = str_replace(',', '', $Codigo);
+        $Codigo = str_replace('\\', '', $Codigo);
+        return $Codigo;
     
+    }
+
 
 }

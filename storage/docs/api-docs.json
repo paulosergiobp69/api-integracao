@@ -422,6 +422,22 @@
                         "required": false,
                         "type": "string",
                         "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": "id, hrd_D001_Id, product_description_id, product_line_id, product_group_id, product_utilization_id, code, reference, technical_data, application, commercial_description, unit_weight_kg, development_flag, development_date, code_formatted, reference_formatted, code_redirect"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
                     }
                 ],
                 "responses": {
@@ -1468,6 +1484,260 @@
                 "responses": {
                     "200": {
                         "description": "Opera\u00e7\u00e3o realizada com sucesso.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productSuppliers": {
+            "get": {
+                "tags": [
+                    "ProductSuppliers"
+                ],
+                "summary": "Obtenha uma lista dos fornecedores de produtos.",
+                "description": "Obtenha todos os fornecedores de produtos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade limite de exibi\u00e7\u00e3o",
+                        "required": false,
+                        "type": "integer",
+                        "default": "15"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "P\u00e1gina a ser exibida",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "id"
+                    },
+                    {
+                        "name": "direction",
+                        "in": "query",
+                        "description": "Dire\u00e7\u00e3o da ordena\u00e7\u00e3o do retorno",
+                        "required": false,
+                        "type": "string",
+                        "default": "ASC"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Informe a sele\u00e7\u00e3o de campos que devem retornar da consulta separados por virgula",
+                        "required": false,
+                        "type": "string",
+                        "default": " id, hrd_D049_Id, code_supplier, code_supplier_formatted, product_id, technical_dataid"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Pesquise por qualquer campo, ao usar este campo as outras consultas ser\u00e3o desconsideradas",
+                        "required": false,
+                        "type": "string",
+                        "default": "Busca"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o bem sucedida,",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductSuppliers"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ProductSuppliers"
+                ],
+                "summary": "Armazene um fornecedor de produto rec\u00e9m-criado no armazenamento.",
+                "description": "Store ProductSuppliers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Fornecedores de produtos que devem ser armazenados.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductSuppliers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o bem sucedida.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductSuppliers"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productSuppliers/{id}": {
+            "get": {
+                "tags": [
+                    "ProductSuppliers"
+                ],
+                "summary": "Exibir os fornecedores de produtos especificados.",
+                "description": "Obtenha fornecedores de produtos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of fornecedores de produtos.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o bem sucedida.",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductSuppliers"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ProductSuppliers"
+                ],
+                "summary": "Atualizar os fornecedores de produtos especificados no armazenamento.",
+                "description": "Atualizar fornecedores de produtos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de fornecedores de produtos",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Fornecedores de produtos que devem ser atualizados.",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductSuppliers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o bem sucedida ",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductSuppliers"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ProductSuppliers"
+                ],
+                "summary": "Remova os fornecedores de produtos especificados do armazenamento.",
+                "description": "Excluir fornecedores de produtos.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de fornecedores de produtos.",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opera\u00e7\u00e3o bem sucedida.",
                         "schema": {
                             "properties": {
                                 "success": {
@@ -3251,6 +3521,72 @@
                     "description": "D017_Id",
                     "type": "integer",
                     "format": "int32"
+                },
+                "created_by": {
+                    "description": "created_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updated_by": {
+                    "description": "updated_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_by": {
+                    "description": "deleted_by",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "deleted_at": {
+                    "description": "deleted_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "ProductSuppliers": {
+            "required": [
+                "hrd_D049_Id",
+                "code_supplier",
+                "product_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "hrd_D049_Id": {
+                    "description": "D049_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "code_supplier": {
+                    "description": "D049_Codigo_Produto_Fornecedor",
+                    "type": "string"
+                },
+                "code_supplier_formatted": {
+                    "description": "D049_Codigo_Produto_Fornecedor_Formatado",
+                    "type": "string"
+                },
+                "product_id": {
+                    "description": "D049_D001_Id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "technical_data": {
+                    "description": "D049_Dados_Tecnicos",
+                    "type": "string"
                 },
                 "created_by": {
                     "description": "created_by",

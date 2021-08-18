@@ -52,7 +52,10 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
     Route::resource('productUtilizations', 'ProductUtilizationAPIController'); 
 
+    Route::resource('productSuppliers', 'ProductSuppliersAPIController');
 });
+
+
 
 
 
