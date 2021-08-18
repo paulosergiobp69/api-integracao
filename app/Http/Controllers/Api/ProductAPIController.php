@@ -477,13 +477,6 @@ class ProductAPIController extends AppBaseController
      *      description="Get Product",
      *      produces={"application/json"},
      *      @SWG\Parameter(
-     *          name="codeBranch",
-     *          description="Codigo da Filial.",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
      *          name="codeFullText",
      *          description="Codigo do Produto",
      *          type="string",
