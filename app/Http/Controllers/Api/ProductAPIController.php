@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\ProductReplacement;
 use App\Models\ProductSuppliers;
 use Response;
+use Illuminate\Support\Facades\Hash;
 
 
 /**
@@ -670,6 +671,52 @@ class ProductAPIController extends AppBaseController
         return $Codigo;
     
     }
+
+    /**
+     * @param string $pwd
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/products/{pwd}/showDecrypt",
+     *      summary="Exibir o Password Especificada.",
+     *      security={{ "EngepecasAuth": {} }}, 
+     *      tags={"Product"},
+     *      description="Get Product",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="pwd",
+     *          description="pwd Solicitada",
+     *          type="string",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="Operacao Realizada com Sucesso",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/Product"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function showDecrypt($pwd)
+    {
+        return Hash::make($pwd);
+        //         return $this->sendResponse($product->toArray(), 'Produto recuperado com sucesso.');
+    }
+
 
 
 }

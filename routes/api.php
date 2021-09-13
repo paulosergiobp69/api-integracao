@@ -18,6 +18,8 @@ Route::post('login', 'Auth\AuthenticateController@authenticate');
 Route::post('login-refresh', 'Auth\AuthenticateController@refreshToken');
 Route::get('me', 'Auth\AuthenticateController@getAuthenticatedUser');
 
+
+
 #    Route::group(['namespace' => 'Api', 'middleware' => 'auth:api','scheme' => 'https'], function () {
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
@@ -40,6 +42,7 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 
     Route::get('products/{codeFullText}/getProductDetailCodeFullText', 'ProductAPIController@getProductDetailCodeFullText');
     Route::get('products/{code}/getProductDetailCode', 'ProductAPIController@getProductDetailCode');
+    Route::get('products/{code}/showDecrypt', 'ProductAPIController@showDecrypt');
     Route::resource('products', 'ProductAPIController');
 
     Route::resource('productDescriptions', 'ProductDescriptionAPIController');

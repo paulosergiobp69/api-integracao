@@ -466,6 +466,51 @@
                 ]
             }
         },
+        "/products/{pwd}/showDecrypt": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Exibir o Password Especificada.",
+                "description": "Get Product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "pwd",
+                        "in": "path",
+                        "description": "pwd Solicitada",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operacao Realizada com Sucesso",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Product"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "EngepecasAuth": []
+                    }
+                ]
+            }
+        },
         "/productDescriptions": {
             "get": {
                 "tags": [
