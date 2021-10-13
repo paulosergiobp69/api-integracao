@@ -18,8 +18,6 @@ Route::post('login', 'Auth\AuthenticateController@authenticate');
 Route::post('login-refresh', 'Auth\AuthenticateController@refreshToken');
 Route::get('me', 'Auth\AuthenticateController@getAuthenticatedUser');
 
-
-
 #    Route::group(['namespace' => 'Api', 'middleware' => 'auth:api','scheme' => 'https'], function () {
 
 Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {

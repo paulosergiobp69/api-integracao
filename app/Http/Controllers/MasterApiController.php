@@ -17,7 +17,6 @@ class MasterApiController extends BaseController
     {
         //
         $data = $this->model->all();
-        //dd($data);
         return response()->json($data);        
     }
 

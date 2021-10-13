@@ -149,6 +149,10 @@ Após o mapeamento dos campos sempre proceder com o a limpeza do cache do larave
 
 `php artisan cache:clear` e `php artisan config:cache`  
 
+
+Iniciar desenv: php artisan serve --host=192.168.10.129
+
+
 php artisan cache:clear
 
 cache
