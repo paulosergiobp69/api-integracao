@@ -149,8 +149,9 @@ Após o mapeamento dos campos sempre proceder com o a limpeza do cache do larave
 
 `php artisan cache:clear` e `php artisan config:cache`  
 
+C:\code\api-integracao>php artisan optimize:clear
 
-Iniciar desenv: php artisan serve --host=192.168.10.129
+Iniciar desenv: php artisan serve --host=192.168.11.66
 
 
 php artisan cache:clear
@@ -160,6 +161,8 @@ Colocar as configurações em cache
 
 php artisan route:cache
 Colocar as rotas em cache
+
+C:\code\api-integracao>php artisan optimize:clear
 
 ## Final Engepecas
 
