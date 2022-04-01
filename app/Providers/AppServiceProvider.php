@@ -19,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
         //if (!$this->app->isLocal()) {
             //else register your services you require for production
         //    $this->app['request']->server->set('HTTPS', true);
-        //}        
+        //}     
+        $this->app->register(\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);           
     }
 
     /**

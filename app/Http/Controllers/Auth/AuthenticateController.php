@@ -15,7 +15,6 @@ class AuthenticateController extends Controller
         $this->middleware('auth:api', ['except' => ['authenticate']]);
     }
 
-
     public function authenticate(Request $request)
     {
         // grab credentials from the request

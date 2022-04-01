@@ -42,17 +42,11 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::get('products/{code}/getProductDetailCode', 'ProductAPIController@getProductDetailCode');
     Route::get('products/{code}/showDecrypt', 'ProductAPIController@showDecrypt');
     Route::resource('products', 'ProductAPIController');
-
     Route::resource('productDescriptions', 'ProductDescriptionAPIController');
-
     Route::resource('productGroups', 'ProductGroupAPIController');
-
     Route::resource('productLines', 'ProductLineAPIController');
-
     Route::resource('productReplacements', 'ProductReplacementAPIController');
-
     Route::resource('productUtilizations', 'ProductUtilizationAPIController'); 
-
     Route::resource('productSuppliers', 'ProductSuppliersAPIController');
 });
 

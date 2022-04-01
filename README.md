@@ -95,6 +95,11 @@ ou
      para desfazer:
      C:\code\api-integracao>php artisan migrate:rollback --path="database/migrations/2021_04_13_104308_create_purchase_hist_orders.php"   
 	
+## https://github.com/kitloong/laravel-migrations-generator
+     UTILIZANDO TABELA EXISTENTE:
+     php artisan migrate:generate --tables="table1,table2,table3,table4,table5"
+     OU
+     php artisan migrate:generate --ignore="table3,table4,table5"
    
 2. C:\code\api-integracao>php artisan infyom:api PurchaseHistOrders  --fromTable --tableName=purchase_hist_orders  --primary=id 
 
@@ -106,6 +111,8 @@ rollback
 php artisan infyom:rollback <classes> api
     
 C:\code\api-integracao>php artisan infyom:rollback PurchaseHistOrders api     
+
+
 
 
 3. MODEL:
@@ -151,7 +158,7 @@ Após o mapeamento dos campos sempre proceder com o a limpeza do cache do larave
 
 C:\code\api-integracao>php artisan optimize:clear
 
-Iniciar desenv: php artisan serve --host=192.168.11.66
+Iniciar desenv: php artisan serve --host=192.168.10.183 --port=9000
 
 
 php artisan cache:clear
